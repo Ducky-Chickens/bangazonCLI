@@ -18,7 +18,7 @@ prompt.start();
 let mainMenuHandler = (err, userInput) => {
   console.log("user input", userInput);
   // This could get messy quickly. Maybe a better way to parse the input?
-  if(userInput = '1') {
+  if(userInput.choice == '1') {
     promptNewCustomer()
     .then( (custData) => {
       console.log('customer data to save', custData );

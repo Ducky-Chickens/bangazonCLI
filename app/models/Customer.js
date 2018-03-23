@@ -5,3 +5,6 @@ const path = require('path');
 
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
+db.get(`SELECT * FROM customers`, (customer) => {
+  console.log(customer)
+});
