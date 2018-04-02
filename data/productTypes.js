@@ -1,0 +1,13 @@
+module.exports.productTypes = [
+  {name: "tools"},
+  {name: "electronics"},
+  {name: "automotive"},
+  {name: "jewelery"},
+  {name: "games"},
+  {name: "garden"},
+  {name: "books"},
+  {name: "industrial"},
+  {name: "sports"},
+  {name: "beauty"},
+  {name: "health"}
+]
