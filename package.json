@@ -17,7 +17,8 @@
   "dependencies": {
     "chalk": "^1.1.3",
     "prompt": "^1.0.0",
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.13",
+    "travis-ci": "^2.1.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
