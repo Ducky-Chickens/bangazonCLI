@@ -1,8 +1,8 @@
 module.exports.orders = [
   {
-    customerId: 20,
+    customerId: 18,
     orderDate: "2017-5-23",
-    paymentTypeId: null
+    paymentTypeId: 1
   },
   {
     customerId: 3,
@@ -10,9 +10,9 @@ module.exports.orders = [
     paymentTypeId: null
   },
   {
-    customerId: 6,
+    customerId: 13,
     orderDate: "2017-11-10",
-    paymentTypeId: null
+    paymentTypeId: 3
   },
   {
     customerId: 10,
@@ -20,9 +20,9 @@ module.exports.orders = [
     paymentTypeId: null
   },
   {
-    customerId: 8,
+    customerId: 1,
     orderDate: "2017-9-22",
-    paymentTypeId: null
+    paymentTypeId: 12
   },
   {
     customerId: 1,
@@ -30,14 +30,14 @@ module.exports.orders = [
     paymentTypeId: null
   },
   {
-    customerId: 4,
+    customerId: 6,
     orderDate: "2017-9-19",
-    paymentTypeId: null
+    paymentTypeId: 5
   },
   {
-    customerId: 17,
+    customerId: 12,
     orderDate: "2017-5-23",
-    paymentTypeId: null
+    paymentTypeId: 8
   },
   {
     customerId: 8,
@@ -50,19 +50,19 @@ module.exports.orders = [
     paymentTypeId: null
   },
   {
-    customerId: 9,
+    customerId: 2,
     orderDate: "2017-4-4",
-    paymentTypeId: null
+    paymentTypeId: 10
   },
   {
-    customerId: 3,
+    customerId: 9,
     orderDate: "2017-7-14",
-    paymentTypeId: null
+    paymentTypeId: 20
   },
   {
-    customerId: 10,
+    customerId: 12,
     orderDate: "2017-4-19",
-    paymentTypeId: null
+    paymentTypeId: 15
   },
   {
     customerId: 8,
@@ -70,9 +70,9 @@ module.exports.orders = [
     paymentTypeId: null
   },
   {
-    customerId: 10,
+    customerId: 1,
     orderDate: "2018-2-14",
-    paymentTypeId: null
+    paymentTypeId: 17
   },
   {
     customerId: 6,
@@ -80,14 +80,14 @@ module.exports.orders = [
     paymentTypeId: null
   },
   {
-    customerId: 6,
+    customerId: 12,
     orderDate: "2018-3-18",
-    paymentTypeId: null
+    paymentTypeId: 15
   },
   {
-    customerId: 2,
+    customerId: 9,
     orderDate: "2018-3-5",
-    paymentTypeId: null
+    paymentTypeId: 20
   },
   {
     customerId: 15,
@@ -95,8 +95,8 @@ module.exports.orders = [
     paymentTypeId: null
   },
   {
-    customerId: 10,
+    customerId: 9,
     orderDate: "2017-4-26",
-    paymentTypeId: null
+    paymentTypeId: 20
   }
 ]
