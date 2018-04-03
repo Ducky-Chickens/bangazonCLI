@@ -13,7 +13,7 @@ const generatePossibleIdRegex = customerCount => {
     // to check if the value is between 0 and the max number (customerCount).
     // Because with only regex, a number range is hard to do dynamically.
     const possibleIds = [];
-    for (let i = 0; i < customerCount; i++) {
+    for (let i = 1; i < customerCount; i++) {
         possibleIds.push(i);
     }
     return new RegExp(`^(${possibleIds.join('|')})$`);

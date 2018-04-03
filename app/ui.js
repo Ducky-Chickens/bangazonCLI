@@ -51,11 +51,11 @@ const mainMenuHandler = (err, { choice }) => {
           console.log(customer.id, customer.name);
         }
 
-        promptActivateCustomer()
-          .then(customerId => {
+        promptActivateCustomer(customers.length)
+          .then(({customerId}) => {
 
             // TODO: Only allow ids that exist in sql database
-            setActiveCustomer(customerId);
+            setActiveCustomer(+customerId);
           });
       });
       break;

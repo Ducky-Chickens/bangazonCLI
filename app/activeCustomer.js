@@ -18,6 +18,7 @@ const activeCustomer = {
  * setActiveCustomer(5);
  */
 module.exports.setActiveCustomer = id => {
+  
   // assert that id must be an integer
   assert.equal(Number.isInteger(id), true);
 
