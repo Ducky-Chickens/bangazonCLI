@@ -15,7 +15,7 @@ module.exports = () => {
   return new Promise((resolve, reject) =>
     db.all(
       `SELECT customer_id AS id, (first_name || ' ' || last_name) AS name
-      FROM customers`,
+      FROM Customers`,
       (err, customers) => {
         return err ? reject(err) : resolve(customers);
       })
