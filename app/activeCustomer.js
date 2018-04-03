@@ -2,7 +2,8 @@
 const assert = require('assert');
 
 /**
- * Holds information about the current customer
+ * @function 
+ * @description holds information about the current customer
  * @property {number} id - The id of the active customer.
  */
 const activeCustomer = {
@@ -10,8 +11,9 @@ const activeCustomer = {
 };
 
 /**
- * Sets the current active customer
- * @property {number} id - The id of the customer that should be active.
+ * @function 
+ * @description Sets the current active customer
+ * @param {number} id - The id of the customer that should be active.
  * @example 
  * setActiveCustomer(5);
  */
@@ -23,7 +25,8 @@ module.exports.setActiveCustomer = id => {
 };
 
 /**
- * Sets the current active customer
+ * @function 
+ * @description Sets the current active customer
  * @property {number} id - The id of the customer to set to be active.
  * @example 
  * getActiveCustomer();
