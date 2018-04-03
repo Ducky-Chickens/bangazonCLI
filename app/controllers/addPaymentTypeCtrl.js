@@ -1,14 +1,29 @@
 'use strict'; 
 const prompt = require('prompt');
 
-const paymentSchema = {
-  properties: {
-    payment: {
-      description: `Please choose a payment method
-      1. American Express
-      2. Master Card
-      3. Visa
-      4. PayPal`
-    }
-  }
+module.exports.promptPaymentType = () => {
+  return new Promise((resolve, reject) => {
+    prompt.get([
+      {
+        name: "payment",
+        description: `Please enter one of the following payment methods (AmEx, MasterCard, Visa, PayPal)`,
+        type: 'string',
+        pattern: /^AmEx|MasterCard|Visa|PayPal$/,
+        message: 'Please enter one of the available options',
+        required: true
+      },
+      {
+        name: "accountNumber",
+        description: `Enter account number`,
+        type: 'integer',
+        pattern: /^\d+$/,
+        message: 'Must be an integer',
+        required: true
+      }
+    ], 
+    (err, results) => {
+      if(err) return reject(err);
+      resolve(results);
+    })
+  });
 }
