@@ -2,55 +2,70 @@
 
 // 3rd party libs
 const { red, magenta, blue } = require("chalk");
+
 const prompt = require('prompt');
 const colors = require("colors/safe");
 const path = require('path');
 const { Database } = require('sqlite3').verbose();
+const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
+
 prompt.message = colors.blue("Bangazon Corp");
 
-// controllers
+/*
+CONTROLLERS
+*/
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 
-// models
+/*
+MODELS
+*/
 const getCustomers = require('./models/getCustomers');
 
-// activeCustomer
+/*
+ACtiVE CUSTOMER
+*/
 const { setActiveCustomer, getActiveCustomer } = require('../app/activeCustomer');
-
-const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
 prompt.start();
 
-let mainMenuHandler = (err, userInput) => {
-  // This could get messy quickly. Maybe a better way to parse the input?
-  if (userInput.choice == '1') {
-    promptNewCustomer()
-      .then((custData) => {
-        console.log('customer data to save', custData);
-        //save customer to db
-      });
-  }
+const mainMenuHandler = (err, { choice }) => {
 
-  // Activate Customer
-  else if (userInput.choice == '2') {
-    getCustomers().then(customers => {
+  switch (Number(choice)) {
 
-      // TODO: Only allow numbers that exist in sql database
-      for(let customer of customers){
-        console.log(customer.id, customer.name);
-      }
-
-      promptActivateCustomer()
-        .then(customerId => {
-          setActiveCustomer(customerId);
+    // Create Customer
+    case 1: {
+      promptNewCustomer()
+        .then((custData) => {
+          console.log('customer data to save', custData);
+          //save customer to db
         });
-    });
+      break;
+    }
+
+    // Activate Customer
+    case 2: {
+      getCustomers().then(customers => {
+
+        for (let customer of customers) {
+          console.log(customer.id, customer.name);
+        }
+
+        promptActivateCustomer()
+          .then(customerId => {
+
+            // TODO: Only allow ids that exist in sql database
+            setActiveCustomer(customerId);
+          });
+      });
+      break;
+    }
   }
+
 };
 
 module.exports.displayWelcome = () => {
-  let headerDivider = `${magenta('*********************************************************')}`
+  const headerDivider = `${magenta('*********************************************************')}`
   return new Promise((resolve, reject) => {
     console.log(`
   ${headerDivider}
