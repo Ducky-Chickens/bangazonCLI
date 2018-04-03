@@ -1,4 +1,4 @@
-module.exports.paymentTypes [
+module.exports.paymentTypes = [
   {
     type: "capacitor",
     accountNumber: "55502077",
@@ -82,7 +82,7 @@ module.exports.paymentTypes [
   {
     type: "microchip",
     accountNumber: "18338287",
-    customerId: 4
+    customerId: 1
   },
   {
     type: "driver",
