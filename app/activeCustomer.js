@@ -1,14 +1,34 @@
 'use strict';
+const assert = require('assert');
+
 /**
  * Holds information about the current customer
  * @property {number} id - The id of the active customer.
  */
-let activeCustomer = {
-  id: null
-}
+const activeCustomer = {
+  id: null,
+};
 
-module.exports.setActiveCustomer = (id) => {
+/**
+ * Sets the current active customer
+ * @property {number} id - The id of the customer that should be active.
+ * @example 
+ * setActiveCustomer(5);
+ */
+module.exports.setActiveCustomer = id => {
+  // assert that id must be an integer
+  assert.equal(Number.isInteger(id), true);
+
   activeCustomer.id = id;
-}
+};
 
-module.exports.getActiveCustomer = () => activeCustomer;
+/**
+ * Sets the current active customer
+ * @property {number} id - The id of the customer to set to be active.
+ * @example 
+ * getActiveCustomer();
+ * @returns {number}
+ */
+module.exports.getActiveCustomer = () => {
+  return activeCustomer;
+};
