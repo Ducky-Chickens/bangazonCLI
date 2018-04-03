@@ -1,6 +1,7 @@
-const { assert: { equal, deepEqual, isFunction } } = require('chai');
+const { assert: { equal, deepEqual, isFunction, isArray } } = require('chai');
+
 const { setActiveCustomer, getActiveCustomer } = require('../app/activeCustomer');
-const getCustomer = require('../app/models/getCustomers');
+const getCustomers = require('../app/models/getCustomers');
 
 describe('activate customer', () => {
     it('should export a setActiveCustomer function', () => {
@@ -28,7 +29,12 @@ describe('activate customer', () => {
 });
 
 describe('getCustomers', () => {
-    it('should export a function', () => {
-        isFunction(getCustomer);
+    it('should be a function', () => {
+        isFunction(getCustomers);
+    });
+    it('getCustomers should return an array', () => {
+        return getCustomers().then(customers => {
+            isArray(customers);
+        });
     });
 });
