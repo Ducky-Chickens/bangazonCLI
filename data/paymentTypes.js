@@ -1,4 +1,4 @@
-module.exports.paymentTypes [
+module.exports.paymentTypes = [
   {
     type: "AmEx",
     accountNumber: "55502077",
