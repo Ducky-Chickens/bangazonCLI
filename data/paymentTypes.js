@@ -1,4 +1,4 @@
-module.exports.paymentTypes [
+module.exports.paymentTypes = [
   {
     type: "capacitor",
     accountNumber: "55502077",
