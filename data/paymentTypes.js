@@ -82,7 +82,7 @@ module.exports.paymentTypes [
   {
     type: "microchip",
     accountNumber: "18338287",
-    customerId: 4
+    customerId: 1
   },
   {
     type: "driver",

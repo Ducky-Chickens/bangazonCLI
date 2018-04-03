@@ -2,7 +2,7 @@
 module.exports.order_products = [
   {
     orderId: 17,
-    productId: 30
+    productId: 30,
   },
   {
     orderId: 16,
