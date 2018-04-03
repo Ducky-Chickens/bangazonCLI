@@ -5,10 +5,16 @@ const path = require('path');
 
 const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
 
+/**
+ * @function
+ * @name getCustomers
+ * @description Returns name and id of all customers in the database.
+ * @returns {Array.<{id: Number, name: String}>} An array of customer objects with id and name properties.
+ */
 module.exports = () => {
   return new Promise((resolve, reject) =>
     db.all(
-      `SELECT customer_id, (first_name || ' ' || last_name) 
+      `SELECT customer_id AS id, (first_name || ' ' || last_name) AS name
       FROM customers`,
       (err, customers) => {
         return err ? reject(err) : resolve(customers);
