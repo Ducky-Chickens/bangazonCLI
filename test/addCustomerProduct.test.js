@@ -29,7 +29,7 @@ const getOneProduct = (id) => {
     });
 }
 
-describe("add customer products", () => {
+describe.skip("add customer products", () => {
     it('should return an object', () => {
         return addCustomerProduct(activeCustomer, newProduct)
             .then(custProd => {
