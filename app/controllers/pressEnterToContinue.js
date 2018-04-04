@@ -7,8 +7,8 @@ const prompt = require('prompt');
  * @name pressEnterToContinue
  * @returns A promise
  */
-module.exports = () => {
-    console.log(`Press any key to continue`);
+module.exports = (message = `Press any key to continue`) => {
+    console.log(message);
     return new Promise((resolve, reject) => {
         prompt.get([
             {
