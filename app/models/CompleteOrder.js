@@ -62,6 +62,11 @@ module.exports.getPayTypeByName = (name) => {
 
 module.exports.checkForProducts = (order) => {
   return new Promise((resolve, reject) => {
-    db.all
+    db.all(`SELECT *
+    FROM order_products
+    WHERE order_id = ${order.order_id}
+    `, (err, products) => {
+      return err ? reject(err) : resolve(products);
+    })
   })
 }
