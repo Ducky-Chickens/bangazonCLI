@@ -5,6 +5,7 @@ const prompt = require('prompt');
  * @function
  * @description Call when you want to wait for any input before moving on.
  * @name pressEnterToContinue
+ * @param {string} [message = 'Press any key to continue'] Message to be displayed before asking user to press any key.
  * @returns A promise
  */
 module.exports = (message = `Press any key to continue`) => {
