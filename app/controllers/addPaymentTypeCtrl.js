@@ -15,7 +15,7 @@ module.exports.promptPaymentType = () => {
       {
         name: "accountNumber",
         description: `Enter account number`,
-        type: 'integer',
+        type: 'number',
         pattern: /^\d+$/,
         message: 'Must be an integer',
         required: true
