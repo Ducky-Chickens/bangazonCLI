@@ -16,6 +16,7 @@ module.exports = customerId => {
 
     return `
     SELECT distinct(product_id), product_name FROM (
+        
         -- Has never been added to an order, and has been in the system for more than 180 days
             SELECT P.product_id, P.product_name
                 FROM products AS P
