@@ -1,13 +1,38 @@
 'use strict'
+
 const { displayWelcome } = require('../ui');
 const prompt = require('prompt');
+const { getActiveCustomer } = require('../activeCustomer');
+const { checkForOrder } = require('../models/completeOrder');
+
+module.exports.generatePaymentOptions = options => {
+  const possibleOptions = []
+  for (let i = 0; i < options; i++) {
+    possibleOptions.push(i);
+  }
+  return new RegExp(`^(${possibleOptions.join('|')})$`);
+}
 
 module.exports.promptCompleteOrder = () => {
+
+  // let activeCustomer = getActiveCustomer();
+
+  // if (activeCustomer === null) {
+  //   console.log('Please select active customer before completing an order')
+  //   displayWelcome();
+  // }
+
+  let orders = checkForOrder(activeCustomer.id);
+
+  // if(orders === )
+
+  let customerPayments = getCustomerPaymentsCount(activeCustomer.id);
+
 
   const selectPayment = {
     properties: {
       paymentID: {
-        pattern: /^[0-9]+$/,
+        pattern: generatePaymentOptions(customerPayments),
         description: "Please select a payment type",
         message: 'Must select a number from the provided list',
         required: true

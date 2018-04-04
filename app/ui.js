@@ -1,36 +1,91 @@
 'use strict';
 
 // 3rd party libs
-const {red, magenta, blue} = require("chalk");
+const { red, magenta, blue } = require("chalk");
+
 const prompt = require('prompt');
 const colors = require("colors/safe");
 const path = require('path');
 const { Database } = require('sqlite3').verbose();
+const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
+
 prompt.message = colors.blue("Bangazon Corp");
 
-// app modules
+/*
+CONTROLLERS
+*/
 const { promptNewCustomer } = require('./controllers/customerCtrl')
-const { promptCompleteOrder } = require('./controllers/completeOrderCtrl');
+const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 
-const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
+/*
+MODELS
+*/
+const getCustomers = require('./models/getCustomers');
+
+/*
+ACtiVE CUSTOMER
+*/
+const { setActiveCustomer, getActiveCustomer } = require('../app/activeCustomer');
 
 prompt.start();
 
-let mainMenuHandler = (err, userInput) => {
-  console.log("user input", userInput);
-  // This could get messy quickly. Maybe a better way to parse the input?
-  if(userInput.choice == '5') {
-    promptCompleteOrder()
-    .then( (orderData) => {
-      console.log('customer data to save', custData );
-      //save customer to db
-    });
+const mainMenuHandler = (err, { choice }) => {
+
+  switch (Number(choice)) {
+
+    // Create Customer
+    case 1: {
+      promptNewCustomer()
+        .then((custData) => {
+          console.log('customer data to save', custData);
+          //save customer to db
+        });
+      break;
+    }
+
+    // Activate Customer
+    case 2: {
+      getCustomers().then(customers => {
+        for (let customer of customers) {
+          console.log(customer.id, customer.name);
+        }
+        promptActivateCustomer(customers.length)
+          .then(({customerId}) => {
+            // TODO: Only allow ids that exist in sql database
+            setActiveCustomer(+customerId);
+            displayWelcome();
+          });
+      });
+      break;
+    }
+
+    // Complete Order
+    case 5: {
+      // FIRST check for active customer
+      if(activeCustomer().id === null) {
+        console.log
+      }
+      // IF no active customer, prompt to select active customer
+      // THEN displayWelcome()
+      // IF active customer, check for customer order
+      // IF no order, prompt "Please add some products to your order first. 
+      // Press any key to return to main menu."
+      // IF order, retrieve total of cost of products on that order from order_products
+      // THEN prompt "Your order total is (total of products on order). Ready to purchase(Y/N):"
+      // IF no, return to main menu
+      // IF yes, retrieve payment options for that customer
+      // THEN list payment options with regex that prevents entering numbers outside of options
+      // THEN prompt "Order successful: (List final order details)"
+      // THEN displayWelcome()
+      break;
+    }
   }
+
 };
 
-module.exports.displayWelcome = () => {
-  let headerDivider = `${magenta('*********************************************************')}`
-  return new Promise( (resolve, reject) => {
+const displayWelcome = () => {
+  const headerDivider = `${magenta('*********************************************************')}`
+  return new Promise((resolve, reject) => {
     console.log(`
   ${headerDivider}
   ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
@@ -45,6 +100,10 @@ module.exports.displayWelcome = () => {
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
-    }], mainMenuHandler );
+    }], mainMenuHandler);
   });
+};
+
+module.exports = {
+  displayWelcome
 };
