@@ -1,9 +1,47 @@
 'use strict'
-
+const { displayWelcome } = require('../ui');
 const prompt = require('prompt');
 
 module.exports.promptCompleteOrder = () => {
+
+  const selectPayment = {
+    properties: {
+      paymentID: {
+        pattern: /^[0-9]+$/,
+        description: "Please select a payment type",
+        message: 'Must select a number from the provided list',
+        required: true
+      },
+    }
+  }
+
+  const selectReady = {
+    properties: {
+      state: {
+        pattern: /^[YN]$/,
+        description: "(Y/N)",
+        message: 'Please select Y or N to confirm or cancel payment',
+        required: true
+      },
+    }
+  }
+
   return new Promise ((resolve, reject) => {
-    
+    prompt.get(selectReady, function (err, result) {
+      switch (result.state) {
+        case "Y": 
+          prompt.get(selectPayment, function(err, result) {
+          completeOrder(result)
+          .then(newProgram => {
+            console.log('Order payment successful');
+          }).catch(() => {
+            console.log('Program failed to add. Please try again.')
+          })
+        });
+        case "N":
+          console.log("Order payment cancelled.")
+          displayWelcome();
+      }
+    })
   })
 }
