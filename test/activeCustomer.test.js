@@ -1,9 +1,9 @@
 const { assert: { equal, deepEqual, isFunction, isArray } } = require('chai');
 
-const { setActiveCustomer, getActiveCustomer } = require('../app/activeCustomer');
+const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet} = require('../app/activeCustomer');
 const getCustomers = require('../app/models/getCustomers');
 
-describe('activate customer', () => {
+describe('active customer', () => {
     it('should export a setActiveCustomer function', () => {
         isFunction(setActiveCustomer);
     });
@@ -17,14 +17,16 @@ describe('activate customer', () => {
             id: null,
         };
         deepEqual(getActiveCustomer(), nullCustomer);
+        equal(isActiveCustomerSet(), false);
     });
-
+    
     it('should be 1 after setting it to 1', () => {
         const customerOne = {
             id: 1,
         };
         setActiveCustomer(1);
         deepEqual(getActiveCustomer(), customerOne);
+        equal(isActiveCustomerSet(), true);
     });
 });
 
