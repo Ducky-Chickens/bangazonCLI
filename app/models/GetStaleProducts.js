@@ -4,6 +4,8 @@ const { setActiveCustomer, getActiveCustomer } = require('../activeCustomer');
 const path = require('path');
 const db = new Database(path.join(__dirname, '..', '..', 'bangazon.sqlite'));
 
+const getStaleProductsSql = require('./sql/selectStaleProductsSql');
+
 
 /**
  * @function
@@ -15,7 +17,7 @@ const db = new Database(path.join(__dirname, '..', '..', 'bangazon.sqlite'));
 module.exports = customerId => {
     return new Promise((resolve, reject) => {
         return db.all(
-            selectStaleProductSql,
+            getStaleProductsSql,
             (err, products) => {
                 return err ? reject(err) : resolve(products);
             });

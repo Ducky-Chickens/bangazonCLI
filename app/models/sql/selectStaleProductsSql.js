@@ -14,7 +14,7 @@
 
 /**
  * @property
- * @name selectStaleProductSql
+ * @name selectStaleProductsSql
  * @description An abstraction of huge sql statments used to select stale products.
  */
 module.exports = `
