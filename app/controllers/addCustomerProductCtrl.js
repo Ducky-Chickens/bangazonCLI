@@ -26,8 +26,7 @@ module.exports = () => {
         }, {
             name: 'price',
             description: 'Enter product price',
-            // type: 'number',
-            pattern: /^[1-9]\d*$/,
+            pattern: /^[1-9.]\d*$/,
             message: 'please enter a positive integer value',
             required: true,
             before: (value) => +value
@@ -39,9 +38,10 @@ module.exports = () => {
         }, {
             name: 'quantity',
             description: 'Enter quantity available',
-            type: 'number',
-            pattern: /^\d+$/,
-            required: true
+            pattern: /^(100|[1-9][0-9]?)$/,
+            message: 'please enter a positive integer value from 1-100',
+            required: true,
+            before: (value) => +value
         }], (err, results) => {
             if (err) return reject(err);
             resolve(results);
