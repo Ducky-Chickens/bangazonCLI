@@ -45,7 +45,16 @@ module.exports = customerId => {
         // or more orders, and the order were completed, 
         // but there is remaining quantity for the product, 
         // and the product has been in the system for more than 180 days
-        const addedToCompleteOrderButRemainingQuantitySQL = ``;
+        const addedToCompleteOrderButRemainingQuantitySQL = `
+        SELECT P.product_id, P.product_name
+        FROM order_products AS OP 
+        INNER JOIN products AS P
+            ON P.product_id = OP.product_id
+        INNER JOIN orders AS O 
+            ON O.order_id = OP.order_id
+        WHERE CAST(JULIANDAY('now') - JULIANDAY(O.order_date) as INT) >= 180
+            AND O.payment_type IS NOT NULL 
+            AND P.quantity > 0;`;
 
 
         return db.all(
