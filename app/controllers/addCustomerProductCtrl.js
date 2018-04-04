@@ -19,15 +19,18 @@ module.exports = () => {
         }, {
             name: 'productTypeId',
             description: 'Enter product type number',
-            type: 'number',
-            pattern: '/^\d+$/',
-            required: true
+            pattern: /^(1[0-1]|[1-9])$/,
+            message: 'please enter appropriate integer value (1-11)',
+            required: true,
+            before: (value) => +value
         }, {
             name: 'price',
             description: 'Enter product price',
-            type: 'number',
-            pattern: '/^\d+$/',
-            required: true
+            // type: 'number',
+            pattern: /^[1-9]\d*$/,
+            message: 'please enter a positive integer value',
+            required: true,
+            before: (value) => +value
         }, {
             name: 'description',
             description: 'Enter a brief description',
@@ -37,7 +40,7 @@ module.exports = () => {
             name: 'quantity',
             description: 'Enter quantity available',
             type: 'number',
-            pattern: '/^\d+$/',
+            pattern: /^\d+$/,
             required: true
         }], (err, results) => {
             if (err) return reject(err);

@@ -73,7 +73,7 @@ const mainMenuHandler = (err, { choice }) => {
           console.log(getActiveCustomer());
           // addCustomerProduct(getActiveCustomer(), productData)
           // .then(lineNum=>{
-          //   console.log(`Product added to line ${lineNum.id}`)
+          //   console.log(`\n${blue(`Product added to line ${lineNum.id}`}`)
           //   displayWelcome();
           // });
         });
