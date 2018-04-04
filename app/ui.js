@@ -69,13 +69,11 @@ const mainMenuHandler = (err, { choice }) => {
       if(getActiveCustomer().id){
         promptAddCustomerProduct()
         .then((productData) => {
-          console.log('product data to save', productData);
-          console.log(getActiveCustomer());
-          // addCustomerProduct(getActiveCustomer(), productData)
-          // .then(lineNum=>{
-          //   console.log(`\n${blue(`Product added to line ${lineNum.id}`}`)
-          //   displayWelcome();
-          // });
+          addCustomerProduct(getActiveCustomer(), productData)
+          .then(lineNum=>{
+            console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
+            displayWelcome();
+          });
         });
         break;
       } else {
