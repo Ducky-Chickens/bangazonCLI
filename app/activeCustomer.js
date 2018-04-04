@@ -15,16 +15,17 @@ const activeCustomer = {
  * @function 
  * @description Sets the current active customer
  * @param {number} id - The id of the customer that should be active.
+ * @param {string} [fullName=""] - The full name of the customer that should be active.
  * @example 
  * setActiveCustomer(5);
  */
-module.exports.setActiveCustomer = (id, fullName) => {
-  
+module.exports.setActiveCustomer = (id, fullName = '') => {
+
   // id should be an integer
   assert.equal(Number.isInteger(id), true);
-
+  
   // fullName should be a string
-  asert.equal(typeof fullName === 'string', true);
+  assert.equal(typeof fullName === 'string', true);
 
   activeCustomer.id = id;
   activeCustomer.fullName = fullName;
@@ -32,11 +33,12 @@ module.exports.setActiveCustomer = (id, fullName) => {
 
 /**
  * @function 
- * @description Gets the current active customer
- * @property {number} id - The id of the customer to set to be active.
+ * @description Gets the current active customer object
  * @example 
  * getActiveCustomer();
- * @returns {number}
+ * @returns {customer}
+ * @returns customer.id
+ * @returns customer.fullName
  */
 module.exports.getActiveCustomer = () => {
   return activeCustomer;
