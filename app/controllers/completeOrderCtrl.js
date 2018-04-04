@@ -13,15 +13,13 @@ module.exports.generatePaymentOptions = options => {
   return new RegExp(`^(${possibleOptions.join('|')})$`);
 }
 
-module.exports.promptCompleteOrder = () => {
-
-  let customerPayments = getCustomerPaymentsCount(activeCustomer.id);
+module.exports.promptCompleteOrder = (total, payments) => {
 
 
   const selectPayment = {
     properties: {
       paymentID: {
-        pattern: generatePaymentOptions(customerPayments),
+        pattern: generatePaymentOptions(payments),
         description: "Please select a payment type",
         message: 'Must select a number from the provided list',
         required: true
@@ -34,7 +32,7 @@ module.exports.promptCompleteOrder = () => {
       state: {
         pattern: /^[YN]$/,
         description: "(Y/N)",
-        message: 'Please select Y or N to confirm or cancel payment',
+        message: `Your order total is ${total}. Please select Y or N to confirm or cancel payment`,
         required: true
       },
     }
@@ -45,11 +43,15 @@ module.exports.promptCompleteOrder = () => {
       switch (result.state) {
         case "Y": 
           prompt.get(selectPayment, function(err, result) {
+          // complete order not yet written
           completeOrder(result)
           .then(newProgram => {
             console.log('Order payment successful');
+            console.log(newProgram);
+            displayWelcome();
           }).catch(() => {
             console.log('Program failed to add. Please try again.')
+            displayWelcome();
           })
         });
         case "N":

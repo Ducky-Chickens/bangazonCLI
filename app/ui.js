@@ -63,22 +63,30 @@ const mainMenuHandler = (err, { choice }) => {
 
     // Complete Order
     case 5: {
-      // FIRST check for active customer
-      if(activeCustomer().id === null) {
+      let active = getActiveCustomer().id;
+      if(active === null) {
         console.log('Please activate a customer with the main menu');
         displayWelcome()
       } else {
-        checkForOrder(activeCustomer.id)
-        .then()
+        checkForOrder(active.id)
+        .then(order => {
+          if (order === null) {
+            console.log("Please add some products to your order first. Press any key to return to main menu.")
+            displayWelcome();
+          } else {
+            let total = sumOrderTotal(order.id);
+            getCustomerPaymentsCount(active.id)
+            .then(count => {
+              promptCompleteOrder(total, count)
+              .then(result => {
+
+              })
+            })
+          }
+        })
         
       }
 
-      // IF active customer, check for customer order
-      // IF no order, prompt "Please add some products to your order first. 
-      // Press any key to return to main menu."
-      // IF order, retrieve total of cost of products on that order from order_products
-      // THEN prompt "Your order total is (total of products on order). Ready to purchase(Y/N):"
-      // IF no, return to main menu
       // IF yes, retrieve payment options for that customer
       // THEN list payment options with regex that prevents entering numbers outside of options
       // THEN prompt "Order successful: (List final order details)"
