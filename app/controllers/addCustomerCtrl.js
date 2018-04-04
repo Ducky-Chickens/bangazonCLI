@@ -7,7 +7,8 @@ module.exports = () => {
     prompt.get([{
       name: 'name',
       description: 'Enter customer name (First Last)',
-      type: 'string',
+      pattern: /^([a-zA-Z]+\s){1}([a-zA-Z]+){1}$/,
+      message: 'please enter a first and last name as such; e.g. Bill Jones',
       required: true
     }, {
       name: 'street',
