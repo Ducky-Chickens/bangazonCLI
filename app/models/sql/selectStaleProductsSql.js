@@ -5,7 +5,7 @@ const assert = require('assert');
 /**
  * @function
  * @name selectStaleProductsSql
- * @description An abstraction of huge sql statments used to select stale products.
+ * @description An abstraction of a huge sql statments used to select stale products.
  * @returns Sql code with customer id inserted into the where clause.
  */
 module.exports = customerId => {
