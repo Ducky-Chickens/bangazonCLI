@@ -8,7 +8,7 @@ const prompt = require('prompt');
  * @param {string} [message = 'Press any key to continue'] Message to be displayed before asking user to press any key.
  * @returns {promise}
  */
-module.exports = (message = `Press any key to continue`) => {
+module.exports = (message = ` Press any key to continue`) => {
     console.log(message);
     return new Promise((resolve, reject) => {
         prompt.get([

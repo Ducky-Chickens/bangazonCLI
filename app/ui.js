@@ -3,6 +3,8 @@
 // 3rd party libs
 const { red, magenta, blue } = require("chalk");
 
+const assert = require('assert');
+
 const prompt = require('prompt');
 const colors = require("colors/safe");
 const path = require('path');
@@ -32,6 +34,21 @@ const getStaleProducts = require('./models/GetStaleProducts');
 */
 const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
 
+const addSpace = (object, properties) => {
+  assert.equal(Array.isArray(properties), true);
+
+  for(let prop of properties){
+    if(typeof object[prop] !== 'undefined'){
+      
+      // To convert value to string to allow padstart
+      object[prop] = `${object[prop]}`;
+
+      object[prop] = object[prop].padStart(object[prop].length + 2, " ");
+    }
+  }
+  
+  return object;
+};
 
 /*
   START OF CLI
@@ -58,7 +75,8 @@ const mainMenuHandler = (err, { choice }) => {
 
         // List of customer ids
         for (let customer of customers) {
-          console.log(customer.id, customer.name);
+          customer = addSpace(customer, ['id']);
+          console.log(`${customer.id}.`, customer.name);
         }
 
         promptActivateCustomer(customers.length)
@@ -88,18 +106,26 @@ const mainMenuHandler = (err, { choice }) => {
     }
 
     // View stale products
-    // 4 has stale products
     case 7: {
-      //check if active customer
       if(isActiveCustomerSet()){
         getStaleProducts(getActiveCustomer().id).then(products => {
-          console.table(products);
+          if(products.length > 0) {
+
+            // Required indent to conform with Joe's CLI code.
+            for(let product of products){
+              product = addSpace(product, ['product_id']);
+            }
+            
+            console.table(products);
+          } else {
+            console.log(' No stale products');
+          }
           pressEnterToContinue().then(() => {
             displayWelcome();
           });
         });
       } else {
-        console.log('Please choose active customer before checking their stale  products');
+        console.log(' Please choose active customer before checking their stale  products');
         displayWelcome();
       }
       break;
