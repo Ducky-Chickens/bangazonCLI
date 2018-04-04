@@ -16,11 +16,13 @@ CONTROLLERS
 */
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
+const { generatePaymentOptions, promptCompleteOrder } = require('./controllers/completeOrderCtrl');
 
 /*
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
+const { checkForOrder, getCustomerPaymentsCount } = require('./models/completeOrder');
 
 /*
 ACtiVE CUSTOMER
@@ -63,10 +65,14 @@ const mainMenuHandler = (err, { choice }) => {
     case 5: {
       // FIRST check for active customer
       if(activeCustomer().id === null) {
-        console.log
+        console.log('Please activate a customer with the main menu');
+        displayWelcome()
+      } else {
+        checkForOrder(activeCustomer.id)
+        .then()
+        
       }
-      // IF no active customer, prompt to select active customer
-      // THEN displayWelcome()
+
       // IF active customer, check for customer order
       // IF no order, prompt "Please add some products to your order first. 
       // Press any key to return to main menu."

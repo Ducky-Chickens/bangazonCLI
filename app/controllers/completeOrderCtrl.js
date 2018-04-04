@@ -15,17 +15,6 @@ module.exports.generatePaymentOptions = options => {
 
 module.exports.promptCompleteOrder = () => {
 
-  // let activeCustomer = getActiveCustomer();
-
-  // if (activeCustomer === null) {
-  //   console.log('Please select active customer before completing an order')
-  //   displayWelcome();
-  // }
-
-  let orders = checkForOrder(activeCustomer.id);
-
-  // if(orders === )
-
   let customerPayments = getCustomerPaymentsCount(activeCustomer.id);
 
 

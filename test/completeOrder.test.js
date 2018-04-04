@@ -7,17 +7,14 @@ const activeCustomer = {
 };
 
 
-describe('complete order controller', () => {
-  describe('complete order function', () => {
+  describe('promptCompleteOrder', () => {
     it('should be a function', () => {
       isFunction(promptCompleteOrder());
     });
   });
-});
 
 
-describe('complete order model', () => {
-  describe('check for order function', () => {
+  describe('checkForOrder', () => {
     it('should return potential customer orders', () => {
       return checkForOrder(1)
       .then(orders => {
@@ -25,4 +22,3 @@ describe('complete order model', () => {
       })
     });
   });
-});
