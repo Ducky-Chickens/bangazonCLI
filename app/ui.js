@@ -56,6 +56,7 @@ const mainMenuHandler = (err, { choice }) => {
 
             // TODO: Only allow ids that exist in sql database
             setActiveCustomer(+customerId);
+            displayWelcome();
           });
       });
       break;
@@ -64,7 +65,7 @@ const mainMenuHandler = (err, { choice }) => {
 
 };
 
-module.exports.displayWelcome = () => {
+const displayWelcome = () => {
   const headerDivider = `${magenta('*********************************************************')}`
   return new Promise((resolve, reject) => {
     console.log(`
@@ -83,4 +84,8 @@ module.exports.displayWelcome = () => {
       description: 'Please make a selection'
     }], mainMenuHandler);
   });
+};
+
+module.exports = {
+  displayWelcome
 };
