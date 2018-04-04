@@ -66,10 +66,16 @@ const mainMenuHandler = (err, { choice }) => {
 
     // Add Payment Type
     case 3: {
-      promptPaymentType()
-      .then((paymentData) => {
-        console.log('payment info to add', paymentData);
-      })
+      //check if active customer
+      if(getActiveCustomer().id){
+        promptPaymentType().then((paymentData) => {
+          addCustomerPaymentType(getActiveCustomer(),paymentData);
+          displayWelcome();
+        })
+      } else {
+        console.log('Please choose active customer before adding a payment');
+        displayWelcome();
+      }
       break;
     }
   }
