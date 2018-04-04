@@ -65,13 +65,25 @@ const mainMenuHandler = (err, { choice }) => {
     }
 
   case 4: {
-    promptAddCustomerProduct()
-    .then((productData) => {
-      console.log('product data to save', productData);
-      // addCustomerProduct(activeCustomer, productData);
-    });
+      if(getActiveCustomer().id){
+        promptAddCustomerProduct()
+        .then((productData) => {
+          console.log('product data to save', productData);
+          console.log(getActiveCustomer());
+          // addCustomerProduct(getActiveCustomer(), productData)
+          // .then(lineNum=>{
+          //   console.log(`Product added to line ${lineNum.id}`)
+          //   displayWelcome();
+          // });
+        });
+        break;
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+        displayWelcome();
+      }
+    }
+
   }
-}
 };
 
 const displayWelcome = () => {
