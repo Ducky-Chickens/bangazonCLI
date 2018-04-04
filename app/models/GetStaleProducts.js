@@ -29,9 +29,15 @@ module.exports = customerId => {
             CAST(JULIANDAY('now') - JULIANDAY(REPLACE(P.listing_date, '/', '-')) as INT) >= 180;`;
 
         // Is stale option 2:  Has been added to an order, 
-        // but the order hasn't been completed, 
+        // but the order hasn't been completed(If payment_type is null, it has not been completed.),
         // and the order was created more than 90 days ago
-        const addedToNotCompletedOrderSql = ``;
+        const addedToNotCompletedOrderSql = `SELECT P.product_id, P.product_name
+        FROM order_products AS OP 
+        INNER JOIN products AS P
+            ON P.product_id = OP.product_id
+        INNER JOIN orders AS O 
+            ON O.order_id = OP.order_id
+        WHERE CAST(JULIANDAY('now') - JULIANDAY(O.order_date) as INT) >= 90;`;
 
         return db.all(
             `SELECT customer_id AS id, (first_name || ' ' || last_name) AS name]
