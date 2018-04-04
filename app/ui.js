@@ -12,7 +12,7 @@ prompt.message = colors.blue("Bangazon Corp");
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 
-const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
+const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
 
 prompt.start();
 
