@@ -21,7 +21,7 @@ const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 /*
   MODELS
 */
-const getCustomers = require('./models/getCustomers');
+const getCustomers = require('./models/GetCustomers');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 
 /*
