@@ -16,7 +16,7 @@ CONTROLLERS
 */
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
-const { generatePaymentOptions, promptCompleteOrder } = require('./controllers/completeOrderCtrl');
+const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = require('./controllers/completeOrderCtrl');
 
 /*
 MODELS
@@ -71,33 +71,42 @@ const mainMenuHandler = (err, { choice }) => {
         console.log('Please activate a customer with the main menu');
         displayWelcome()
       } else {
-        console.log('active', active);
+        // console.log('active', active);
         checkForOrder(active)
         .then(orders => {
           if (orders.length === 0) {
             console.log("Please add some products to your order first. Press any key to return to main menu.");
             displayWelcome();
           } else {
-            console.log('orders', orders);
-            let total = sumOrderTotal(active);
-            getCustomerPaymentTypes(active)
-            .then(payTypes => {
-              console.log(payTypes);
-              for( let i in payTypes) {
-                console.log(`${i}`, payTypes[i].method, payTypes[i].account_number);
+            // console.log('orders', orders);
+            let nullOrders = []
+            for (let i = 0; i < orders.length; i++) {
+              if (orders[i].payment_type === null) {
+                nullOrders.push(orders[i]);
               }
-              let pattern = generatePaymentOptions(payTypes);
-              promptCompleteOrder(total, pattern)
-              .then(result => {
-                console.log('result', result);
-                displayWelcome();
+            }
+            nullOrders.forEach(order => {
+              checkForProducts(order)
+              .then(products => {
+                
               })
             })
-          }
-        })
-        
-      }
-
+            sumOrderTotal(active)
+            .then(total => {
+              getCustomerPaymentTypes(active)
+              .then(payTypes => {
+                // console.log(payTypes);
+                let pattern = generatePaymentOptions(payTypes);
+                  promptCompleteOrder(total.total, pattern, payTypes, active)
+                  .then(result => {
+                    console.log('result', result);
+                    displayWelcome();
+                  })
+                })
+              })
+            }
+          })
+        }
       // THEN prompt "Order successful: (List final order details)"
       // THEN displayWelcome()
       break;

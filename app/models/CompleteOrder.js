@@ -18,16 +18,17 @@ module.exports.getCustomerPaymentTypes = (customerId) => {
     db.all(`SELECT *
     FROM payment_types 
     WHERE customer_id = ${customerId}`, (err, payTypes) => {
-      console.log('payTypes', payTypes);
+      // console.log('payTypes', payTypes);
       return err ? reject(err) : resolve(payTypes);
     });
   });
 };
 
-module.exports.finalizePaymentType = (payId) => {
+module.exports.finalizePaymentType = (payId, custId) => {
   return new Promise ((resolve, reject) => {
     db.all(`UPDATE orders 
-    SET payment_type_id = ${payId}`, (err, patch) => {
+    SET payment_type_id = ${payId}
+    WHERE order_id = ${custId}`, (err, patch) => {
       console.log('patch', patch);
       return err ? reject(err) : resolve(patch);
     });
@@ -43,12 +44,24 @@ module.exports.sumOrderTotal = (id) => {
     WHERE orders.order_id = order_products.order_id
     AND order_products.product_id = products.product_id
     AND orders.customer_id = ${id}`, (err, total) => {
-      console.log('order total', total.total);
+      // console.log('order total', total.total);
       return err ? reject(err) : resolve(total);
     });
   });
 };
 
-module.exports.completeOrder = () => {
-
+module.exports.getPayTypeByName = (name) => {
+  return new Promise((resolve, reject) => {
+    db.get(`SELECT payment_id 
+    FROM payment_types
+    WHERE method = "${name}"`, (err, id) => {
+      return err ? reject(err) : resolve(id);
+    });
+  });
 };
+
+module.exports.checkForProducts = (order) => {
+  return new Promise((resolve, reject) => {
+    db.all
+  })
+}

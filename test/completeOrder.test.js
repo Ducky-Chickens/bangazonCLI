@@ -11,11 +11,11 @@ const ordersId1 = [{customer_id: 1, order_date: "2017-9-22", order_id: 5, paymen
   {customer_id: 1, order_date: "2018-2-14", order_id: 15, payment_type: 17 }];
 
 
-describe('promptCompleteOrder', () => {
-  it('should be a function', () => {
-    isFunction(promptCompleteOrder());
-  });
-});
+// describe('promptCompleteOrder', () => {
+//   it('should be a function', () => {
+//     isFunction(promptCompleteOrder());
+//   });
+// });
 
 describe('checkForOrder', () => {
   it('should return customers orders', () => {
@@ -29,16 +29,10 @@ describe('checkForOrder', () => {
 describe('sumOrderTotal', () => {
   it('should return sum of customers orders prices', () => {
     return sumOrderTotal(1)
-    .then(total => {
-      console.log(total);
-      equal(total, 1);
+    .then(sum => {
+      console.log(sum);
+      equal(sum.total, 1239);
     })
-  });
-});
-
-describe('completeOrder', () => {
-  it('completeOrder should be a function', () => {
-    isFunction(completeOrder());
   });
 });
 

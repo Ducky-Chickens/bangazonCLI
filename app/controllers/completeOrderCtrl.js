@@ -1,10 +1,8 @@
 'use strict'
 
-const { displayWelcome } = require('../ui');
-// console.log(displayWelcome());
 const prompt = require('prompt');
 const { getActiveCustomer } = require('../activeCustomer');
-const { checkForOrder } = require('../models/completeOrder');
+const { checkForOrder, finalizePaymentType, getPayTypeByName } = require('../models/completeOrder');
 
 module.exports.generatePaymentOptions = options => {
   const possibleOptions = []
@@ -14,26 +12,24 @@ module.exports.generatePaymentOptions = options => {
   return new RegExp(`^(${possibleOptions.join('|')})$`);
 };
 
-module.exports.paymentTypeCount = () => {
-  return new Promise((resolve, reject) => {
-      prompt.get([{
-          name: 'Payment Type',
-          description: 'Enter desired payment type.',
-          pattern: generatePossibleIdRegex(paymentTypeCount),
-          required: true
-      }], function (err, results) {
-          return err ? reject(err) : resolve(results);
-      });
-  });
-};
+module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
+  const selectPayType = {
+    properties: {
+      name: {
+        name: 'Payment Type',
+        description: 'Enter desired payment type name',
+        pattern: paymentReg,
+        required: true
+      }
+    }
+  };
 
-module.exports.promptCompleteOrder = (total, paymentPattern) => {
   const selectReady = {
     properties: {
       state: {
         pattern: /^[YN]$/,
-        description: "(Y/N)",
-        message: `Your order total is ${total}. Please select Y or N to confirm or cancel payment`,
+        description: `Your order total is $${total}. Please select Y or N to confirm or cancel payment (Y/N)`,
+        message: "Please respond with 'Y' or 'N'",
         required: true
       }
     }
@@ -42,26 +38,30 @@ module.exports.promptCompleteOrder = (total, paymentPattern) => {
     prompt.get(selectReady, function (err, result) {
       switch (result.state) {
         case "Y": {
-          prompt.get(selectPayment, function(err, result) {
-          // complete order not yet written
-          completeOrder(result)
-          .then(newProgram => {
-            console.log('Order payment successful');
-            console.log(newProgram);
-            // displayWelcome();
-          }).catch(() => {
-            console.log('Program failed to add. Please try again.')
-            // displayWelcome();
+          for( let i in payTypes) {
+            console.log(payTypes[i].method, payTypes[i].account_number);
+          }
+          prompt.get(selectPayType, function(err, result) {
+            console.log('name', result.name);
+          getPayTypeByName(result.name)
+          .then(id => {
+            console.log('id', id.payment_id);
+            finalizePaymentType(id.payment_id, custId)
+            .then(newProgram => {
+              console.log('Order payment successful');
+              console.log(newProgram);
+              resolve(newProgram);
+            }).catch(() => {
+              console.log('Program failed to add. Please try again')
+              resolve(null);
+            })
+          });
           })
-        });
         break;
         } 
         case "N": {
-          console.log("Order payment cancelled.");
-          // const { displayWelcome } = require('../ui');
-          // holy shit
-          console.log('displayWelcome', typeof(displayWelcome)); 
-          displayWelcome();
+          console.log("Order payment cancelled");
+          resolve(null);
         }
       }
     });
