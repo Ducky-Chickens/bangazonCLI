@@ -79,7 +79,7 @@ const mainMenuHandler = (err, { choice }) => {
             .then(count => {
               promptCompleteOrder(total, count)
               .then(result => {
-
+                console.log(result)
               })
             })
           }

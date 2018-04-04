@@ -27,11 +27,11 @@ describe('checkForOrder', () => {
   });
 });
 
-describe('getCustomerPaymentsCount', () => {
-  it('should return count of customer payments', () => {
-    return getCustomerPaymentsCount(1)
-    .then(options => {
-      equal(options, 1);
-    })
-  });
-});
+// describe('getCustomerPaymentsCount', () => {
+//   it('should return count of customer payments', () => {
+//     return getCustomerPaymentsCount(1)
+//     .then(options => {
+//       equal(options, 1);
+//     })
+//   });
+// });

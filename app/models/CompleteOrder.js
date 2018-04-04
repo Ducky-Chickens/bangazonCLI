@@ -24,7 +24,7 @@ module.exports.getCustomerPaymentsCount = (customerId) => {
 
 module.exports.finalizePaymentType = (payId) => {
   return new Promise ((resolve, reject) => {
-    db.all(`UPDATE order SET payment_type_id = ${payId}`, (err, patch) => {
+    db.all(`UPDATE orders SET payment_type_id = ${payId}`, (err, patch) => {
       console.log(patch)
       return err ? reject(err) : resolve(patch);
     });
