@@ -1,46 +1,82 @@
 'use strict';
 
 // 3rd party libs
-const {red, magenta, blue} = require("chalk");
+const { red, magenta, blue } = require("chalk");
+
 const prompt = require('prompt');
 const colors = require("colors/safe");
 const path = require('path');
 const { Database } = require('sqlite3').verbose();
+const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
+
 prompt.message = colors.blue("Bangazon Corp");
 
-// app modules
-const { promptNewCustomer } = require('./controllers/customerCtrl');
+/*
+CONTROLLERS
+*/
+const { promptNewCustomer } = require('./controllers/customerCtrl')
+const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
 
-// models
+/*
+MODELS
+*/
+const getCustomers = require('./models/getCustomers');
 const addCustomerProduct = require('./models/AddCustomerProduct');
 
-const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
+/*
+ACtiVE CUSTOMER
+*/
+const { setActiveCustomer, getActiveCustomer } = require('../app/activeCustomer');
 
 prompt.start();
 
-let mainMenuHandler = (err, userInput) => {
-  console.log("user input", userInput);
-  // This could get messy quickly. Maybe a better way to parse the input?
-  if(userInput.choice == '1') {
-    promptNewCustomer()
-    .then( (custData) => {
-      console.log('customer data to save', custData );
-      //save customer to db
-    });
-  }
-  if (userInput.choice === '4') {
+const mainMenuHandler = (err, { choice }) => {
+
+  switch (Number(choice)) {
+
+    // Create Customer
+    case 1: {
+      promptNewCustomer()
+        .then((custData) => {
+          console.log('customer data to save', custData);
+          //save customer to db
+        });
+      break;
+    }
+
+    // Activate Customer
+    case 2: {
+      getCustomers().then(customers => {
+
+        for (let customer of customers) {
+          console.log(customer.id, customer.name);
+        }
+
+        promptActivateCustomer(customers.length)
+          .then(({customerId}) => {
+
+            // TODO: Only allow ids that exist in sql database
+            setActiveCustomer(+customerId);
+            displayWelcome();
+          });
+      });
+      break;
+    }
+
+  case 4: {
     promptAddCustomerProduct()
     .then((productData) => {
       console.log('product data to save', productData);
       // addCustomerProduct(activeCustomer, productData);
     });
   }
+
 };
 
-module.exports.displayWelcome = () => {
-  let headerDivider = `${magenta('*********************************************************')}`
-  return new Promise( (resolve, reject) => {
+const displayWelcome = () => {
+  const headerDivider = `${magenta('*********************************************************')}`
+  return new Promise((resolve, reject) => {
     console.log(`
   ${headerDivider}
   ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
@@ -55,6 +91,10 @@ module.exports.displayWelcome = () => {
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
-    }], mainMenuHandler );
+    }], mainMenuHandler);
   });
+};
+
+module.exports = {
+  displayWelcome
 };
