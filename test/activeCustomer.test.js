@@ -1,4 +1,4 @@
-const { assert: { equal, deepEqual, isFunction, isArray } } = require('chai');
+const { assert: { equal, deepEqual, isFunction, isArray, property } } = require('chai');
 
 const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet} = require('../app/activeCustomer');
 const getCustomers = require('../app/models/getCustomers');
@@ -27,6 +27,10 @@ describe('active customer', () => {
         setActiveCustomer(1);
         equal(getActiveCustomer().id, customerOne.id);
         equal(isActiveCustomerSet(), true);
+    });
+
+    it('should have a full name property', () => {
+        property(getActiveCustomer(), 'fullName');
     });
 });
 
