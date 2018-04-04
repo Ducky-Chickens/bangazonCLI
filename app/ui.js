@@ -11,6 +11,7 @@ prompt.message = colors.blue("Bangazon Corp");
 // app modules
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
+const { addCustomerPaymentType } = require('./models/AddPaymentType');
 
 const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
 
@@ -30,6 +31,7 @@ let mainMenuHandler = (err, userInput) => {
     promptPaymentType()
     .then((paymentData) => {
       console.log('payment info to add', paymentData);
+      
     })
   }
 };

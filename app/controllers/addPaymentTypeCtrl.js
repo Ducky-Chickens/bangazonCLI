@@ -9,7 +9,7 @@ module.exports.promptPaymentType = () => {
         description: `Please enter one of the following payment methods (AmEx, MasterCard, Visa, PayPal)`,
         type: 'string',
         pattern: /^AmEx|MasterCard|Visa|PayPal$/,
-        message: 'Please enter one of the available options',
+        message: 'Please enter one of the available options exactly as it appears',
         required: true
       },
       {
