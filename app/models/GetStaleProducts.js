@@ -17,7 +17,7 @@ const getStaleProductsSql = require('./sql/selectStaleProductsSql');
 module.exports = customerId => {
     return new Promise((resolve, reject) => {
         return db.all(
-            getStaleProductsSql,
+            getStaleProductsSql(customerId),
             (err, products) => {
                 return err ? reject(err) : resolve(products);
             });
