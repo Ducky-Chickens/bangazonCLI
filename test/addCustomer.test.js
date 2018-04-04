@@ -10,6 +10,8 @@ const { assert: { equal, deepEqual, isObject } } = require('chai');
 
 let newCustomer = { name: "Fox Mulder", street: "123 Alien Lane", city: "Alexandria", state: "VA", zip: "22206", phone: "123-420-5555" };
 
+
+/// selects customer data per lastID for deepEqual comparison
 const getCustomer = (id) =>{
     return new Promise((resolve, reject) => {
         db.run(`SELECT * FROM customers WHERE customer_id =${id}`,
