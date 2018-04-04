@@ -12,23 +12,27 @@ const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
 prompt.message = colors.blue("Bangazon Corp");
 
 /*
-CONTROLLERS
+  CONTROLLERS
 */
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 
 /*
-MODELS
+  MODELS
 */
 const getCustomers = require('./models/getCustomers');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 
 /*
-ACtiVE CUSTOMER
+  ACTIVE CUSTOMER
 */
 const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
 
+
+/*
+  START OF CLI
+*/
 prompt.start();
 
 const mainMenuHandler = (err, { choice }) => {
