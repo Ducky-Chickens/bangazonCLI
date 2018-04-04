@@ -8,6 +8,7 @@ const assert = require('assert');
  */
 const activeCustomer = {
   id: null,
+  fullName: '',
 };
 
 /**
@@ -17,17 +18,21 @@ const activeCustomer = {
  * @example 
  * setActiveCustomer(5);
  */
-module.exports.setActiveCustomer = id => {
+module.exports.setActiveCustomer = (id, fullName) => {
   
-  // assert that id must be an integer
+  // id should be an integer
   assert.equal(Number.isInteger(id), true);
 
+  // fullName should be a string
+  asert.equal(typeof fullName === 'string', true);
+
   activeCustomer.id = id;
+  activeCustomer.fullName = fullName;
 };
 
 /**
  * @function 
- * @description Sets the current active customer
+ * @description Gets the current active customer
  * @property {number} id - The id of the customer to set to be active.
  * @example 
  * getActiveCustomer();
@@ -35,4 +40,16 @@ module.exports.setActiveCustomer = id => {
  */
 module.exports.getActiveCustomer = () => {
   return activeCustomer;
+};
+
+
+/**
+ * @function
+ * @description Checks if an active customer is set.
+ * @example 
+ * isActiveCustomerSet();
+ * @returns {boolean} - true if active customer is set
+ */
+module.exports.isActiveCustomerSet = () => {
+  return activeCustomer.id === null ? false : true;
 };
