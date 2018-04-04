@@ -5,6 +5,7 @@ const assert = require('assert');
 /**
  * @function
  * @name selectStaleProductsSql
+ * @param {integer} customerId - The id of the customer whos stale products you are finding.
  * @description An abstraction of a huge sql statments used to select stale products.
  * @returns Sql code with customer id inserted into the where clause.
  */
