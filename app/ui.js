@@ -14,7 +14,7 @@ prompt.message = colors.blue("Bangazon Corp");
 /*
 CONTROLLERS
 */
-const { promptNewCustomer } = require('./controllers/customerCtrl')
+const { promptAddCustomer } = require('./controllers/addCustomerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 
@@ -37,7 +37,7 @@ const mainMenuHandler = (err, { choice }) => {
 
     // Create Customer
     case 1: {
-      promptNewCustomer()
+      promptAddCustomer()
         .then((custData) => {
           console.log('customer data to save', custData);
           //save customer to db

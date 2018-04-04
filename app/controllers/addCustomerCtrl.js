@@ -21,7 +21,7 @@ module.exports.promptNewCustomer = () => {
       required: true
     }, {
       name: 'state',
-      description: 'Enter state (KY)',
+      description: 'Enter state',
       type: 'string',
       required: true
     }, {
