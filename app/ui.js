@@ -71,7 +71,7 @@ const mainMenuHandler = (err, { choice }) => {
       // addCustomerProduct(activeCustomer, productData);
     });
   }
-
+}
 };
 
 const displayWelcome = () => {

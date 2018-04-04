@@ -4,7 +4,7 @@ const addCustomerProduct = require('../app/models/AddCustomerProduct.js');
 const { assert: { isFunction, isArray, isNumber, isObject, deepEqual } } = require('chai');
 
 const activeCustomer = {id:8};
-const newProduct = { title: 'flerg', productTypeId: 2, price: 400, description: 'feelin the schnaup of the flergs', dateCreated: '2011-03-15', quantity: 34 }
+const newProduct = { title: 'flerg', productTypeId: 2, price: 400, description: 'feelin the schnaup of the flergs', quantity: 34 }
 
 
 describe("add customer products", () => {
