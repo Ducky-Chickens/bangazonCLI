@@ -16,11 +16,13 @@ CONTROLLERS
 */
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
+const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 
 /*
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
+const { addCustomerPaymentType } = require('./models/AddPaymentType');
 
 /*
 ACtiVE CUSTOMER
@@ -60,6 +62,21 @@ const mainMenuHandler = (err, { choice }) => {
             displayWelcome();
           });
       });
+      break;
+    }
+
+    // Add Payment Type
+    case 3: {
+      //check if active customer
+      if(getActiveCustomer().id){
+        promptPaymentType().then((paymentData) => {
+          addCustomerPaymentType(getActiveCustomer(),paymentData);
+          displayWelcome();
+        })
+      } else {
+        console.log('Please choose active customer before adding a payment');
+        displayWelcome();
+      }
       break;
     }
   }
