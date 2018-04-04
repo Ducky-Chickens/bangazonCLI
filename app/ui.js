@@ -9,9 +9,13 @@ const { Database } = require('sqlite3').verbose();
 prompt.message = colors.blue("Bangazon Corp");
 
 // app modules
-const { promptNewCustomer } = require('./controllers/customerCtrl')
+const { promptNewCustomer } = require('./controllers/customerCtrl');
+const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
 
-const db = new Database(path.join(__dirname, '..', 'db', 'bangazon.sqlite'));
+// models
+const addCustomerProduct = require('./models/AddCustomerProduct');
+
+const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
 
 prompt.start();
 
@@ -23,6 +27,13 @@ let mainMenuHandler = (err, userInput) => {
     .then( (custData) => {
       console.log('customer data to save', custData );
       //save customer to db
+    });
+  }
+  if (userInput.choice === '4') {
+    promptAddCustomerProduct()
+    .then((productData) => {
+      console.log('product data to save', productData);
+      // addCustomerProduct(activeCustomer, productData);
     });
   }
 };
@@ -37,7 +48,7 @@ module.exports.displayWelcome = () => {
   ${magenta('1.')} Create a customer account
   ${magenta('2.')} Choose active customer
   ${magenta('3.')} Create a payment option
-  ${magenta('4.')} Add product to shopping cart
+  ${magenta('4.')} Add product to inventory
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
   ${magenta('7.')} Leave Bangazon!`);

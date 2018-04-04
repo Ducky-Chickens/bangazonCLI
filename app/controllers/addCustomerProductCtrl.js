@@ -2,7 +2,7 @@
 
 const prompt = require('prompt');
 
-module.exports.promptAddCustomerProduct = () => {
+module.exports = () => {
     return new Promise((resolve, reject) => {
         prompt.get([{
             name: 'title',
@@ -34,7 +34,7 @@ module.exports.promptAddCustomerProduct = () => {
             description: 'Enter quantity available',
             type: 'integer',
             required: true
-        }], function (err, results) {
+        }], (err, results) => {
             if (err) return reject(err);
             resolve(results);
         })
