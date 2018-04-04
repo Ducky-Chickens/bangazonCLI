@@ -25,11 +25,6 @@ module.exports = () => {
             type: 'string',
             required: true
         }, {
-            name: 'dateCreated',
-            description: 'Enter listing date (YYYY-MM-DD)',
-            type: 'string',
-            required: true
-        }, {
             name: 'quantity',
             description: 'Enter quantity available',
             type: 'integer',
