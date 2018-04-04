@@ -21,7 +21,7 @@ const getCustomer = (id) =>{
 }
 
 
-describe('AddCustomer', () => {
+describe.skip('AddCustomer', () => {
     it('should return an object', () => {
         return addCustomer(newCustomer)
             .then(cust => {

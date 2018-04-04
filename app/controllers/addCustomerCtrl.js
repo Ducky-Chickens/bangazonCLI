@@ -2,7 +2,7 @@
 
 const prompt = require('prompt');
 
-module.exports.promptNewCustomer = () => {
+module.exports = () => {
   return new Promise( (resolve, reject) => {
     prompt.get([{
       name: 'name',

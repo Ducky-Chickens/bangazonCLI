@@ -14,7 +14,7 @@ prompt.message = colors.blue("Bangazon Corp");
 /*
 CONTROLLERS
 */
-const { promptAddCustomer } = require('./controllers/addCustomerCtrl')
+const promptAddCustomer = require('./controllers/addCustomerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 
@@ -22,6 +22,7 @@ const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
+const addCustomer = require('./models/AddCustomers');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 
 /*
@@ -38,9 +39,12 @@ const mainMenuHandler = (err, { choice }) => {
     // Create Customer
     case 1: {
       promptAddCustomer()
-        .then((custData) => {
-          console.log('customer data to save', custData);
-          //save customer to db
+        .then(custData => {
+          addCustomer(custData)
+          .then(custID=>{
+            console.log(`\n${blue(custData.first_name + ' ' + custData.last_name + ' added to line ' + custID.id)}`)
+            displayWelcome();
+          });
         });
       break;
     }
