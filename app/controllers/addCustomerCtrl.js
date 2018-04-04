@@ -8,12 +8,13 @@ module.exports = () => {
       name: 'name',
       description: 'Enter customer name (First Last)',
       pattern: /^([a-zA-Z]+\s){1}([a-zA-Z]+){1}$/,
-      message: 'please enter a first and last name as such; e.g. Bill Jones',
+      message: 'please enter a first and last name; e.g. Bill Jones',
       required: true
     }, {
       name: 'street',
       description: 'Enter street address',
       type: 'string',
+      message: 'please enter your street address: number + name',
       required: true
     }, {
       name: 'city',
