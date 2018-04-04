@@ -16,7 +16,7 @@ describe('active customer', () => {
         const nullCustomer = {
             id: null,
         };
-        deepEqual(getActiveCustomer(), nullCustomer);
+        equal(getActiveCustomer().id, nullCustomer.id);
         equal(isActiveCustomerSet(), false);
     });
     
@@ -25,7 +25,7 @@ describe('active customer', () => {
             id: 1,
         };
         setActiveCustomer(1);
-        deepEqual(getActiveCustomer(), customerOne);
+        equal(getActiveCustomer().id, customerOne.id);
         equal(isActiveCustomerSet(), true);
     });
 });
