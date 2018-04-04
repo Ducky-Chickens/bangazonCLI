@@ -27,8 +27,9 @@ module.exports.getCustomerPaymentTypes = (customerId) => {
 module.exports.finalizePaymentType = (payId, custId) => {
   return new Promise ((resolve, reject) => {
     db.all(`UPDATE orders 
-    SET payment_type_id = ${payId}
-    WHERE order_id = ${custId}`, (err, patch) => {
+    SET payment_type = ${payId}
+    WHERE customer_id = ${custId}
+    AND payment_type is null`, (err, patch) => {
       console.log('patch', patch);
       return err ? reject(err) : resolve(patch);
     });
