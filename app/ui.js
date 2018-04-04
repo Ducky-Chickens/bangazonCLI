@@ -22,7 +22,7 @@ const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
-const addCustomer = require('./models/AddCustomers');
+const addCustomer = require('./models/AddCustomer');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 
 /*
@@ -42,7 +42,7 @@ const mainMenuHandler = (err, { choice }) => {
         .then(custData => {
           addCustomer(custData)
           .then(custID=>{
-            console.log(`\n${blue(custData.first_name + ' ' + custData.last_name + ' added to line ' + custID.id)}`)
+            console.log(`\n${blue(custData.name + ' added to line ' + custID.id)}`)
             displayWelcome();
           });
         });
