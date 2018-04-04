@@ -8,6 +8,7 @@ const colors = require("colors/safe");
 const path = require('path');
 const { Database } = require('sqlite3').verbose();
 const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
+require('console.table');
 
 prompt.message = colors.blue("Bangazon Corp");
 
@@ -17,12 +18,14 @@ prompt.message = colors.blue("Bangazon Corp");
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
+const pressEnterToContinue = require('./controllers/pressEnterToContinue')
 
 /*
   MODELS
 */
 const getCustomers = require('./models/GetCustomers');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
+const getStaleProducts = require('./models/GetStaleProducts');
 
 /*
   ACTIVE CUSTOMER
@@ -83,6 +86,24 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
+
+    // View stale products
+    // 4 has stale products
+    case 7: {
+      //check if active customer
+      if(isActiveCustomerSet()){
+        getStaleProducts(getActiveCustomer().id).then(products => {
+          console.table(products);
+          pressEnterToContinue().then(() => {
+            displayWelcome();
+          });
+        });
+      } else {
+        console.log('Please choose active customer before checking their stale  products');
+        displayWelcome();
+      }
+      break;
+    }
   }
 
 };
@@ -102,7 +123,8 @@ const displayWelcome = () => {
   ${magenta('4.')} Add product to shopping cart
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Leave Bangazon!`);
+  ${magenta('7.')} View stale products
+  ${magenta('.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
