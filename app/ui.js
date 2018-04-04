@@ -16,11 +16,16 @@ CONTROLLERS
 */
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
+const addProductOrder = require('./controllers/addProductOrderCtrl');
+const {removeProductSchema} = require('./controllers/removeProductCtrl');
 
 /*
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
+const addProducts = require('./models/addProductOrder');
+const {removeProduct} = require('./models/removeProduct');
+const {getProducts} = require('./models/removeProduct');
 
 /*
 ACtiVE CUSTOMER
@@ -61,6 +66,25 @@ const mainMenuHandler = (err, { choice }) => {
       });
       break;
     }
+    //Remove product from active customer
+    case 7: {
+      getProducts(getActiveCustomer().id).then(products => {
+        products.forEach((product,i) => {
+          console.log(`${i+1}. ${product.product_name}`)
+        });
+      removeProductSchema().then(product => {
+        if(product.id != getActiveCustomer().id){
+          console.log('please choose a product from the list')
+        } else {
+          removeProduct(product.id)
+          console.log('You have successfully removed a product from your list');
+
+        }
+        displayWelcome();
+      });
+    });
+    }
+    break;
   }
 
 };
@@ -78,7 +102,8 @@ const displayWelcome = () => {
   ${magenta('4.')} Add product to shopping cart
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Leave Bangazon!`);
+  ${magenta('7.')} Remove a product
+  ${magenta('8.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
