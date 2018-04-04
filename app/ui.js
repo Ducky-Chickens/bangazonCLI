@@ -22,7 +22,7 @@ const { generatePaymentOptions, promptCompleteOrder } = require('./controllers/c
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
-const { checkForOrder, getCustomerPaymentsCount } = require('./models/completeOrder');
+const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal } = require('./models/completeOrder');
 
 /*
 ACtiVE CUSTOMER
@@ -71,18 +71,26 @@ const mainMenuHandler = (err, { choice }) => {
         console.log('Please activate a customer with the main menu');
         displayWelcome()
       } else {
-        checkForOrder(active.id)
-        .then(order => {
-          if (order === null) {
-            console.log("Please add some products to your order first. Press any key to return to main menu.")
+        console.log('active', active);
+        checkForOrder(active)
+        .then(orders => {
+          if (orders.length === 0) {
+            console.log("Please add some products to your order first. Press any key to return to main menu.");
             displayWelcome();
           } else {
-            let total = sumOrderTotal(order.id);
-            getCustomerPaymentsCount(active.id)
-            .then(count => {
-              promptCompleteOrder(total, count)
+            console.log('orders', orders);
+            let total = sumOrderTotal(active);
+            getCustomerPaymentTypes(active)
+            .then(payTypes => {
+              console.log(payTypes);
+              for( let i in payTypes) {
+                console.log(`${i}`, payTypes[i].method, payTypes[i].account_number);
+              }
+              let pattern = generatePaymentOptions(payTypes);
+              promptCompleteOrder(total, pattern)
               .then(result => {
-                console.log(result)
+                console.log('result', result);
+                displayWelcome();
               })
             })
           }
@@ -90,8 +98,6 @@ const mainMenuHandler = (err, { choice }) => {
         
       }
 
-      // IF yes, retrieve payment options for that customer
-      // THEN list payment options with regex that prevents entering numbers outside of options
       // THEN prompt "Order successful: (List final order details)"
       // THEN displayWelcome()
       break;

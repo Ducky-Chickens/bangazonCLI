@@ -1,6 +1,6 @@
 const { assert: {equal, deepEqual, isFunction} } = require('chai');
 const { promptCompleteOrder } = require('../app/controllers/completeOrderCtrl')
-const { checkForOrder, getCustomerPaymentsCount } = require('../app/models/completeOrder');
+const { checkForOrder, getCustomerPaymentsCount, sumOrderTotal, finalizePaymentType } = require('../app/models/completeOrder');
 
 const activeCustomer = {
   id: null,
@@ -17,7 +17,6 @@ describe('promptCompleteOrder', () => {
   });
 });
 
-
 describe('checkForOrder', () => {
   it('should return customers orders', () => {
     return checkForOrder(1)
@@ -27,11 +26,27 @@ describe('checkForOrder', () => {
   });
 });
 
-// describe('getCustomerPaymentsCount', () => {
-//   it('should return count of customer payments', () => {
-//     return getCustomerPaymentsCount(1)
-//     .then(options => {
-//       equal(options, 1);
+describe('sumOrderTotal', () => {
+  it('should return sum of customers orders prices', () => {
+    return sumOrderTotal(1)
+    .then(total => {
+      console.log(total);
+      equal(total, 1);
+    })
+  });
+});
+
+describe('completeOrder', () => {
+  it('completeOrder should be a function', () => {
+    isFunction(completeOrder());
+  });
+});
+
+// describe('finalizePaymentType', () => {
+//   it('should patch chosen payment type to order', () => {
+//     return getCustomerPaymentsCount()
+//     .then(object => {
+//       equal(object, ?);
 //     })
 //   });
 // });
