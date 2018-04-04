@@ -14,7 +14,7 @@ module.exports = ({ id }, { title, productTypeId, price, description, dateCreate
             ${id},
             "${dateCreated}",
             ${quantity}
-        )`, (err)=>{
+        )`, function(err){
             if (err) return reject(err);
             resolve({ id: this.lastID });
         });

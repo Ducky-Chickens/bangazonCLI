@@ -9,7 +9,11 @@ const newProduct = { title: 'flerg', productTypeId: 2, price: 400, description: 
 
 describe("add customer products", () => {
     it('should return an object', () => {
-        isObject(addCustomerProduct(activeCustomer, newProduct));
+        return addCustomerProduct(activeCustomer, newProduct)
+            .then(custProd => {
+                console.log(custProd);
+                isObject(custProd)
+            });
     });
 });
 
