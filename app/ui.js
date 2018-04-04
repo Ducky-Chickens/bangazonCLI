@@ -27,7 +27,7 @@ const { checkForOrder, getCustomerPaymentsCount } = require('./models/completeOr
 /*
 ACtiVE CUSTOMER
 */
-const { setActiveCustomer, getActiveCustomer } = require('../app/activeCustomer');
+const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
 
 prompt.start();
 
@@ -48,13 +48,16 @@ const mainMenuHandler = (err, { choice }) => {
     // Activate Customer
     case 2: {
       getCustomers().then(customers => {
+
+        // List of customer ids
         for (let customer of customers) {
           console.log(customer.id, customer.name);
         }
         promptActivateCustomer(customers.length)
-          .then(({customerId}) => {
-            // TODO: Only allow ids that exist in sql database
-            setActiveCustomer(+customerId);
+          .then(({ customerId }) => {
+            const customer = customers.find(({id}) => +id === +customerId);
+            
+            setActiveCustomer(+customer.id, customer.name);
             displayWelcome();
           });
       });
@@ -103,6 +106,8 @@ const displayWelcome = () => {
     console.log(`
   ${headerDivider}
   ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
+  ${headerDivider}
+  ${magenta('-- Active Customer:')} ${isActiveCustomerSet() ? getActiveCustomer().fullName : `None`}
   ${headerDivider}
   ${magenta('1.')} Create a customer account
   ${magenta('2.')} Choose active customer
