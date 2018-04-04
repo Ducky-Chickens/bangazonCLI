@@ -41,7 +41,7 @@ module.exports = customerId => {
             AND P.customer_id = ${customerId}  
     UNION ALL
 
-    -- Is stale option 3:  Has been added to one, 
+    -- Has been added to one, 
     -- or more orders, and the order were completed, 
     -- but there is remaining quantity for the product, 
     -- and the product has been in the system for more than 180 days
