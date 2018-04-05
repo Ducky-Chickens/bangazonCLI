@@ -27,7 +27,7 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
 
   const selectReady = {
     properties: {
-      state: {
+      response: {
         pattern: /^[YN]$/,
         description: ` Your order total is $${total}. Please select Y or N to confirm or cancel payment (Y/N)`,
         message: "  Please respond with 'Y' or 'N'",
@@ -37,7 +37,7 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
   };
   return new Promise ((resolve, reject) => {
     prompt.get(selectReady, function (err, result) {
-      switch (result.state) {
+      switch (result.response) {
         case "Y": {
           for( let i in payTypes) {
             console.log(payTypes[i].method, payTypes[i].account_number);

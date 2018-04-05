@@ -2,7 +2,7 @@ module.exports.orders = [
   {
     customerId: 4,
     orderDate: "2017-5-23",
-    paymentTypeId: 1
+    paymentTypeId: 13
   },
   {
     customerId: 1,
@@ -22,7 +22,7 @@ module.exports.orders = [
   {
     customerId: 1,
     orderDate: "2017-09-22",
-    paymentTypeId: 12
+    paymentTypeId: 1
   },
   {
     customerId: 3,
@@ -32,12 +32,12 @@ module.exports.orders = [
   {
     customerId: 6,
     orderDate: "2017-09-19",
-    paymentTypeId: 5
+    paymentTypeId: 6
   },
   {
     customerId: 7,
     orderDate: "2017-5-23",
-    paymentTypeId: 8
+    paymentTypeId: 7
   },
   {
     customerId: 4,
@@ -57,17 +57,17 @@ module.exports.orders = [
   {
     customerId: 1,
     orderDate: "2017-7-14",
-    paymentTypeId: 20
+    paymentTypeId: 16
   },
   {
     customerId: 6,
     orderDate: "2017-4-19",
-    paymentTypeId: 15
+    paymentTypeId: 20
   },
   {
     customerId: 1,
     orderDate: "2018-2-12",
-    paymentTypeId: null
+    paymentTypeId: 12
   },
   {
     customerId: 7,
@@ -77,17 +77,17 @@ module.exports.orders = [
   {
     customerId: 2,
     orderDate: "2017-6-30",
-    paymentTypeId: null
+    paymentTypeId: 2
   },
   {
     customerId: 4,
     orderDate: "2018-3-18",
-    paymentTypeId: 15
+    paymentTypeId: 13
   },
   {
     customerId: 8,
     orderDate: "2018-3-5",
-    paymentTypeId: 20
+    paymentTypeId: 8
   },
   {
     customerId: 8,
@@ -97,6 +97,6 @@ module.exports.orders = [
   {
     customerId: 3,
     orderDate: "2017-4-26",
-    paymentTypeId: 20
+    paymentTypeId: 14
   }
 ]
