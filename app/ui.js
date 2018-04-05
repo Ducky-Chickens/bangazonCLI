@@ -34,7 +34,6 @@ const addPaymentType = require('./models/AddPaymentType');
 const { getProducts, updateProduct } = require('./models/UpdateProduct');
 const addCustomer = require('./models/AddCustomer');
 const addCustomerProduct = require('./models/AddCustomerProduct');
-const { addCustomerPaymentType } = require('./models/AddPaymentType');
 const getStaleProducts = require('./models/GetStaleProducts');
 
 /*
@@ -107,7 +106,6 @@ const mainMenuHandler = (err, { choice }) => {
         promptPaymentType().then((paymentData) => {
           addPaymentType(getActiveCustomer(),paymentData);
           console.log(`\n${blue(`${paymentData.payment} payment added`)}`)
-          addCustomerPaymentType(getActiveCustomer(), paymentData);
           displayWelcome();
         })
       } else {
