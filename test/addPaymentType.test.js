@@ -8,7 +8,7 @@ describe('AddPaymentType model', () => {
 
   describe('addCustomerPaymentType()', () => {
 
-    it('should return an object', () => {
+    it.skip('should return an object', () => {
       return addCustomerPaymentType(activeCustomer, newCustPaymentType)
       .then(data => {
         isObject(data);
