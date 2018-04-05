@@ -68,53 +68,55 @@ const mainMenuHandler = (err, { choice }) => {
     case 5: {
       let active = getActiveCustomer().id;
       if (active === null) {
-        console.log('Please activate a customer with the main menu');
+        console.log(' Please activate a customer with the main menu');
         displayWelcome()
       } else {
-        // console.log('active', active);
         checkForOrder(active)
           .then(orders => {
             if (orders.length === 0) {
-              console.log("Please add some products to your order first. Returning to main menu.");
+              console.log(" Please add some products to your order first. Returning to main menu.");
               displayWelcome();
             } else {
-              // console.log('orders', orders);
               let nullOrders = []
               for (let i = 0; i < orders.length; i++) {
                 if (orders[i].payment_type === null) {
                   nullOrders.push(orders[i]);
                 }
               }
-              nullOrders.forEach(order => {
-                checkForProducts(order)
-                  .then(products => {
-                    if (products.length === 0) {
-                      console.log("Please add some products to your order first. Returning to main menu.");
-                      // prompt.stop();
-                      displayWelcome();
-                    } else {
-                      sumOrderTotal(nullOrders[0].order_id)
-                        .then(total => {
-                          getCustomerPaymentTypes(active)
-                            .then(payTypes => {
-                              // console.log(payTypes);
-                              let pattern = generatePaymentOptions(payTypes);
-                              promptCompleteOrder(total.total, pattern, payTypes, active)
-                                .then(result => {
-                                  console.log('result', result);
+              if (nullOrders.length === 0) {
+                console.log(" Please add some products to your order first. Returning to main menu.")
+                displayWelcome();
+              } else {
+                nullOrders.forEach(order => {
+                  checkForProducts(order)
+                    .then(products => {
+                      if (products.length === 0) {
+                        console.log(" Please add some products to your order first. Returning to main menu.");
+                        displayWelcome();
+                      } else {
+                        sumOrderTotal(nullOrders[0].order_id)
+                          .then(total => {
+                            getCustomerPaymentTypes(active)
+                              .then(payTypes => {
+                                if (payTypes.length === 0) {
+                                  console.log(' Customer must have valid payment type saved to complete an order');
                                   displayWelcome();
-                                });
-                            });
-                        });
-                    };
-                  });
-              });
+                                } else {
+                                  let pattern = generatePaymentOptions(payTypes);
+                                  promptCompleteOrder(total.total, pattern, payTypes, active)
+                                    .then(result => {
+                                      displayWelcome();
+                                    });
+                                }
+                              });
+                          });
+                      };
+                    });
+                });
+              }
             };
           });
       };
-      // THEN prompt "Order successful: (List final order details)"
-      // THEN displayWelcome()
-      break;
     }
   }
 };

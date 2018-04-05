@@ -1,46 +1,99 @@
 const { assert: {equal, deepEqual, isFunction} } = require('chai');
 const { promptCompleteOrder } = require('../app/controllers/completeOrderCtrl')
-const { checkForOrder, getCustomerPaymentsCount, sumOrderTotal, finalizePaymentType } = require('../app/models/completeOrder');
+const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, finalizePaymentType, getPayTypeByName, checkForProducts } = require('../app/models/completeOrder');
+const createTables = require('../db/create_tables');
 
 const activeCustomer = {
   id: null,
 };
 
-const ordersId1 = [{customer_id: 1, order_date: "2017-9-22", order_id: 5, payment_type: 12},
-  {customer_id: 1, order_date: "2017-10-7", order_id: 6, payment_type: null}, 
-  {customer_id: 1, order_date: "2018-2-14", order_id: 15, payment_type: 17 }];
+const ordersId1 = [ { order_id: 2,
+    customer_id: 1,
+    payment_type: null,
+    order_date: '2017-7-28' },
+  { order_id: 5,
+    customer_id: 1,
+    payment_type: 12,
+    order_date: '2017-9-22' },
+  { order_id: 12,
+    customer_id: 1,
+    payment_type: 20,
+    order_date: '2017-7-14' },
+  { order_id: 14,
+    customer_id: 1,
+    payment_type: null,
+    order_date: '2018-2-12' }
+  ];
+
+const payTypesId1 = [
+  {payment_id: 1, customer_id: 1, method: 'capacitor', account_number: 55502077},
+  {payment_id: 16, customer_id: 1, method: 'microchip', account_number: 77676200},  
+]
+
+const patchedPayType = [
+  {order_id: 6, customer_id: 6, payment_type: 3, order_date: "2017-11-10"}
+];
+
+const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47 } ];
 
 
-// describe('promptCompleteOrder', () => {
-//   it('should be a function', () => {
-//     isFunction(promptCompleteOrder());
-//   });
-// });
 
 describe('checkForOrder', () => {
   it('should return customers orders', () => {
     return checkForOrder(1)
     .then(orders => {
       deepEqual(orders, ordersId1);
-    })
+  })
+});
+
+describe('getCustomerPaymentTypes', () => {
+  it('should return payment types from customer id', () => {
+    return getCustomerPaymentTypes(1)
+    .then(object => {
+      deepEqual(object, payTypesId1);
+    });
   });
 });
 
 describe('sumOrderTotal', () => {
   it('should return sum of customers orders prices', () => {
-    return sumOrderTotal(1)
+    return sumOrderTotal(2)
     .then(sum => {
-      console.log(sum);
-      equal(sum.total, 1239);
+      equal(sum.total, 867);
     })
   });
 });
 
-// describe('finalizePaymentType', () => {
-//   it('should patch chosen payment type to order', () => {
-//     return getCustomerPaymentsCount()
-//     .then(object => {
-//       equal(object, ?);
-//     })
-//   });
-// });
+describe.skip('finalizePaymentType', () => {
+  before(done => {
+    createTables().then(() => {
+      done();
+    });
+  });
+  it('should patch chosen payment type to order - given payment ID then customer ID', () => {
+    return finalizePaymentType(1, 1)
+    .then(object => {
+      deepEqual(object, patchedPayType);
+    })
+  });
+});
+
+describe('getPayTypeByName', () => {
+  it('should return payment type id from payment method and customer id', () => {
+    return getPayTypeByName('capacitor', 1)
+    .then(object => {
+      equal(object.payment_id, 1);
+    })
+  });
+});
+
+describe('checkForProducts', () => {
+  it('should return products from order id', () => {
+    return checkForProducts({order_id: 1})
+    .then(object => {
+      deepEqual(object, ordersProductsId1);
+    })
+  })
+})
+
+})

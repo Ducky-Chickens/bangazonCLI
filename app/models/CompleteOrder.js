@@ -18,7 +18,6 @@ module.exports.getCustomerPaymentTypes = (customerId) => {
     db.all(`SELECT *
     FROM payment_types 
     WHERE customer_id = ${customerId}`, (err, payTypes) => {
-      // console.log('payTypes', payTypes);
       return err ? reject(err) : resolve(payTypes);
     });
   });
@@ -26,7 +25,7 @@ module.exports.getCustomerPaymentTypes = (customerId) => {
 
 module.exports.finalizePaymentType = (payId, custId) => {
   return new Promise ((resolve, reject) => {
-    db.all(`UPDATE orders 
+    db.run(`UPDATE orders 
     SET payment_type = ${payId}
     WHERE customer_id = ${custId}
     AND payment_type is null`, (err, patch) => {
@@ -38,24 +37,25 @@ module.exports.finalizePaymentType = (payId, custId) => {
 
 module.exports.sumOrderTotal = (id) => {
   return new Promise((resolve, reject) => {
-    db.get(`SELECT SUM(price) AS 'total'
+    db.get(`SELECT SUM(products.price) AS total
     FROM products 
     JOIN orders 
     JOIN order_products 
     WHERE orders.order_id = order_products.order_id
     AND order_products.product_id = products.product_id
-    AND orders.customer_id = ${id}`, (err, total) => {
-      // console.log('order total', total.total);
+    AND orders.order_id = ${id}
+    AND orders.payment_type is null`, (err, total) => {
       return err ? reject(err) : resolve(total);
     });
   });
 };
 
-module.exports.getPayTypeByName = (name) => {
+module.exports.getPayTypeByName = (name, id) => {
   return new Promise((resolve, reject) => {
     db.get(`SELECT payment_id 
     FROM payment_types
-    WHERE method = "${name}"`, (err, id) => {
+    WHERE method = "${name}"
+    AND customer_id = ${id}`, (err, id) => {
       return err ? reject(err) : resolve(id);
     });
   });

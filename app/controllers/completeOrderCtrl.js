@@ -17,8 +17,9 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
     properties: {
       name: {
         name: 'Payment Type',
-        description: 'Enter desired payment type name',
+        description: ' Enter desired payment type name',
         pattern: paymentReg,
+        message: ' Please select the name of one of the listed payment methods',
         required: true
       }
     }
@@ -28,8 +29,8 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
     properties: {
       state: {
         pattern: /^[YN]$/,
-        description: `Your order total is $${total}. Please select Y or N to confirm or cancel payment (Y/N)`,
-        message: "Please respond with 'Y' or 'N'",
+        description: ` Your order total is $${total}. Please select Y or N to confirm or cancel payment (Y/N)`,
+        message: "  Please respond with 'Y' or 'N'",
         required: true
       }
     }
@@ -42,17 +43,15 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
             console.log(payTypes[i].method, payTypes[i].account_number);
           }
           prompt.get(selectPayType, function(err, result) {
-            console.log('name', result.name);
-          getPayTypeByName(result.name)
+          getPayTypeByName(result.name, custId)
           .then(id => {
             console.log('id', id.payment_id);
             finalizePaymentType(id.payment_id, custId)
             .then(newProgram => {
-              console.log('Order payment successful');
-              console.log(newProgram);
+              console.log(' Order payment successful');
               resolve(newProgram);
             }).catch(() => {
-              console.log('Program failed to add. Please try again')
+              console.log(' Program failed to add. Please try again')
               resolve(null);
             })
           });
@@ -60,7 +59,7 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
         break;
         } 
         case "N": {
-          console.log("Order payment cancelled");
+          console.log(" Order payment cancelled");
           resolve(null);
         }
       }
