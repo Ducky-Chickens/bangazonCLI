@@ -17,17 +17,19 @@ prompt.message = colors.blue("Bangazon Corp");
 /*
   CONTROLLERS
 */
+const promptAddCustomer = require('./controllers/addCustomerCtrl');
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl');
+const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = require('./controllers/completeOrderCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
 const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
-const promptAddCustomer = require('./controllers/addCustomerCtrl');
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
-const pressEnterToContinue = require('./controllers/pressEnterToContinue')
+const pressEnterToContinue = require('./controllers/pressEnterToContinue');
 
 /*
   MODELS
 */
-const getCustomers = require('./models/getCustomers');
+const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
+const getCustomers = require('./models/GetCustomers');
 const addPaymentType = require('./models/AddPaymentType');
 const { getProducts, updateProduct } = require('./models/UpdateProduct');
 const addCustomer = require('./models/AddCustomer');
@@ -87,7 +89,6 @@ const mainMenuHandler = (err, { choice }) => {
           customer = addSpace(customer, ['id']);
           console.log(`${customer.id}.`, customer.name);
         }
-
         promptActivateCustomer(customers.length)
           .then(({ customerId }) => {
             const customer = customers.find(({ id }) => +id === +customerId);
@@ -142,21 +143,78 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
-    case 4: {
-      if (getActiveCustomer().id) {
-        promptAddCustomerProduct()
-          .then((productData) => {
-            addCustomerProduct(getActiveCustomer(), productData)
-              .then(lineNum => {
+
+      case 4: {
+          if(getActiveCustomer().id){
+            promptAddCustomerProduct()
+            .then((productData) => {
+              addCustomerProduct(getActiveCustomer(), productData)
+              .then(lineNum=>{
                 console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
                 displayWelcome();
               });
-          });
-        break;
+            });
+            break;
+          } else {
+            console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+            displayWelcome();
+          }
+        }
+
+    // Complete Order
+    case 5: {
+      let active = getActiveCustomer().id;
+      if (active === null) {
+        console.log(' Please activate a customer with the main menu');
+        displayWelcome()
       } else {
-        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
-        displayWelcome();
-      }
+        checkForOrder(active)
+          .then(orders => {
+            if (orders.length === 0) {
+              console.log(" Please add some products to your order first. Returning to main menu.");
+              displayWelcome();
+            } else {
+              let nullOrders = []
+              for (let i = 0; i < orders.length; i++) {
+                if (orders[i].payment_type === null) {
+                  nullOrders.push(orders[i]);
+                }
+              }
+              if (nullOrders.length === 0) {
+                console.log(" Please add some products to your order first. Returning to main menu.")
+                displayWelcome();
+              } else {
+                nullOrders.forEach(order => {
+                  checkForProducts(order)
+                    .then(products => {
+                      if (products.length === 0) {
+                        console.log(" Please add some products to your order first. Returning to main menu.");
+                        displayWelcome();
+                      } else {
+                        sumOrderTotal(nullOrders[0].order_id)
+                          .then(total => {
+                            getCustomerPaymentTypes(active)
+                              .then(payTypes => {
+                                if (payTypes.length === 0) {
+                                  console.log(' Customer must have valid payment type saved to complete an order');
+                                  displayWelcome();
+                                } else {
+                                  let pattern = generatePaymentOptions(payTypes);
+                                  promptCompleteOrder(total.total, pattern, payTypes, active)
+                                    .then(result => {
+                                      displayWelcome();
+                                    });
+                                }
+                              });
+                          });
+                      };
+                    });
+                });
+              }
+            };
+          });
+      };
+      break;
     }
 
     // View stale products
@@ -185,7 +243,7 @@ const mainMenuHandler = (err, { choice }) => {
       break;
     }
   }
-};
+}
 
 const displayWelcome = () => {
   const headerDivider = `${magenta('*********************************************************')}`
