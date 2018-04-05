@@ -8,12 +8,9 @@ module.exports.addCustomerPaymentType = ({ id }, { payment, accountNumber }) => 
     db.run(`INSERT INTO payment_types
     VALUES (null, ${id}, "${payment}", ${accountNumber})
     `,
-    function (err, newPayType) {
+    function (err) {
       if(err) return reject(err);
       resolve({ id: this.lastID });
     });
   });
 };
-
-
-

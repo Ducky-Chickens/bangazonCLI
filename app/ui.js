@@ -14,15 +14,17 @@ prompt.message = colors.blue("Bangazon Corp");
 /*
 CONTROLLERS
 */
-const { promptNewCustomer } = require('./controllers/customerCtrl')
-const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
-const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
+const { promptNewCustomer } = require('./controllers/customerCtrl');
+const promptActivateCustomer = require('./controllers/activateCustomerCtrl');
+const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
+const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
 
 /*
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
+const { getProducts } = require('./models/UpdateProduct');
 
 /*
 ACtiVE CUSTOMER
@@ -79,6 +81,26 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
+
+    // Update Product
+    case 7: {
+      if (getActiveCustomer().id) {
+        getProducts(getActiveCustomer())
+        .then(products => {
+          promptChooseProduct(products).then(result => {
+            promptChooseAttribute(result).then(input => {
+              promptNewValue(input).then(obj => {
+                console.log(obj);
+              })
+            })
+          })
+        })
+      } else {
+        console.log('Please choose active customer before updating a product');
+        displayWelcome();
+      }
+      break;
+    }
   }
 
 };
@@ -98,7 +120,8 @@ const displayWelcome = () => {
   ${magenta('4.')} Add product to shopping cart
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Leave Bangazon!`);
+  ${magenta('7.')} Update a product
+  ${magenta('8.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
