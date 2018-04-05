@@ -45,7 +45,6 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
           prompt.get(selectPayType, function(err, result) {
           getPayTypeByName(result.name, custId)
           .then(id => {
-            console.log('id', id.payment_id);
             finalizePaymentType(id.payment_id, custId)
             .then(newProgram => {
               console.log(' Order payment successful');

@@ -29,7 +29,6 @@ module.exports.finalizePaymentType = (payId, custId) => {
     SET payment_type = ${payId}
     WHERE customer_id = ${custId}
     AND payment_type is null`, (err, patch) => {
-      console.log('patch', patch);
       return err ? reject(err) : resolve(patch);
     });
   });

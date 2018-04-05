@@ -182,6 +182,7 @@ const mainMenuHandler = (err, { choice }) => {
             };
           });
       };
+      break;
     }
 
     // View stale products
