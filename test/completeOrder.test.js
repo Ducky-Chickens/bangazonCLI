@@ -30,8 +30,8 @@ const payTypesId1 = [
   {payment_id: 16, customer_id: 1, method: 'microchip', account_number: 77676200},  
 ]
 
-const patchedPayType = [
-  {order_id: 6, customer_id: 6, payment_type: 3, order_date: "2017-11-10"}
+const patchedOrder = [
+  {order_id: 4, customer_id: 2, payment_type: 2, order_date: "2018-03-09"}
 ];
 
 const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47 } ];
@@ -71,9 +71,9 @@ describe.skip('finalizePaymentType', () => {
     });
   });
   it('should patch chosen payment type to order - given payment ID then customer ID', () => {
-    return finalizePaymentType(1, 1)
+    return finalizePaymentType(2, 2)
     .then(object => {
-      deepEqual(object, patchedPayType);
+      deepEqual(object, patchedOrder);
     })
   });
 });
