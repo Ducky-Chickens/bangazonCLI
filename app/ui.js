@@ -23,7 +23,7 @@ const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
-const { addCustomerPaymentType } = require('./models/AddPaymentType');
+const addPaymentType = require('./models/AddPaymentType');
 const { getProducts, updateProduct } = require('./models/UpdateProduct');
 
 /*
@@ -72,7 +72,7 @@ const mainMenuHandler = (err, { choice }) => {
       //check if active customer
       if(getActiveCustomer().id){
         promptPaymentType().then((paymentData) => {
-          addCustomerPaymentType(getActiveCustomer(),paymentData);
+          addPaymentType(getActiveCustomer(),paymentData);
           console.log(`\n${blue(`${paymentData.payment} payment added`)}`)
           displayWelcome();
         })

@@ -16,22 +16,23 @@ module.exports.getProducts = ({ id }) => {
 
 module.exports.updateProduct = ({ id }, { column, value, prodId }) => {
   return new Promise((resolve, reject) => {
+    //adjust value to be number or string based on property to update
     if(column === 'price' || column === 'quantity'){
       db.run(`UPDATE products SET "${column}" = ${+value}
       WHERE customer_id=${id}
       AND product_id = ${prodId}`
-      ,(err, data) => {
+      ,function(err) {
         if(err) return reject(err);
-        resolve(data);
+        resolve({changes: this.changes});
       })
     } 
     else {
       db.run(`UPDATE products SET "${column}" = "${value}"
       WHERE customer_id = ${id}
       AND product_id = ${prodId}`
-        , (err, data) => {
+        , function(err) {
           if (err) return reject(err);
-          resolve(data);
+          resolve({changes: this.changes});
         })
     }
   });

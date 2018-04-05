@@ -34,7 +34,7 @@ module.exports.promptChooseAttribute = (product) => {
 
   return new Promise((resolve, reject) => {
     prompt.get({
-      name: "column",
+      name: "attribute",
       description: `
       1. Change title "${product.product_name}"
       2. Change description "${product.description}"
@@ -49,37 +49,38 @@ module.exports.promptChooseAttribute = (product) => {
     },
     (err, result) => {
       if (err) return reject(err);
-      //return selected column using result as key of attributes object
-      resolve({'column': attributes[+result.column], 'prodId': product.product_id});
+      //return selected attribute using result as key of attributes object
+      resolve({'attribute': attributes[+result.attribute], 'prodId': product.product_id});
     })
   })
 }
 
-module.exports.promptNewValue = ({ column, prodId }) => {
+module.exports.promptNewValue = ({ attribute, prodId }) => {
   return new Promise((resolve, reject) => {
     prompt.get({
       name: "value",
-      description: `Enter new ${column}`,
-      pattern: updateDirections(column).pattern,
-      message: updateDirections(column).message,
+      description: `Enter new ${attribute}`,
+      //get regex pattern and message from evaluator function
+      pattern: updateDirections(attribute).pattern,
+      message: updateDirections(attribute).message,
       required: true,
     },
     (err, result) => {
       if (err) return reject(err);
-      resolve({ 'column': column, 'value': result.value, 'prodId': prodId});
+      resolve({ 'column': attribute, 'value': result.value, 'prodId': prodId});
     })
   })
 }
 
 //return directions object based on selected property
-const updateDirections = (property) => {
-  if(property === 'price'){
+const updateDirections = (attribute) => {
+  if(attribute === 'price'){
     return { 
       pattern: /^[1-9.]\d*$/, 
       message: 'please enter a positive integer value'
     }
   } 
-  else if(property === 'quantity') {
+  else if(attribute === 'quantity') {
     return {
       pattern: /^(100|[1-9][0-9]?)$/,
       message: 'please enter a positive integer value from 1-100'
