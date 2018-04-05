@@ -90,15 +90,20 @@ const mainMenuHandler = (err, { choice }) => {
       if (getActiveCustomer().id) {
         getProducts(getActiveCustomer())
         .then(products => {
-          promptChooseProduct(products).then(result => {
-            promptChooseAttribute(result).then(input => {
-              promptNewValue(input).then(obj => {
-                updateProduct(getActiveCustomer(), obj);
-                console.log(`\n${blue(`${obj.column} updated`)}`);
-                displayWelcome();
+          if(products.length < 1){
+            console.log(`\n${red(`No current products listed for this customer`)}`);
+            displayWelcome();
+          } else {
+            promptChooseProduct(products).then(result => {
+              promptChooseAttribute(result).then(input => {
+                promptNewValue(input).then(obj => {
+                  updateProduct(getActiveCustomer(), obj);
+                  console.log(`\n${blue(`${obj.column} updated`)}`);
+                  displayWelcome();
+                })
               })
             })
-          })
+          }
         })
       } else {
         console.log(`\n${red(`Please choose active customer before updating a product`)}`);
