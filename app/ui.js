@@ -14,29 +14,19 @@ prompt.message = colors.blue("Bangazon Corp");
 /*
 CONTROLLERS
 */
-<<<<<<< HEAD
 const { promptNewCustomer } = require('./controllers/customerCtrl');
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
 const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
-=======
-const { promptNewCustomer } = require('./controllers/customerCtrl')
-const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
-const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
->>>>>>> master
 
 /*
 MODELS
 */
 const getCustomers = require('./models/getCustomers');
-<<<<<<< HEAD
 const addPaymentType = require('./models/AddPaymentType');
 const { getProducts, updateProduct } = require('./models/UpdateProduct');
-=======
 const addCustomerProduct = require('./models/AddCustomerProduct');
-const { addCustomerPaymentType } = require('./models/AddPaymentType');
->>>>>>> master
 
 /*
 ACtiVE CUSTOMER
