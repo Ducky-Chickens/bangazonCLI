@@ -9,16 +9,10 @@ describe('Product popularity', () => {
 
     const mostPopularProductExample = [
         {
-            product: "Practical Cotton Chair",
-            orders: 4,
-            purchasers: 2,
-            revevnue: 127
-        },
-        {
-            product: "Handmade Granite Ball",
-            orders: 1,
-            purchasers: 1,
-            revevnue: 25
+            Product: "Handmade Granite Ball",
+            Orders: 2,
+            Purchasers: 2,
+            Revenue: 50
         }
     ];
 
@@ -28,7 +22,7 @@ describe('Product popularity', () => {
         });
     });
 
-    it('should deep equal most popular product exampmle', () => {
+    it('should deep equal "most popular product example"', () => {
         getProductPopularity(exampleUser.id).then(products => {
             deepEqual(products, mostPopularProductExample);
         });

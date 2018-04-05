@@ -1,4 +1,10 @@
 'use strict';
+const assert = require('assert');
+
+const { Database } = require('sqlite3').verbose();
+const path = require('path');
+const db = new Database(path.join(__dirname, '../../', 'bangazon.sqlite'));
+
 
 /**
  * @function
@@ -8,5 +14,29 @@
  * @param {integer} customerId
  */
 module.exports = (customerId) => {
+    return new Promise((resolve, reject) => {
 
+        assert(Number.isInteger(customerId), true);
+
+        const selectTop3ProductsSql = `
+        SELECT P.product_name AS Product, 
+            count(distinct(O.customer_id)) AS Purchasers, 
+            SUM(OP.product_value) AS Revenue, 
+            count(OP.product_id) AS Orders
+        FROM products AS P
+        INNER JOIN order_products AS OP
+            ON OP.product_id = P.product_id
+        INNER JOIN orders AS O
+            ON O.order_id = OP.order_id
+        WHERE P.customer_id = ${customerId}
+        GROUP BY P.product_name
+        ORDER BY Revenue DESC
+        LIMIT 3;`;
+
+        return db.all(
+            selectTop3ProductsSql,
+            (err, products) => {
+                return err ? reject(err) : resolve(products);
+            });
+    });
 };
