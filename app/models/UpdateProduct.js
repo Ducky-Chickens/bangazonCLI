@@ -14,8 +14,25 @@ module.exports.getProducts = ({ id }) => {
   })
 }
 
-module.exports.updateProduct = (id, { column, value }) => {
+module.exports.updateProduct = ({ id }, { column, value, prodId }) => {
   return new Promise((resolve, reject) => {
-    
+    if(column === 'price' || column === 'quantity'){
+      db.run(`UPDATE products SET "${column}" = ${+value}
+      WHERE customer_id=${id}
+      AND product_id = ${prodId}`
+      ,(err, data) => {
+        if(err) return reject(err);
+        resolve(data);
+      })
+    } 
+    else {
+      db.run(`UPDATE products SET "${column}" = "${value}"
+      WHERE customer_id = ${id}
+      AND product_id = ${prodId}`
+        , (err, data) => {
+          if (err) return reject(err);
+          resolve(data);
+        })
+    }
   });
 };

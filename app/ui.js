@@ -24,7 +24,7 @@ MODELS
 */
 const getCustomers = require('./models/getCustomers');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
-const { getProducts } = require('./models/UpdateProduct');
+const { getProducts, updateProduct } = require('./models/UpdateProduct');
 
 /*
 ACtiVE CUSTOMER
@@ -73,30 +73,33 @@ const mainMenuHandler = (err, { choice }) => {
       if(getActiveCustomer().id){
         promptPaymentType().then((paymentData) => {
           addCustomerPaymentType(getActiveCustomer(),paymentData);
+          console.log(`\n${blue(`${paymentData.payment} payment added`)}`)
           displayWelcome();
         })
       } else {
-        console.log('Please choose active customer before adding a payment');
+        console.log(`\n${red(`Please choose active customer before adding a payment`)}`);
         displayWelcome();
       }
       break;
     }
 
     // Update Product
-    case 7: {
+    case 8: {
       if (getActiveCustomer().id) {
         getProducts(getActiveCustomer())
         .then(products => {
           promptChooseProduct(products).then(result => {
             promptChooseAttribute(result).then(input => {
               promptNewValue(input).then(obj => {
-                console.log(obj);
+                updateProduct(getActiveCustomer(), obj);
+                console.log(`\n${blue(`${obj.column} updated`)}`);
+                displayWelcome();
               })
             })
           })
         })
       } else {
-        console.log('Please choose active customer before updating a product');
+        console.log(`\n${red(`Please choose active customer before updating a product`)}`);
         displayWelcome();
       }
       break;
@@ -120,8 +123,9 @@ const displayWelcome = () => {
   ${magenta('4.')} Add product to shopping cart
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Update a product
-  ${magenta('8.')} Leave Bangazon!`);
+  ${magenta('7.')} Remove a product
+  ${magenta('8.')} Update a product
+  ${magenta('9.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
