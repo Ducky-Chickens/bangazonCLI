@@ -29,7 +29,6 @@ const pressEnterToContinue = require('./controllers/pressEnterToContinue')
 */
 const getCustomers = require('./models/getCustomers');
 const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
-
 const getCustomers = require('./models/GetCustomers');
 const addCustomer = require('./models/AddCustomer');
 const addCustomerProduct = require('./models/AddCustomerProduct');
