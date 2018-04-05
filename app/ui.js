@@ -16,6 +16,7 @@ CONTROLLERS
 */
 const promptAddCustomer = require('./controllers/addCustomerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
+const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 
 /*
@@ -23,6 +24,7 @@ MODELS
 */
 const getCustomers = require('./models/getCustomers');
 const addCustomer = require('./models/AddCustomer');
+const addCustomerProduct = require('./models/AddCustomerProduct');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 
 /*
@@ -83,8 +85,27 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
-  }
+  
 
+
+  case 4: {
+      if(getActiveCustomer().id){
+        promptAddCustomerProduct()
+        .then((productData) => {
+          addCustomerProduct(getActiveCustomer(), productData)
+          .then(lineNum=>{
+            console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
+            displayWelcome();
+          });
+        });
+        break;
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+        displayWelcome();
+      }
+    }
+
+  }
 };
 
 const displayWelcome = () => {
@@ -99,7 +120,7 @@ const displayWelcome = () => {
   ${magenta('1.')} Create a customer account
   ${magenta('2.')} Choose active customer
   ${magenta('3.')} Create a payment option
-  ${magenta('4.')} Add product to shopping cart
+  ${magenta('4.')} Add product to inventory
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
   ${magenta('7.')} Leave Bangazon!`);
