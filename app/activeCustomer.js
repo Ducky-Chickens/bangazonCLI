@@ -33,7 +33,8 @@ module.exports.setActiveCustomer = (id, fullName = '') => {
 
 /**
  * @function 
- * @description Gets the current active customer object
+ * @description Gets the current active customer
+ * @property {number} id - The id of the customer to set to be active.
  * @example 
  * getActiveCustomer();
  * @returns {customer}
