@@ -14,7 +14,8 @@ module.exports = () => {
       name: 'street',
       description: 'Enter street address',
       type: 'string',
-      message: 'please enter your street address: number + name',
+      pattern: /^\d+(\s[a-zA-Z]+){2,}$/,
+      message: 'please enter your street address: (number) (street)',
       required: true
     }, {
       name: 'city',
@@ -40,6 +41,7 @@ module.exports = () => {
       description: 'Enter phone number (xxx-yyy-zzzz)',
       type: 'string',
       pattern: /^\d{3}-\d{3}-\d{4}$/,
+      message: 'please enter a ten digit phone number, seperated by hyphens',
       required: true
     }], function(err, results) {
       if (err) return reject(err);
