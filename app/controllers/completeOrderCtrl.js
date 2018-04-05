@@ -2,12 +2,12 @@
 
 const prompt = require('prompt');
 const { getActiveCustomer } = require('../activeCustomer');
-const { checkForOrder, finalizePaymentType, getPayTypeByName } = require('../models/completeOrder');
+const { checkForOrder, finalizePaymentType, getPayTypeByAccountNumber } = require('../models/completeOrder');
 
 module.exports.generatePaymentOptions = options => {
   const possibleOptions = []
   for (let i = 0; i < options.length; i++) {
-    possibleOptions.push(options[i].method);
+    possibleOptions.push(options[i].account_number);
   }
   return new RegExp(`^(${possibleOptions.join('|')})$`);
 };
@@ -15,11 +15,11 @@ module.exports.generatePaymentOptions = options => {
 module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
   const selectPayType = {
     properties: {
-      name: {
+      number: {
         name: 'Payment Type',
-        description: ' Enter desired payment type name',
+        description: ' Enter desired payment type account number',
         pattern: paymentReg,
-        message: ' Please select the name of one of the listed payment methods',
+        message: ' Please select the number of one of the listed accounts',
         required: true
       }
     }
@@ -43,7 +43,7 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
             console.log(payTypes[i].method, payTypes[i].account_number);
           }
           prompt.get(selectPayType, function(err, result) {
-          getPayTypeByName(result.name, custId)
+          getPayTypeByAccountNumber(result.number, custId)
           .then(id => {
             finalizePaymentType(id.payment_id, custId)
             .then(newProgram => {

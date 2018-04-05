@@ -49,11 +49,11 @@ module.exports.sumOrderTotal = (id) => {
   });
 };
 
-module.exports.getPayTypeByName = (name, id) => {
+module.exports.getPayTypeByAccountNumber = (number, id) => {
   return new Promise((resolve, reject) => {
     db.get(`SELECT payment_id 
     FROM payment_types
-    WHERE method = "${name}"
+    WHERE account_number = ${number}
     AND customer_id = ${id}`, (err, id) => {
       return err ? reject(err) : resolve(id);
     });
