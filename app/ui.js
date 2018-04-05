@@ -3,35 +3,60 @@
 // 3rd party libs
 const { red, magenta, blue } = require("chalk");
 
+const assert = require('assert');
+
 const prompt = require('prompt');
 const colors = require("colors/safe");
 const path = require('path');
 const { Database } = require('sqlite3').verbose();
 const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
+require('console.table');
 
 prompt.message = colors.blue("Bangazon Corp");
 
 /*
-CONTROLLERS
+  CONTROLLERS
 */
 const promptAddCustomer = require('./controllers/addCustomerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
+const pressEnterToContinue = require('./controllers/pressEnterToContinue')
 
 /*
-MODELS
+  MODELS
 */
-const getCustomers = require('./models/getCustomers');
+
+const getCustomers = require('./models/GetCustomers');
 const addCustomer = require('./models/AddCustomer');
 const addCustomerProduct = require('./models/AddCustomerProduct');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
+const getStaleProducts = require('./models/GetStaleProducts');
 
 /*
-ACtiVE CUSTOMER
+  ACTIVE CUSTOMER
 */
 const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
 
+const addSpace = (object, properties) => {
+  assert.equal(Array.isArray(properties), true);
+
+  for (let prop of properties) {
+    if (typeof object[prop] !== 'undefined') {
+
+      // To convert value to string to allow padstart
+      object[prop] = `${object[prop]}`;
+
+      object[prop] = object[prop].padStart(object[prop].length + 2, " ");
+    }
+  }
+
+  return object;
+};
+
+/*
+  START OF CLI
+*/
 prompt.start();
 
 const mainMenuHandler = (err, { choice }) => {
@@ -57,13 +82,14 @@ const mainMenuHandler = (err, { choice }) => {
 
         // List of customer ids
         for (let customer of customers) {
-          console.log(customer.id, customer.name);
+          customer = addSpace(customer, ['id']);
+          console.log(`${customer.id}.`, customer.name);
         }
 
         promptActivateCustomer(customers.length)
           .then(({ customerId }) => {
-            const customer = customers.find(({id}) => +id === +customerId);
-            
+            const customer = customers.find(({ id }) => +id === +customerId);
+
             setActiveCustomer(+customer.id, customer.name);
             displayWelcome();
           });
@@ -74,9 +100,9 @@ const mainMenuHandler = (err, { choice }) => {
     // Add Payment Type
     case 3: {
       //check if active customer
-      if(getActiveCustomer().id){
+      if (getActiveCustomer().id) {
         promptPaymentType().then((paymentData) => {
-          addCustomerPaymentType(getActiveCustomer(),paymentData);
+          addCustomerPaymentType(getActiveCustomer(), paymentData);
           displayWelcome();
         })
       } else {
@@ -85,19 +111,16 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
-  
-
-
-  case 4: {
-      if(getActiveCustomer().id){
+    case 4: {
+      if (getActiveCustomer().id) {
         promptAddCustomerProduct()
-        .then((productData) => {
-          addCustomerProduct(getActiveCustomer(), productData)
-          .then(lineNum=>{
-            console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
-            displayWelcome();
+          .then((productData) => {
+            addCustomerProduct(getActiveCustomer(), productData)
+              .then(lineNum => {
+                console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
+                displayWelcome();
+              });
           });
-        });
         break;
       } else {
         console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
@@ -105,6 +128,31 @@ const mainMenuHandler = (err, { choice }) => {
       }
     }
 
+    // View stale products
+    case 7: {
+      if (isActiveCustomerSet()) {
+        getStaleProducts(getActiveCustomer().id).then(products => {
+          if (products.length > 0) {
+
+            // Required indent to conform with Joe's CLI code.
+            for (let product of products) {
+              product = addSpace(product, ['product_id']);
+            }
+
+            console.table(products);
+          } else {
+            console.log(' No stale products');
+          }
+          pressEnterToContinue().then(() => {
+            displayWelcome();
+          });
+        });
+      } else {
+        console.log(' Please choose active customer before checking their stale  products');
+        displayWelcome();
+      }
+      break;
+    }
   }
 };
 
@@ -123,7 +171,8 @@ const displayWelcome = () => {
   ${magenta('4.')} Add product to inventory
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Leave Bangazon!`);
+  ${magenta('7.')} View stale products
+  ${magenta('.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
