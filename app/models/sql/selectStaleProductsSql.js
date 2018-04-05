@@ -7,7 +7,7 @@ const assert = require('assert');
  * @name selectStaleProductsSql
  * @param {integer} customerId - The id of the customer whos stale products you are finding.
  * @description An abstraction of a huge sql statments used to select stale products.
- * @returns Sql code with customer id inserted into the where clause.
+ * @returns {string} Sql code with customer id inserted into the where clause.
  */
 module.exports = customerId => {
 
@@ -16,7 +16,7 @@ module.exports = customerId => {
 
     return `
     SELECT distinct(product_id), product_name FROM (
-        
+
         -- Has never been added to an order, and has been in the system for more than 180 days
             SELECT P.product_id, P.product_name
                 FROM products AS P
