@@ -39,6 +39,7 @@ module.exports = () => {
       name: 'phone',
       description: 'Enter phone number (xxx-yyy-zzzz)',
       type: 'string',
+      pattern: /^\d{3}-\d{3}-\d{4}$/,
       required: true
     }], function(err, results) {
       if (err) return reject(err);
