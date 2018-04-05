@@ -26,12 +26,8 @@ const pressEnterToContinue = require('./controllers/pressEnterToContinue')
 /*
   MODELS
 */
-<<<<<<< HEAD
 const getCustomers = require('./models/GetCustomers');
-=======
-const getCustomers = require('./models/getCustomers');
 const addCustomerProduct = require('./models/AddCustomerProduct');
->>>>>>> 1bfd0ed8fe173abc829652b740807bf33e543e3d
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 const getStaleProducts = require('./models/GetStaleProducts');
 
@@ -43,16 +39,16 @@ const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('.
 const addSpace = (object, properties) => {
   assert.equal(Array.isArray(properties), true);
 
-  for(let prop of properties){
-    if(typeof object[prop] !== 'undefined'){
-      
+  for (let prop of properties) {
+    if (typeof object[prop] !== 'undefined') {
+
       // To convert value to string to allow padstart
       object[prop] = `${object[prop]}`;
 
       object[prop] = object[prop].padStart(object[prop].length + 2, " ");
     }
   }
-  
+
   return object;
 };
 
@@ -87,8 +83,8 @@ const mainMenuHandler = (err, { choice }) => {
 
         promptActivateCustomer(customers.length)
           .then(({ customerId }) => {
-            const customer = customers.find(({id}) => +id === +customerId);
-            
+            const customer = customers.find(({ id }) => +id === +customerId);
+
             setActiveCustomer(+customer.id, customer.name);
             displayWelcome();
           });
@@ -99,9 +95,9 @@ const mainMenuHandler = (err, { choice }) => {
     // Add Payment Type
     case 3: {
       //check if active customer
-      if(getActiveCustomer().id){
+      if (getActiveCustomer().id) {
         promptPaymentType().then((paymentData) => {
-          addCustomerPaymentType(getActiveCustomer(),paymentData);
+          addCustomerPaymentType(getActiveCustomer(), paymentData);
           displayWelcome();
         })
       } else {
@@ -110,19 +106,34 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
-<<<<<<< HEAD
+    case 4: {
+      if (getActiveCustomer().id) {
+        promptAddCustomerProduct()
+          .then((productData) => {
+            addCustomerProduct(getActiveCustomer(), productData)
+              .then(lineNum => {
+                console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
+                displayWelcome();
+              });
+          });
+        break;
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+        displayWelcome();
+      }
+    }
 
     // View stale products
     case 7: {
-      if(isActiveCustomerSet()){
+      if (isActiveCustomerSet()) {
         getStaleProducts(getActiveCustomer().id).then(products => {
-          if(products.length > 0) {
+          if (products.length > 0) {
 
             // Required indent to conform with Joe's CLI code.
-            for(let product of products){
+            for (let product of products) {
               product = addSpace(product, ['product_id']);
             }
-            
+
             console.table(products);
           } else {
             console.log(' No stale products');
@@ -137,29 +148,6 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
-  }
-=======
-  
-
-
-  case 4: {
-      if(getActiveCustomer().id){
-        promptAddCustomerProduct()
-        .then((productData) => {
-          addCustomerProduct(getActiveCustomer(), productData)
-          .then(lineNum=>{
-            console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
-            displayWelcome();
-          });
-        });
-        break;
-      } else {
-        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
-        displayWelcome();
-      }
-    }
->>>>>>> 1bfd0ed8fe173abc829652b740807bf33e543e3d
-
   }
 };
 
