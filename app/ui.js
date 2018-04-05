@@ -101,6 +101,17 @@ const mainMenuHandler = (err, { choice }) => {
       }
     }
 
+    case 11: {
+      if (getActiveCustomer().id) {
+
+
+        break;
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+        displayWelcome();
+      }
+    }
+
   }
 };
 
