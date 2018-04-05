@@ -30,6 +30,8 @@ module.exports = () => {
       name: 'zip',
       description: 'Enter postal code',
       type: 'string',
+      pattern: /\b\d{5}\b/g,
+      message: 'please enter a five digit zip code', 
       required: true
     }, {
       name: 'phone',
