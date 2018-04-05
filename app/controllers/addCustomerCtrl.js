@@ -21,6 +21,8 @@ module.exports = () => {
       name: 'city',
       description: 'Enter city',
       type: 'string',
+      pattern: /^[a-zA-Z]+$/,
+      message: 'please enter an appropriate city name (no numbers, jokester!)',
       required: true
     }, {
       name: 'state',
