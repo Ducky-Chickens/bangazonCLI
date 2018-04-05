@@ -17,7 +17,6 @@ prompt.message = colors.blue("Bangazon Corp");
 /*
   CONTROLLERS
 */
-const { promptNewCustomer } = require('./controllers/customerCtrl');
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
 const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
@@ -203,9 +202,9 @@ const displayWelcome = () => {
   ${magenta('4.')} Add product to inventory
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} Remove a product
+  ${magenta('7.')} View stale products
   ${magenta('8.')} Update a product
-  ${magenta('9.')} View stale products
+  ${magenta('9.')} Remove a product
   ${magenta('10.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
