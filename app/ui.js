@@ -19,13 +19,19 @@ prompt.message = colors.blue("Bangazon Corp");
 */
 const { promptNewCustomer } = require('./controllers/customerCtrl')
 const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
+const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 const pressEnterToContinue = require('./controllers/pressEnterToContinue')
 
 /*
   MODELS
 */
+<<<<<<< HEAD
 const getCustomers = require('./models/GetCustomers');
+=======
+const getCustomers = require('./models/getCustomers');
+const addCustomerProduct = require('./models/AddCustomerProduct');
+>>>>>>> 1bfd0ed8fe173abc829652b740807bf33e543e3d
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 const getStaleProducts = require('./models/GetStaleProducts');
 
@@ -104,6 +110,7 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
+<<<<<<< HEAD
 
     // View stale products
     case 7: {
@@ -131,7 +138,29 @@ const mainMenuHandler = (err, { choice }) => {
       break;
     }
   }
+=======
+  
 
+
+  case 4: {
+      if(getActiveCustomer().id){
+        promptAddCustomerProduct()
+        .then((productData) => {
+          addCustomerProduct(getActiveCustomer(), productData)
+          .then(lineNum=>{
+            console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
+            displayWelcome();
+          });
+        });
+        break;
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+        displayWelcome();
+      }
+    }
+>>>>>>> 1bfd0ed8fe173abc829652b740807bf33e543e3d
+
+  }
 };
 
 const displayWelcome = () => {
@@ -146,7 +175,7 @@ const displayWelcome = () => {
   ${magenta('1.')} Create a customer account
   ${magenta('2.')} Choose active customer
   ${magenta('3.')} Create a payment option
-  ${magenta('4.')} Add product to shopping cart
+  ${magenta('4.')} Add product to inventory
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
   ${magenta('7.')} View stale products
