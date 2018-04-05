@@ -17,18 +17,21 @@ prompt.message = colors.blue("Bangazon Corp");
 /*
   CONTROLLERS
 */
-const promptAddCustomer = require('./controllers/addCustomerCtrl')
-const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
+const promptAddCustomer = require('./controllers/addCustomerCtrl');
+const promptActivateCustomer = require('./controllers/activateCustomerCtrl');
 const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = require('./controllers/completeOrderCtrl');
+const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
+const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
-const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
-const pressEnterToContinue = require('./controllers/pressEnterToContinue')
+const pressEnterToContinue = require('./controllers/pressEnterToContinue');
 
 /*
   MODELS
 */
 const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
 const getCustomers = require('./models/GetCustomers');
+const addPaymentType = require('./models/AddPaymentType');
+const { getProducts, updateProduct } = require('./models/UpdateProduct');
 const addCustomer = require('./models/AddCustomer');
 const addCustomerProduct = require('./models/AddCustomerProduct');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
@@ -102,11 +105,40 @@ const mainMenuHandler = (err, { choice }) => {
       //check if active customer
       if (getActiveCustomer().id) {
         promptPaymentType().then((paymentData) => {
+          addPaymentType(getActiveCustomer(),paymentData);
+          console.log(`\n${blue(`${paymentData.payment} payment added`)}`)
           addCustomerPaymentType(getActiveCustomer(), paymentData);
           displayWelcome();
         })
       } else {
-        console.log('Please choose active customer before adding a payment');
+        console.log(`\n${red(`Please choose active customer before adding a payment`)}`);
+        displayWelcome();
+      }
+      break;
+    }
+
+    // Update Product
+    case 8: {
+      if (getActiveCustomer().id) {
+        getProducts(getActiveCustomer())
+        .then(products => {
+          if(products.length < 1){
+            console.log(`\n${red(`No current products listed for this customer`)}`);
+            displayWelcome();
+          } else {
+            promptChooseProduct(products).then(result => {
+              promptChooseAttribute(result).then(input => {
+                promptNewValue(input).then(obj => {
+                  updateProduct(getActiveCustomer(), obj);
+                  console.log(`\n${blue(`${obj.column} updated`)}`);
+                  displayWelcome();
+                })
+              })
+            })
+          }
+        })
+      } else {
+        console.log(`\n${red(`Please choose active customer before updating a product`)}`);
         displayWelcome();
       }
       break;
@@ -228,8 +260,10 @@ const displayWelcome = () => {
   ${magenta('4.')} Add product to inventory
   ${magenta('5.')} Complete an order
   ${magenta('6.')} See product popularity
-  ${magenta('7.')} View stale products
-  ${magenta('.')} Leave Bangazon!`);
+  ${magenta('7.')} Remove a product
+  ${magenta('8.')} Update a product
+  ${magenta('9.')} View stale products
+  ${magenta('10.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
