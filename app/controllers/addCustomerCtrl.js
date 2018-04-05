@@ -23,8 +23,10 @@ module.exports = () => {
       required: true
     }, {
       name: 'state',
-      description: 'Enter state',
+      description: 'Enter state (abbr, i.e. TN)',
       type: 'string',
+      pattern: /\b[A-Z]{2}\b/,
+      message: 'please enter the state name in abbreviated & all uppercase format (e.g. KY)',
       required: true
     }, {
       name: 'zip',
