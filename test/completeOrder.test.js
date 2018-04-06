@@ -1,6 +1,6 @@
 const { assert: {equal, deepEqual, isFunction} } = require('chai');
 const { promptCompleteOrder } = require('../app/controllers/completeOrderCtrl')
-const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, finalizePaymentType, getPayTypeByAccountNumber, checkForProducts } = require('../app/models/CompleteOrder');
+const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, finalizePaymentType, getPayTypeByAccountNumber, checkForProducts, checkProductQuantity, updateProductQuantity } = require('../app/models/CompleteOrder');
 const createTables = require('../db/create_tables');
 
 const activeCustomer = {
@@ -9,7 +9,7 @@ const activeCustomer = {
 
 const ordersId1 = [ { order_id: 2,
     customer_id: 1,
-    payment_type: null,
+    payment_type: 14,
     order_date: '2017-7-28' },
   { order_id: 5,
     customer_id: 1,
@@ -21,7 +21,7 @@ const ordersId1 = [ { order_id: 2,
     order_date: '2017-7-14' },
   { order_id: 14,
     customer_id: 1,
-    payment_type: 12,
+    payment_type: null,
     order_date: '2018-2-12' }
   ];
 
@@ -36,7 +36,7 @@ const patchedOrder = [
 
 const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47 } ];
 
-
+const quantityObject = { inventory: 2, product_id: 17, cart_quantity: 1 };
 
 describe('checkForOrder', () => {
   it('should return customers orders', () => {
@@ -57,9 +57,9 @@ describe('getCustomerPaymentTypes', () => {
 
 describe('sumOrderTotal', () => {
   it('should return sum of customers orders prices', () => {
-    return sumOrderTotal(2)
+    return sumOrderTotal(4)
     .then(sum => {
-      equal(sum.total, 867);
+      equal(sum.total, 379);
     })
   });
 });
@@ -82,6 +82,24 @@ describe('checkForProducts', () => {
     })
   })
 })
+
+describe('checkProductQuantity', () => {
+  it('should return potential purchase quantity and inventory quantity - given order ID then product ID', () => {
+    return checkProductQuantity(10, 17)
+    .then(object => {
+      deepEqual(object, quantityObject);
+    })
+  });
+});
+
+describe('updateProductQuantity', () => {
+  it('should patch chosen product quantity and return 1 - given new quantity then product ID', () => {
+    return updateProductQuantity(1, 4)
+    .then(object => {
+      equal(1, 1);
+    })
+  });
+});
 
 describe('finalizePaymentType', () => {
   it('should patch chosen payment type to order - given payment ID then customer ID', () => {

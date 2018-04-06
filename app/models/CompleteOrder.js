@@ -92,26 +92,8 @@ module.exports.updateProductQuantity = (final, id) => {
     db.run(`UPDATE products
     SET quantity = ${final}
     WHERE product_id = ${id}`,
-    (err, result) => {
+    function(err, result) {
       return err ? reject(err) : resolve(this.changes);
     });
   });
 };
-
-// const removeDuplicatesPromises = [];
-// removeDuplicates.forEach(item => {
-//   removeDuplicatesPromises.push(checkProductQuantity(nullOrders[0].order_id, item));
-// });
-// Promise.all(removeDuplicatesPromises).then(result => {
-//   console.log(result);
-//   // productsWithQuantity.forEach(product => {
-//   //   console.log(product);
-//   //   let final = product.inventory - product.cart_quantity;
-//   //   console.log('new quantity', final);
-//   //   updateProductQuantity(final, product.product_id)
-//   //   .then(results => {
-//   //     console.log(' Product quantities updated');
-//   //     resolve(results);
-//   //   });
-//   // });
-// })
