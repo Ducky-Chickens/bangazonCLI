@@ -21,9 +21,9 @@ module.exports.removeProductSchema = () => {
 }
 
 
-module.exports.orderCheck = (id) => {
-  getOrders(id).then(orders => {
-    return orders;
-  });
-}
+// module.exports.orderCheck = (id) => {
+//   getOrders(id).then(orders => {
+//     return orders;
+//   });
+// }
 
