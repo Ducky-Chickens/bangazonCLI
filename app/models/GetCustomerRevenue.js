@@ -5,7 +5,7 @@ const db = new sqlite.Database('./bangazon.sqlite');
 
 module.exports = (id) => {
     return new Promise((resolve, reject) => {
-        db.all(`SELECT order_products.order_id "Order#", products.product_name "Product", COUNT(order_products.product_id) "Quantity Sold", SUM(products.price) "Product Revenue"
+        db.all(`SELECT order_products.order_id "order", products.product_name "product", COUNT(order_products.product_id) "quantity_sold", SUM(products.price) "product_revenue"
                 FROM order_products
                 LEFT JOIN products ON order_products.product_id = products.product_id
                 WHERE products.customer_id = ${id}

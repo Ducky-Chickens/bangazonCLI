@@ -23,6 +23,7 @@ const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = requi
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
 const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
+const createRevenueTable = require('./controllers/getCustomerRevenueCtrl');
 const pressEnterToContinue = require('./controllers/pressEnterToContinue');
 
 /*
@@ -252,7 +253,8 @@ const mainMenuHandler = (err, { choice }) => {
           if(!revenue.length){
             console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)})`)
           } else {
-            console.log(revenue);
+            // console.log(revenue);
+            createRevenueTable(revenue);
             pressEnterToContinue().then(() => displayWelcome());
           }
         });
