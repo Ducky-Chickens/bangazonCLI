@@ -23,6 +23,7 @@ const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = requi
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
 const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
+const { promptAvailableProducts } = require('./controllers/addOrderProductCtrl');
 const pressEnterToContinue = require('./controllers/pressEnterToContinue');
 
 /*
@@ -246,16 +247,20 @@ const mainMenuHandler = (err, { choice }) => {
       if(isActiveCustomerSet()) {
         const userId = getActiveCustomer().id;
         getProducts(userId).then(products => {
-          promptChooseProduct(products).then(product => {
-            getActiveOrder(userId).then(order => {
-              if(order){
-                addOrderProduct(userId, {"orderId":order.order_id, "prodId":product.product_id});
-              } else {
-                addOrder(userId).then(newOrder => {
-                  addOrderProduct(userId, { "orderId": newOrder.id, "prodId": product.product_id });
-                })
-              }
-            })
+          promptAvailableProducts(products).then(product => {
+            if(product) {
+              getActiveOrder(userId).then(order => {
+                if(order){
+                  addOrderProduct(userId, {"orderId":order.order_id, "prodId":product.product_id});
+                } else {
+                  addOrder(userId).then(newOrder => {
+                    addOrderProduct(userId, { "orderId": newOrder.id, "prodId": product.product_id });
+                  })
+                }
+              })
+            } else {
+              displayWelcome();
+            }
           })
         })
       } else {
