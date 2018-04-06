@@ -51,13 +51,12 @@ describe('Product popularity', () => {
     it('should deep equal "most popular product example"', () => {
         return addOrder(testUser.id).then(order => {
             return addProduct(testUser, testObject)
-            .then(product => addOrderProduct(testUser.id, { orderId: order.id, prodId: product.id, price: testOrder.price}))
-            .then(() => getProductPopularity(testUser.id))
-            .then(products => {
-                deepEqual(products, mostPopularProductExample);
-            });
+                .then(product => addOrderProduct(testUser.id, { orderId: order.id, prodId: product.id, price: testOrder.price }))
+                .then(() => getProductPopularity(testUser.id))
+                .then(products => {
+                    deepEqual(products, mostPopularProductExample);
+                });
         })
-        
     });
 
     after(function () {
