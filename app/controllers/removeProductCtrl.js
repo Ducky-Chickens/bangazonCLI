@@ -1,5 +1,9 @@
 'use strict'
 const prompt = require('prompt')
+const { setActiveCustomer, getActiveCustomer } = require('../activeCustomer');
+const { getOrders } = require('../models/removeProduct');
+
+
 
 module.exports.removeProductSchema = () => {
   return new Promise((resolve, reject) => {
@@ -14,5 +18,12 @@ module.exports.removeProductSchema = () => {
       resolve(results)
     })
   })
+}
+
+
+module.exports.orderCheck = (id) => {
+  getOrders(id).then(orders => {
+    return orders;
+  });
 }
 
