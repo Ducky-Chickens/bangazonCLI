@@ -54,7 +54,7 @@ module.exports = (products) => {
 
     for (let i = 0; i < products.length; i++) {
         let { Product, Purchasers, Revenue, Orders } = products[i];
-
+        
         // Add row before subtotal to conform to issue ticket requirment.
         const isOnFinalRow = () => i === (products.length - 1);
         if (isOnFinalRow()) {
@@ -90,5 +90,8 @@ module.exports = (products) => {
 
     }
     console.log(ui.toString());
+
+    // Extra enter before command line input to conform to issue specification
+    console.log(``);
 
 };

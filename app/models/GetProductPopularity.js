@@ -36,7 +36,7 @@ module.exports = (customerId) => {
 
         -- SQLite does not have rollup to do subtotal.
         UNION ALL
-        SELECT "Total:", TOTAL(Revenue), TOTAL(Purchasers), TOTAL(Orders) FROM (
+        SELECT "Total:" AS Product, TOTAL(Purchasers) AS Purchasers, TOTAL(Revenue) AS Revenue, TOTAL(Orders) AS Orders FROM (
         SELECT P.product_name AS Product, 
                     count(distinct(O.customer_id)) AS Purchasers, 
                     SUM(OP.product_value) AS Revenue, 
