@@ -7,7 +7,7 @@ module.exports.orders = [
   {
     customerId: 1,
     orderDate: "2017-7-28",
-    paymentTypeId: null
+    paymentTypeId: 14
   },
   {
     customerId: 3,
@@ -67,7 +67,7 @@ module.exports.orders = [
   {
     customerId: 1,
     orderDate: "2018-2-12",
-    paymentTypeId: 12
+    paymentTypeId: null
   },
   {
     customerId: 7,

@@ -28,7 +28,7 @@ const pressEnterToContinue = require('./controllers/pressEnterToContinue');
 /*
   MODELS
 */
-const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
+const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts, checkProductQuantity, updateProductQuantity } = require('./models/completeOrder');
 const getCustomers = require('./models/GetCustomers');
 const addPaymentType = require('./models/AddPaymentType');
 const { getProducts, updateProduct } = require('./models/UpdateProduct');
@@ -72,10 +72,10 @@ const mainMenuHandler = (err, { choice }) => {
       promptAddCustomer()
         .then(custData => {
           addCustomer(custData)
-          .then(custID=>{
-            console.log(`\n${blue(custData.name + ' added to line ' + custID.id)}`)
-            displayWelcome();
-          });
+            .then(custID => {
+              console.log(`\n${blue(custData.name + ' added to line ' + custID.id)}`)
+              displayWelcome();
+            });
         });
       break;
     }
@@ -105,7 +105,7 @@ const mainMenuHandler = (err, { choice }) => {
       //check if active customer
       if (getActiveCustomer().id) {
         promptPaymentType().then((paymentData) => {
-          addPaymentType(getActiveCustomer(),paymentData);
+          addPaymentType(getActiveCustomer(), paymentData);
           console.log(`\n${blue(`${paymentData.payment} payment added`)}`)
           addCustomerPaymentType(getActiveCustomer(), paymentData);
           displayWelcome();
@@ -121,22 +121,22 @@ const mainMenuHandler = (err, { choice }) => {
     case 8: {
       if (getActiveCustomer().id) {
         getProducts(getActiveCustomer())
-        .then(products => {
-          if(products.length < 1){
-            console.log(`\n${red(`No current products listed for this customer`)}`);
-            displayWelcome();
-          } else {
-            promptChooseProduct(products).then(result => {
-              promptChooseAttribute(result).then(input => {
-                promptNewValue(input).then(obj => {
-                  updateProduct(getActiveCustomer(), obj);
-                  console.log(`\n${blue(`${obj.column} updated`)}`);
-                  displayWelcome();
+          .then(products => {
+            if (products.length < 1) {
+              console.log(`\n${red(`No current products listed for this customer`)}`);
+              displayWelcome();
+            } else {
+              promptChooseProduct(products).then(result => {
+                promptChooseAttribute(result).then(input => {
+                  promptNewValue(input).then(obj => {
+                    updateProduct(getActiveCustomer(), obj);
+                    console.log(`\n${blue(`${obj.column} updated`)}`);
+                    displayWelcome();
+                  })
                 })
               })
-            })
-          }
-        })
+            }
+          })
       } else {
         console.log(`\n${red(`Please choose active customer before updating a product`)}`);
         displayWelcome();
@@ -144,22 +144,22 @@ const mainMenuHandler = (err, { choice }) => {
       break;
     }
 
-      case 4: {
-          if(getActiveCustomer().id){
-            promptAddCustomerProduct()
-            .then((productData) => {
-              addCustomerProduct(getActiveCustomer(), productData)
-              .then(lineNum=>{
+    case 4: {
+      if (getActiveCustomer().id) {
+        promptAddCustomerProduct()
+          .then((productData) => {
+            addCustomerProduct(getActiveCustomer(), productData)
+              .then(lineNum => {
                 console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
                 displayWelcome();
               });
-            });
-            break;
-          } else {
-            console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
-            displayWelcome();
-          }
-        }
+          });
+        break;
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+        displayWelcome();
+      }
+    }
 
     // Complete Order
     case 5: {
@@ -200,7 +200,7 @@ const mainMenuHandler = (err, { choice }) => {
                                   displayWelcome();
                                 } else {
                                   let pattern = generatePaymentOptions(payTypes);
-                                  promptCompleteOrder(total.total, pattern, payTypes, active)
+                                  promptCompleteOrder(total.total, pattern, payTypes, active, products, nullOrders)
                                     .then(result => {
                                       displayWelcome();
                                     });
@@ -209,7 +209,7 @@ const mainMenuHandler = (err, { choice }) => {
                           });
                       };
                     });
-                });
+                })
               }
             };
           });

@@ -28,7 +28,7 @@ module.exports.finalizePaymentType = (payId, custId) => {
     db.run(`UPDATE orders 
     SET payment_type = ${payId}
     WHERE customer_id = ${custId}
-    AND payment_type is null`, function(err, patch) {
+    AND payment_type is null`, function(err, result) {
       return err ? reject(err) : resolve(this.changes);
     });
   });
@@ -67,6 +67,51 @@ module.exports.checkForProducts = (order) => {
     WHERE order_id = ${order.order_id}
     `, (err, products) => {
       return err ? reject(err) : resolve(products);
-    })
-  })
-}
+    });
+  });
+};
+
+module.exports.checkProductQuantity = (orderId, productId) => {
+  return new Promise((resolve, reject) => {
+    db.get(`SELECT products.quantity as inventory, 
+    products.product_id, 
+    COUNT(order_products.product_id) as cart_quantity
+    FROM products
+	  JOIN order_products
+    WHERE products.product_id = ${productId}
+    AND order_products.order_id = ${orderId}
+    AND order_products.product_id = ${productId}`,
+    (err, object) => {
+      return err ? reject(err) : resolve(object);
+    });
+  });
+};
+
+module.exports.updateProductQuantity = (final, id) => {
+  return new Promise((resolve, reject) => {
+    db.run(`UPDATE products
+    SET quantity = ${final}
+    WHERE product_id = ${id}`,
+    (err, result) => {
+      return err ? reject(err) : resolve(this.changes);
+    });
+  });
+};
+
+// const removeDuplicatesPromises = [];
+// removeDuplicates.forEach(item => {
+//   removeDuplicatesPromises.push(checkProductQuantity(nullOrders[0].order_id, item));
+// });
+// Promise.all(removeDuplicatesPromises).then(result => {
+//   console.log(result);
+//   // productsWithQuantity.forEach(product => {
+//   //   console.log(product);
+//   //   let final = product.inventory - product.cart_quantity;
+//   //   console.log('new quantity', final);
+//   //   updateProductQuantity(final, product.product_id)
+//   //   .then(results => {
+//   //     console.log(' Product quantities updated');
+//   //     resolve(results);
+//   //   });
+//   // });
+// })
