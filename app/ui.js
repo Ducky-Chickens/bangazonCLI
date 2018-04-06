@@ -254,8 +254,13 @@ const mainMenuHandler = (err, { choice }) => {
             console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)})`)
           } else {
             // console.log(revenue);
-            createRevenueTable(revenue);
-            pressEnterToContinue().then(() => displayWelcome());
+            createRevenueTable(revenue)
+            .then(orderGroups=>{
+              orderGroups.forEach(group => {
+                console.table(`Order#${group[0].order}`, group);
+              });
+              pressEnterToContinue().then(() => displayWelcome());
+            });
           }
         });
       } else {
