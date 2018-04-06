@@ -117,49 +117,23 @@ const mainMenuHandler = (err, { choice }) => {
       break;
     }
 
-    // Update Product
-    case 8: {
-      if (getActiveCustomer().id) {
-        getProducts(getActiveCustomer())
-        .then(products => {
-          if(products.length < 1){
-            console.log(`\n${red(`No current products listed for this customer`)}`);
-            displayWelcome();
-          } else {
-            promptChooseProduct(products).then(result => {
-              promptChooseAttribute(result).then(input => {
-                promptNewValue(input).then(obj => {
-                  updateProduct(getActiveCustomer(), obj);
-                  console.log(`\n${blue(`${obj.column} updated`)}`);
-                  displayWelcome();
-                })
-              })
-            })
-          }
-        })
-      } else {
-        console.log(`\n${red(`Please choose active customer before updating a product`)}`);
-        displayWelcome();
-      }
-      break;
-    }
-
-      case 4: {
-          if(getActiveCustomer().id){
-            promptAddCustomerProduct()
-            .then((productData) => {
-              addCustomerProduct(getActiveCustomer(), productData)
-              .then(lineNum=>{
-                console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
-                displayWelcome();
-              });
+    // Add Product Listing for Customer
+    case 4: {
+        if(getActiveCustomer().id){
+          promptAddCustomerProduct()
+          .then((productData) => {
+            addCustomerProduct(getActiveCustomer(), productData)
+            .then(lineNum=>{
+              console.log(`\n${blue(productData.title + ' added to line ' + lineNum.id)}`)
+              displayWelcome();
             });
-            break;
-          } else {
-            console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
-            displayWelcome();
-          }
+          });
+          break;
+        } else {
+          console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+          displayWelcome();
         }
+      }
 
     // Complete Order
     case 5: {
@@ -243,7 +217,34 @@ const mainMenuHandler = (err, { choice }) => {
       break;
     }
 
-    case 11: {
+    // Update Product
+    case 8: {
+      if (getActiveCustomer().id) {
+        getProducts(getActiveCustomer())
+          .then(products => {
+            if (products.length < 1) {
+              console.log(`\n${red(`No current products listed for this customer`)}`);
+              displayWelcome();
+            } else {
+              promptChooseProduct(products).then(result => {
+                promptChooseAttribute(result).then(input => {
+                  promptNewValue(input).then(obj => {
+                    updateProduct(getActiveCustomer(), obj);
+                    console.log(`\n${blue(`${obj.column} updated`)}`);
+                    displayWelcome();
+                  })
+                })
+              })
+            }
+          })
+      } else {
+        console.log(`\n${red(`Please choose active customer before updating a product`)}`);
+        displayWelcome();
+      }
+      break;
+    }
+
+    case 10: {
       if (getActiveCustomer().id) {
 
 
