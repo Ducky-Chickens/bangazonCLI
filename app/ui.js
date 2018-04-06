@@ -148,7 +148,7 @@ const mainMenuHandler = (err, { choice }) => {
           });
         });
       } else {
-        console.log(`Please choose active customer before getting theire products' popularity`);
+        console.log(`Please choose active customer before getting their products' popularity`);
         displayWelcome();
       }
       break;
