@@ -18,7 +18,7 @@ prompt.message = colors.blue("Bangazon Corp");
   CONTROLLERS
 */
 const promptAddCustomer = require('./controllers/addCustomerCtrl');
-const promptActivateCustomer = require('./controllers/activateCustomerCtrl');
+const activateCustomer = require('./controllers/activateCustomerCtrl');
 const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = require('./controllers/completeOrderCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
 const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
@@ -40,6 +40,11 @@ const getStaleProducts = require('./models/GetStaleProducts');
   ACTIVE CUSTOMER
 */
 const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
+
+/*
+  HELPERS
+*/
+const addSpace = require('./helpers/addSpace');
 
 /*
   START OF CLI
@@ -65,7 +70,7 @@ const mainMenuHandler = (err, { choice }) => {
 
     // Activate Customer
     case 2: {
-      promptActivateCustomer().then(() => {
+      activateCustomer().then(() => {
         displayWelcome();
       });
       break;

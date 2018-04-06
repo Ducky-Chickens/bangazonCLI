@@ -8,8 +8,6 @@
  * @param {array<{strinng}>} properties 
  */
 module.exports = (object, properties) => {
-    assert.equal(Array.isArray(properties), true);
-
     for (let prop of properties) {
         if (typeof object[prop] !== 'undefined') {
 
