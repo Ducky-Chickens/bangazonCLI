@@ -73,27 +73,22 @@ const mainMenuHandler = (err, { choice }) => {
         products.forEach((product) => {
           console.log(`${product.product_id}. ${product.product_name}`)
         });
-
-      removeProductSchema().then(deleteProd => {
-        let checkOrders;
-        getOrders(deleteProd.id).then(orders => { 
-          checkOrders = orders;
-          for(let i=0; i<newArr.length; i++){
-            if(newArr[i].customer_id == getActiveCustomer().id && deleteProd.id == newArr[i].product_id && checkOrders.length == 0 ){
-              removeProduct(deleteProd.id)
-              console.log('You have successfully removed a product from your list');
-              i = newArr.length;
-              // break;
-            } else {
-              console.log('please choose a product from the list')
-  
+        removeProductSchema().then(deleteProd => {
+          let checkOrders;
+          getOrders(deleteProd.id).then(orders => { 
+            checkOrders = orders;
+              for(let i=0; i<newArr.length; i++){
+              if(newArr[i].customer_id == getActiveCustomer().id && deleteProd.id == newArr[i].product_id && checkOrders.length === 0 ){
+                removeProduct(deleteProd.id)
+                console.log('You have successfully removed a product from your list');
+                break;
+              } else {
+                console.log('please choose a product from the list');
+                
+            }
           }
-          
-          //displayWelcome;
-        }
-        });
-        
-    });
+          });
+      });
     });
     }
     break;
