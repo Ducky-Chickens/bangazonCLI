@@ -256,8 +256,12 @@ const mainMenuHandler = (err, { choice }) => {
             // console.log(revenue);
             createRevenueTable(revenue)
             .then(orderGroups=>{
+              console.log(orderGroups);
               orderGroups.forEach(group => {
-                console.table(`Order#${group[0].order}`, group);
+                let orderNum = group[0].order;
+                let orderProduct = group.map(prod=> {delete prod.order; return prod;});
+                // console.log(orderProduct);
+                console.table(`Order#${orderNum}`, orderProduct);
               });
               pressEnterToContinue().then(() => displayWelcome());
             });
