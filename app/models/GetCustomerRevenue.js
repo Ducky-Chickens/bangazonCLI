@@ -12,15 +12,8 @@ module.exports = (id) => {
                 GROUP BY(products.product_id)
                 ORDER BY "Order#"`, 
             (err, revenue) => {
-            if (err) return reject(err);
-            resolve(revenue);
+                if (err) return reject(err);
+                resolve(revenue);
         });
     });
 };
-
-// SELECT order_products.order_id "Order#", products.product_name "Product", COUNT(order_products.product_id) "Quantity Sold", SUM(products.price) "Product Revenue"
-// FROM order_products
-// LEFT JOIN products ON order_products.product_id = products.product_id
-// WHERE products.customer_id = 4
-// GROUP BY(products.product_id)
-// ORDER BY "Order#"

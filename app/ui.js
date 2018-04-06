@@ -246,7 +246,7 @@ const mainMenuHandler = (err, { choice }) => {
 
     case 10: {
       if (getActiveCustomer().id) {
-
+        
 
         break;
       } else {

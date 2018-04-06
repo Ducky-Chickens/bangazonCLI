@@ -38,7 +38,7 @@ const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47 } ];
 
 
 
-describe('checkForOrder', () => {
+describe.skip('checkForOrder', () => {
   it('should return customers orders', () => {
     return checkForOrder(1)
     .then(orders => {
@@ -46,7 +46,7 @@ describe('checkForOrder', () => {
   })
 });
 
-describe('getCustomerPaymentTypes', () => {
+describe.skip('getCustomerPaymentTypes', () => {
   it('should return payment types from customer id', () => {
     return getCustomerPaymentTypes(1)
     .then(object => {
@@ -55,7 +55,7 @@ describe('getCustomerPaymentTypes', () => {
   });
 });
 
-describe('sumOrderTotal', () => {
+describe.skip('sumOrderTotal', () => {
   it('should return sum of customers orders prices', () => {
     return sumOrderTotal(2)
     .then(sum => {
@@ -78,7 +78,7 @@ describe.skip('finalizePaymentType', () => {
   });
 });
 
-describe('getPayTypeByName', () => {
+describe.skip('getPayTypeByName', () => {
   it('should return payment type id from payment method and customer id', () => {
     return getPayTypeByName('capacitor', 1)
     .then(object => {
@@ -87,7 +87,7 @@ describe('getPayTypeByName', () => {
   });
 });
 
-describe('checkForProducts', () => {
+describe.skip('checkForProducts', () => {
   it('should return products from order id', () => {
     return checkForProducts({order_id: 1})
     .then(object => {
