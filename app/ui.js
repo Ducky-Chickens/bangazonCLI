@@ -68,49 +68,41 @@ const mainMenuHandler = (err, {choice}) => {
     // Remove product from active customer
     case 7: {
       let newArr
-      let hasAdded
-      let newFunction = () => {
-        return new Promise ((resolve,reject) => {
-        getProducts(getActiveCustomer().id).then(products => {
-          newArr = products
-          console.log('\n')
-          products.forEach((product) => {
-            console.log(`${product.product_id}. ${product.product_name}`)
-          })
+      getProducts(getActiveCustomer().id).then(products => {
+        newArr = products
+        console.log('\n')
+        products.forEach((product) => {
+          if (product.customer_id == getActiveCustomer().id) {
+            getOrders(product.product_id).then(orders => {
+              if (orders.length === 0)
+                console.log(`${product.product_id}. ${product.product_name}`)
+            })
+          }
         })
-        removeProductSchema().then(deleteProd => {
-          let checkOrders
-          getOrders(deleteProd.id).then(orders => {
-            checkOrders = orders
-            resolve(hasAdded = false)
-            for (let i = 0; i < newArr.length; i++) {
-              if (newArr[i].customer_id == getActiveCustomer().id && deleteProd.id == newArr[i].product_id && checkOrders.length === 0) {
-                removeProduct(deleteProd.id)
-                hasAdded = true
-                console.log('You have successfully removed a product from your list')
-                displayWelcome();
-                break
-              }
+      })
+      removeProductSchema().then(deleteProd => {
+        let checkOrders
+        getOrders(deleteProd.id).then(orders => {
+          checkOrders = orders
+          for (let i = 0; i < newArr.length; i++) {
+            if (newArr[i].customer_id == getActiveCustomer().id && deleteProd.id == newArr[i].product_id && checkOrders.length === 0) {
+              removeProduct(deleteProd.id)
+              console.log('You have successfully removed a product from your list')
+              displayWelcome()
+              break
             }
-          })
+          }
         })
-      });
-      }
-      newFunction().then(data => {
-      if(data == false){
-        console.log('Please choose a product from the list:')
-        newFunction();
-      }
-    });
-      break;
+      })
+      break
     }
   }
 }
 
-  const displayWelcome = () => {
-    const headerDivider = `${magenta('*********************************************************')}`
-    return new Promise((resolve, reject) => {
-      console.log(`
+const displayWelcome = () => {
+  const headerDivider = `${magenta('*********************************************************')}`
+  return new Promise((resolve, reject) => {
+    console.log(`
   ${headerDivider}
   ${magenta('**  Welcome to Bangazon! Command Line Ordering System  **')}
   ${headerDivider}
@@ -122,11 +114,11 @@ const mainMenuHandler = (err, {choice}) => {
   ${magenta('6.')} See product popularity
   ${magenta('7.')} Remove a product
   ${magenta('8.')} Leave Bangazon!`)
-      prompt.get([{
-        name: 'choice',
-        description: 'Please make a selection'
-      }], mainMenuHandler)
-    })
-  }
+    prompt.get([{
+      name: 'choice',
+      description: 'Please make a selection'
+    }], mainMenuHandler)
+  })
+}
 
-  module.exports = {displayWelcome};
+module.exports = {displayWelcome}
