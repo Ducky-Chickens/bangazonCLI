@@ -252,9 +252,13 @@ const mainMenuHandler = (err, { choice }) => {
               getActiveOrder(userId).then(order => {
                 if(order){
                   addOrderProduct(userId, {"orderId":order.order_id, "prodId":product.product_id});
+                  console.log(`\n${blue(`Product added to order`)}`);
+                  displayWelcome();
                 } else {
                   addOrder(userId).then(newOrder => {
                     addOrderProduct(userId, { "orderId": newOrder.id, "prodId": product.product_id });
+                    console.log(`\n${blue(`Product added to order`)}`);
+                    displayWelcome();
                   })
                 }
               })
