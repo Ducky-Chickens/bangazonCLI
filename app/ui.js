@@ -24,8 +24,7 @@ MODELS
 */
 const getCustomers = require('./models/getCustomers');
 const addProducts = require('./models/addProductOrder');
-const {removeProduct} = require('./models/removeProduct');
-const {getProducts} = require('./models/removeProduct');
+const {removeProduct, getProducts, getOrders} = require('./models/removeProduct');
 
 /*
 ACtiVE CUSTOMER
@@ -68,20 +67,33 @@ const mainMenuHandler = (err, { choice }) => {
     }
     //Remove product from active customer
     case 7: {
+      let newArr;
       getProducts(getActiveCustomer().id).then(products => {
-        products.forEach((product,i) => {
-          console.log(`${i+1}. ${product.product_name}`)
+        newArr = products;
+        products.forEach((product) => {
+          console.log(`${product.product_id}. ${product.product_name}`)
         });
-      removeProductSchema().then(product => {
-        if(product.id != getActiveCustomer().id){
-          console.log('please choose a product from the list')
-        } else {
-          removeProduct(product.id)
-          console.log('You have successfully removed a product from your list');
 
+      removeProductSchema().then(deleteProd => {
+        let checkOrders;
+        getOrders(deleteProd.id).then(orders => { 
+          checkOrders = orders;
+          for(let i=0; i<newArr.length; i++){
+            if(newArr[i].customer_id == getActiveCustomer().id && deleteProd.id == newArr[i].product_id && checkOrders.length == 0 ){
+              removeProduct(deleteProd.id)
+              console.log('You have successfully removed a product from your list');
+              i = newArr.length;
+              // break;
+            } else {
+              console.log('please choose a product from the list')
+  
+          }
+          
+          //displayWelcome;
         }
-        displayWelcome();
-      });
+        });
+        
+    });
     });
     }
     break;
