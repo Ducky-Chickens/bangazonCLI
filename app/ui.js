@@ -1,7 +1,7 @@
 'use strict';
 
 // 3rd party libs
-const { red, magenta, blue } = require("chalk");
+const { red, magenta, blue, green } = require("chalk");
 
 const assert = require('assert');
 
@@ -11,8 +11,6 @@ const path = require('path');
 const { Database } = require('sqlite3').verbose();
 const db = new Database(path.join(__dirname, '..', 'bangazon.sqlite'));
 require('console.table');
-
-var ui = require('cliui')();
 
 prompt.message = colors.blue("Bangazon Corp");
 
@@ -24,6 +22,7 @@ const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl')
 const pressEnterToContinue = require('./controllers/pressEnterToContinue')
+
 
 /*
   MODELS
@@ -40,6 +39,14 @@ const getStaleProducts = require('./models/GetStaleProducts');
   ACTIVE CUSTOMER
 */
 const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
+
+
+/*
+  HELPERS
+*/
+const generateProductPopularityTable = require(`./helpers/generateProductPopularityTable`);
+
+
 
 const addSpace = (object, properties) => {
   assert.equal(Array.isArray(properties), true);
@@ -71,10 +78,10 @@ const mainMenuHandler = (err, { choice }) => {
       promptAddCustomer()
         .then(custData => {
           addCustomer(custData)
-          .then(custID=>{
-            console.log(`\n${blue(custData.name + ' added to line ' + custID.id)}`)
-            displayWelcome();
-          });
+            .then(custID => {
+              console.log(`\n${blue(custData.name + ' added to line ' + custID.id)}`)
+              displayWelcome();
+            });
         });
       break;
     }
@@ -135,7 +142,10 @@ const mainMenuHandler = (err, { choice }) => {
     case 6: {
       if (isActiveCustomerSet()) {
         getProductPopularity(getActiveCustomer().id).then(products => {
-          console.log(products);
+          generateProductPopularityTable(products);
+          pressEnterToContinue().then(() => {
+            displayWelcome();
+          });
         });
       } else {
         console.log(`Please choose active customer before getting theire products' popularity`);
