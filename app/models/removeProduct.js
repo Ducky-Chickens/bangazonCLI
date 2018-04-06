@@ -1,7 +1,7 @@
 'use strict';
 const { Database } = require('sqlite3').verbose();
 const path = require('path');
-const { setActiveCustomer, getActiveCustomer } = require('../activeCustomer');
+const { removeProduct, getProducts, setActiveCustomer, getActiveCustomer } = require('../activeCustomer');
 
 const db = new Database(path.join(__dirname, '..', '..', 'bangazon.sqlite'));
 
@@ -13,7 +13,7 @@ module.exports.removeProduct = (id) => {
     db.run(`DELETE FROM products WHERE product_id=${id}`, 
     function(err, product) {
       if (err) return reject(err);
-      resolve({ status: `${this.changes} item deleted`});
+      resolve(this.changes);
     });
   });
 };
@@ -26,4 +26,14 @@ module.exports.getProducts = (id) => {
       resolve(prods);
     });
   });
-}
+};
+
+module.exports.getOrders = (id) => {
+  return new Promise ((reject, resolve) => {
+    db.all(`select order_id from order_products
+    where product_id = ${id}`, (orders, err) => {
+      if (err) reject(err);
+      resolve(orders);
+    });
+  });
+};
