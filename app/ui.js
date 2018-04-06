@@ -29,7 +29,6 @@ const pressEnterToContinue = require('./controllers/pressEnterToContinue');
   MODELS
 */
 const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
-const getCustomers = require('./models/GetCustomers');
 const addPaymentType = require('./models/AddPaymentType');
 const { getProducts, updateProduct } = require('./models/UpdateProduct');
 const addCustomer = require('./models/AddCustomer');
@@ -41,22 +40,6 @@ const getStaleProducts = require('./models/GetStaleProducts');
   ACTIVE CUSTOMER
 */
 const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
-
-const addSpace = (object, properties) => {
-  assert.equal(Array.isArray(properties), true);
-
-  for (let prop of properties) {
-    if (typeof object[prop] !== 'undefined') {
-
-      // To convert value to string to allow padstart
-      object[prop] = `${object[prop]}`;
-
-      object[prop] = object[prop].padStart(object[prop].length + 2, " ");
-    }
-  }
-
-  return object;
-};
 
 /*
   START OF CLI
@@ -82,20 +65,8 @@ const mainMenuHandler = (err, { choice }) => {
 
     // Activate Customer
     case 2: {
-      getCustomers().then(customers => {
-
-        // List of customer ids
-        for (let customer of customers) {
-          customer = addSpace(customer, ['id']);
-          console.log(`${customer.id}.`, customer.name);
-        }
-        promptActivateCustomer(customers.length)
-          .then(({ customerId }) => {
-            const customer = customers.find(({ id }) => +id === +customerId);
-
-            setActiveCustomer(+customer.id, customer.name);
-            displayWelcome();
-          });
+      promptActivateCustomer().then(() => {
+        displayWelcome();
       });
       break;
     }
