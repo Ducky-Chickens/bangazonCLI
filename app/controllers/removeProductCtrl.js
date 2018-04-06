@@ -9,7 +9,7 @@ module.exports.removeProductSchema = () => {
   return new Promise((resolve, reject) => {
     prompt.get([ {
       name: 'id',
-      description: `Choose a product to delete:`,
+      description: 'Choose a product to delete:',
       pattern: /^\d+$/,
       message: 'Input must be an integer',
       required: true
@@ -19,11 +19,3 @@ module.exports.removeProductSchema = () => {
     })
   })
 }
-
-
-// module.exports.orderCheck = (id) => {
-//   getOrders(id).then(orders => {
-//     return orders;
-//   });
-// }
-
