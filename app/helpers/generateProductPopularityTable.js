@@ -82,7 +82,7 @@ module.exports = (products) => {
                 padding,
             },
             {
-                text: `${Revenue}`,
+                text: `$${Revenue}`,
                 width: 15,
                 padding,
             }

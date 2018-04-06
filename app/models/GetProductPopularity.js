@@ -19,7 +19,7 @@ module.exports = (customerId) => {
         assert(Number.isInteger(customerId), true);
 
         const selectTop3ProductsSql = `
-        SELECT Product, Purchasers, Revenue, Orders FROM (
+        SELECT Product, Purchasers, ((cast (Revenue as real))*1.00) AS Revenue, Orders FROM (
             SELECT P.product_name AS Product, 
                         count(distinct(O.customer_id)) AS Purchasers, 
                         SUM(OP.product_value) AS Revenue, 
