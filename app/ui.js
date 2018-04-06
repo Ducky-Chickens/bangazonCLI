@@ -1,7 +1,7 @@
 'use strict';
 
 // 3rd party libs
-const { red, magenta, blue } = require("chalk");
+const { red, magenta, blue, green } = require("chalk");
 
 const assert = require('assert');
 
@@ -36,6 +36,7 @@ const addCustomer = require('./models/AddCustomer');
 const addCustomerProduct = require('./models/AddCustomerProduct');
 const { addCustomerPaymentType } = require('./models/AddPaymentType');
 const getStaleProducts = require('./models/GetStaleProducts');
+const getCustomerRevenue = require('./models/GetCustomerRevenue');
 
 /*
   ACTIVE CUSTOMER
@@ -246,13 +247,20 @@ const mainMenuHandler = (err, { choice }) => {
 
     case 10: {
       if (getActiveCustomer().id) {
-        
-
-        break;
+        getCustomerRevenue(getActiveCustomer().id)
+        .then(revenue=> {
+          if(!revenue.length){
+            console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)})`)
+          } else {
+            console.log(revenue);
+            pressEnterToContinue().then(() => displayWelcome());
+          }
+        });
       } else {
         console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
         displayWelcome();
       }
+      break;
     }
 
   }
@@ -276,7 +284,7 @@ const displayWelcome = () => {
   ${magenta('7.')} View stale products
   ${magenta('8.')} Update a product
   ${magenta('9.')} Remove a product
-  ${magenta('10.')} Leave Bangazon!`);
+  ${magenta('10.')} Check product revenue per customer`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'

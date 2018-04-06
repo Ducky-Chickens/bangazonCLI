@@ -9,7 +9,7 @@ module.exports = (id) => {
                 FROM order_products
                 LEFT JOIN products ON order_products.product_id = products.product_id
                 WHERE products.customer_id = ${id}
-                GROUP BY(products.product_id)
+                GROUP BY(order_products.line_id)
                 ORDER BY "Order#"`, 
             (err, revenue) => {
                 if (err) return reject(err);
