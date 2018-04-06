@@ -26,6 +26,7 @@ const generatePossibleIdRegex = customerCount => {
  * @returns promise with a prompt.get in it.
  * @param - amount of customers
  */
+
 module.exports = customerCount => {
     return new Promise((resolve, reject) => {
         prompt.get([{

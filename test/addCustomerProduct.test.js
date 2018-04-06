@@ -37,7 +37,6 @@ describe.skip("add customer products", () => {
     it('should return an object', () => {
         return addCustomerProduct(activeCustomer, newProduct)
             .then(custProd => {
-                console.log(custProd);
                 isObject(custProd)
             });
     })

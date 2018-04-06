@@ -1,6 +1,13 @@
 'use strict'; 
 const prompt = require('prompt');
 
+/**
+ * @function
+ * @name promptPaymentType
+ * @description Used to intake new payment method for active customer.
+ * @returns promise with a prompt.get in it.
+ * @param - amount of customers
+ */
 module.exports.promptPaymentType = () => {
   return new Promise((resolve, reject) => {
     prompt.get([
