@@ -31,10 +31,11 @@ const pressEnterToContinue = require('./controllers/pressEnterToContinue');
 const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
 const getCustomers = require('./models/GetCustomers');
 const addPaymentType = require('./models/AddPaymentType');
-const { getProducts, updateProduct } = require('./models/UpdateProduct');
+const { getProductsById, updateProduct } = require('./models/UpdateProduct');
 const addCustomer = require('./models/AddCustomer');
 const addCustomerProduct = require('./models/AddCustomerProduct');
 const getStaleProducts = require('./models/GetStaleProducts');
+const { getActiveOrder, getProducts, addOrderProduct, addOrder } = require('./models/AddOrderProduct');
 
 /*
   ACTIVE CUSTOMER
@@ -118,14 +119,13 @@ const mainMenuHandler = (err, { choice }) => {
     // Update Product
     case 8: {
       if (getActiveCustomer().id) {
-        getProducts(getActiveCustomer())
-        .then(products => {
+        getProductsById(getActiveCustomer()).then(products => {
           if(products.length < 1){
             console.log(`\n${red(`No current products listed for this customer`)}`);
             displayWelcome();
           } else {
-            promptChooseProduct(products).then(result => {
-              promptChooseAttribute(result).then(input => {
+            promptChooseProduct(products).then(product => {
+              promptChooseAttribute(product).then(input => {
                 promptNewValue(input).then(obj => {
                   updateProduct(getActiveCustomer(), obj);
                   console.log(`\n${blue(`${obj.column} updated`)}`);
@@ -240,6 +240,29 @@ const mainMenuHandler = (err, { choice }) => {
       }
       break;
     }
+
+    // Add product to order
+    case 10: {
+      if(isActiveCustomerSet()) {
+        const userId = getActiveCustomer().id;
+        getProducts(userId).then(products => {
+          promptChooseProduct(products).then(product => {
+            getActiveOrder(userId).then(order => {
+              if(order){
+                addOrderProduct(userId, {"orderId":order.order_id, "prodId":product.product_id});
+              } else {
+                addOrder(userId).then(newOrder => {
+                  addOrderProduct(userId, { "orderId": newOrder.id, "prodId": product.product_id });
+                })
+              }
+            })
+          })
+        })
+      } else {
+        console.log(' Please choose active customer before adding to an order');
+        displayWelcome();
+      }
+    }
   }
 }
 
@@ -261,7 +284,8 @@ const displayWelcome = () => {
   ${magenta('7.')} View stale products
   ${magenta('8.')} Update a product
   ${magenta('9.')} Remove a product
-  ${magenta('10.')} Leave Bangazon!`);
+  ${magenta('10.')} Add to cart
+  ${magenta('11.')} Leave Bangazon!`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
