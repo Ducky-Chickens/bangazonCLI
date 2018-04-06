@@ -10,18 +10,12 @@ describe('Product popularity', () => {
     const mostPopularProductExample = [
         {
             Product: "Handmade Granite Ball",
-            Orders: 1,
-            Purchasers: 1,
-            Revenue: 25,
+            Orders: 2,
+            Purchasers: 2,
+            Revenue: 50,
         },
         {
-            Product: "Practical Steel Towels",
-            Orders: 1,
-            Purchasers: 1,
-            Revenue: 25,
-        },
-        {
-            Product: "Refined Soft Keyboard",
+            Product: "Practical Cotton Chair",
             Orders: 1,
             Purchasers: 1,
             Revenue: 25,
