@@ -29,7 +29,7 @@ module.exports = (customerId) => {
                         ON OP.product_id = P.product_id
                     INNER JOIN orders AS O
                         ON O.order_id = OP.order_id
-                    WHERE P.customer_id = 4
+                    WHERE P.customer_id = ${customerId}
                     GROUP BY P.product_name
                     ORDER BY Revenue DESC
                     LIMIT 3)
@@ -46,7 +46,7 @@ module.exports = (customerId) => {
                     ON OP.product_id = P.product_id
                 INNER JOIN orders AS O
                     ON O.order_id = OP.order_id
-                WHERE P.customer_id = 4
+                WHERE P.customer_id = ${customerId}
                 GROUP BY P.product_name
                 ORDER BY Revenue DESC
                 LIMIT 3);`;
