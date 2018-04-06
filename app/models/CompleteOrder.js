@@ -28,8 +28,8 @@ module.exports.finalizePaymentType = (payId, custId) => {
     db.run(`UPDATE orders 
     SET payment_type = ${payId}
     WHERE customer_id = ${custId}
-    AND payment_type is null`, (err, patch) => {
-      return err ? reject(err) : resolve(patch);
+    AND payment_type is null`, function(err, patch) {
+      return err ? reject(err) : resolve(this.changes);
     });
   });
 };
