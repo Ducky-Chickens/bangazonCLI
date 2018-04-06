@@ -17,7 +17,7 @@ module.exports = (products) => {
     // To fix: find a way to clear out previoulsy added string 
     // that was added by ui.div
     var ui = require('cliui')();
-    
+
 
     // padding: [top, right, bottom, left]
     const padding = [0, 0, 0, 2];
@@ -48,11 +48,23 @@ module.exports = (products) => {
     console.log(ui.toString());
 
     console.log(`  *******************************************************`);
-        
+
+    // Reset cliui div output
     var ui = require('cliui')();
-    
-    for (let { Product, Purchasers, Revenue, Orders } of products) {
-                
+
+    for (let i = 0; i < products.length; i++) {
+        let { Product, Purchasers, Revenue, Orders } = products[i];
+
+        // Add row before subtotal to conform to issue ticket requirment.
+        const isOnFinalRow = () => i === (products.length - 1);
+        if (isOnFinalRow()) {
+            ui.div({
+                text: `*******************************************************`,
+                width: 100,
+                padding,
+            });
+        }
+
         ui.div(
             {
                 text: `${Product}`,
@@ -78,6 +90,5 @@ module.exports = (products) => {
 
     }
     console.log(ui.toString());
-    console.log(`  *******************************************************`);
 
 };
