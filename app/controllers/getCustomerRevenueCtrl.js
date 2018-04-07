@@ -2,7 +2,11 @@
 
 const createTable = (order, products) => {
     console.log(`Order#${order}`)
-    console.log("-".repeat(50));
+    console.log("-".repeat(52));
+    products.forEach(prod=>{
+        console.log(prod.product + " ".repeat(32-prod.product.length));
+    });
+    process.stdout.write(`\n`);
 }
 
 const splitDataForTable = (orderGroups) => {
@@ -25,5 +29,5 @@ module.exports = (revenue) => {
         });
         orderSets.push(prodsPerOrder);
     });
-    splitTable(orderSets);
+    splitDataForTable(orderSets);
 }
