@@ -1,14 +1,17 @@
 'use strict'
 
 const createTable = (orderGroups) => {
+    let totalRevenue = [];
     orderGroups.forEach(group => {
         console.log(`Order#${group[0].order}`)
         console.log("-".repeat(52));
         group.forEach(prod=>{
+            totalRevenue.push(prod.product_revenue)
             console.log(prod.product + " ".repeat(32 - prod.product.length) + prod.quantity_sold + " ".repeat(11 - `${prod.quantity_sold}`.length) + "$" + prod.product_revenue);
         });
         process.stdout.write(`\n`);
     });
+    console.log(`Total revenue: $${totalRevenue.reduce((acc, cv) =>acc+cv)}\n\n`);
 }
 
 module.exports = (revenue) => {
