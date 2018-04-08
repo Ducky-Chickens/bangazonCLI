@@ -4,7 +4,7 @@ const createTable = (order, products) => {
     console.log(`Order#${order}`)
     console.log("-".repeat(52));
     products.forEach(prod=>{
-        console.log(prod.product + " ".repeat(32-prod.product.length));
+        console.log(prod.product + " ".repeat(32 - prod.product.length) + prod.quantity_sold + " ".repeat(11 - `${prod.quantity_sold}`.length) + "$" + prod.product_revenue);
     });
     process.stdout.write(`\n`);
 }
