@@ -246,12 +246,14 @@ const mainMenuHandler = (err, { choice }) => {
       break;
     }
 
+    // View Active Customer Revenue
     case 10: {
       if (getActiveCustomer().id) {
         getCustomerRevenue(getActiveCustomer().id)
         .then(revenue=> {
           if(!revenue.length){
-            console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)})`)
+            console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)}`);
+            pressEnterToContinue().then(() => displayWelcome());
           } else {
             createRevenueTable(revenue)
             pressEnterToContinue().then(() => displayWelcome());
