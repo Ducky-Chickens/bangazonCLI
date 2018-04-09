@@ -77,6 +77,7 @@ const {
   HELPERS
 */
 const addSpace = require("./helpers/addSpace");
+const generateProductPopularityTable = require("./helpers/generateProductPopularityTable")
 
 /*
   START OF CLI
