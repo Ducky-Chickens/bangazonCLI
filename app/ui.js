@@ -247,7 +247,7 @@ const mainMenuHandler = (err, { choice }) => {
     }
 
     // View Active Customer Revenue
-    case 10: {
+    case 11: {
       if (getActiveCustomer().id) {
         getCustomerRevenue(getActiveCustomer().id)
         .then(revenue=> {
@@ -287,7 +287,7 @@ const displayWelcome = () => {
   ${magenta('7.')} View stale products
   ${magenta('8.')} Update a product
   ${magenta('9.')} Remove a product
-  ${magenta('10.')} Check product revenue per customer`);
+  ${magenta('11.')} Check product revenue per customer`);
     prompt.get([{
       name: 'choice',
       description: 'Please make a selection'
