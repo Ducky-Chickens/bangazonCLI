@@ -57,6 +57,26 @@ In this group project,  we allow a user to interact with a basic product orderin
 
   1. #### Update a product
   1. #### Remove a product
+  1. Clone it down to your computer
+1. Run `node run db:reset`
+1. Run (`npm i -g` and `bangazon`) or (`node app/cli.js`)
+1. To activate a customer
+     1. Run `2`
+     1. Select a customer by their id from the given list.
+1. To select an existing customer
+     1. Run `2`
+1. Once back at the main menu, you can remove a product from the chosen customer.
+     1. Run `9`
+1. You will be given a list of products that are able to be removed
+     1. Select any product from the list
+1. You're ready to work for the customer!
+## How To Contribute
+1. Fork this project to your repo
+1. Clone it down to your computer
+1. Create a new branc -  `git chekout -b [your new branch name]`
+1. Run `npm instal`
+1. You can test by running `node app/cli.js`
+1. You're ready to contribute!
   1. #### Add to cart
   1. #### View Customer Revenue
     View total accrued revenue (per product &amp; overall accrued) for active customer
