@@ -18,7 +18,6 @@ describe('The stale products module', () => {
     price: 9.99,
   };
 
-
   const emptyTestArray = [];
 
   const fullTestArray = [
