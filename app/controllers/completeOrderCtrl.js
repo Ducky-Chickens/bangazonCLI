@@ -2,7 +2,7 @@
 
 const prompt = require('prompt');
 const { getActiveCustomer } = require('../activeCustomer');
-const { checkForOrder, finalizePaymentType, getPayTypeByAccountNumber } = require('../models/completeOrder');
+const { checkForOrder, finalizePaymentType, getPayTypeByAccountNumber, checkProductQuantity, updateProductQuantity } = require('../models/CompleteOrder');
 
 module.exports.generatePaymentOptions = options => {
   const possibleOptions = []
@@ -12,7 +12,7 @@ module.exports.generatePaymentOptions = options => {
   return new RegExp(`^(${possibleOptions.join('|')})$`);
 };
 
-module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
+module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId, products, nullOrders) => {
   const selectPayType = {
     properties: {
       number: {
@@ -35,30 +35,45 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId) => {
       }
     }
   };
-  return new Promise ((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     prompt.get(selectReady, function (err, result) {
       switch (result.response) {
         case "Y": {
-          for( let i in payTypes) {
+          for (let i in payTypes) {
             console.log(payTypes[i].method, payTypes[i].account_number);
           }
-          prompt.get(selectPayType, function(err, result) {
-          getPayTypeByAccountNumber(result.number, custId)
-          .then(id => {
-            finalizePaymentType(id.payment_id, custId)
-            .then(newProgram => {
-              console.log(' Order payment successful');
-              resolve(newProgram);
-            }).catch(() => {
-              console.log(' Program failed to add. Please try again')
-              resolve(null);
-            })
+          prompt.get(selectPayType, function (err, result) {
+            getPayTypeByAccountNumber(result.number, custId)
+              .then(id => {
+                let productsWithQuantity = [];
+                finalizePaymentType(id.payment_id, custId)
+                  .then(newProgram => {
+                    console.log('\n  Order payment successful');
+                    let removeDuplicates = [...new Set(products.map(prod => prod.product_id))];
+                    const removeDuplicatesPromises = [];
+                    removeDuplicates.forEach(item => {
+                      removeDuplicatesPromises.push(checkProductQuantity(nullOrders[0].order_id, item));
+                    });
+                    Promise.all(removeDuplicatesPromises).then(result => {
+                      result.forEach(result => {
+                        let final = result.inventory - result.cart_quantity;
+                        updateProductQuantity(final, result.product_id)
+                        .then(result => {
+                          resolve(result);
+                        })
+                      });
+                    })
+                  });
+              }).catch((error) => {
+                console.log('\n  Order payment failed. Please try again.')
+                console.log('\n  Error: ', error);
+                resolve(null);
+              })
           });
-          })
-        break;
-        } 
+          break;
+        }
         case "N": {
-          console.log(" Order payment cancelled");
+          console.log('\n  Order payment cancelled');
           resolve(null);
         }
       }
