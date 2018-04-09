@@ -3,7 +3,7 @@ const { addOrder, addOrderProduct, getActiveOrder } = require('../app/models/Add
 const { assert: { equal, deepEqual, isObject } } = require('chai');
 
 describe('AddOrderProduct model', () => {
-  const newOrder = { orderId: 2, prodId: 2 };
+  const newOrder = { orderId: 2, prodId: 2, price: 25 };
   const userId = 2;
   const testOrder = {
     order_id: 2,

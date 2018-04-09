@@ -27,11 +27,11 @@ module.exports.getProducts = () => {
   })
 }
 
-module.exports.addOrderProduct = (id, { orderId, prodId }) => {
+module.exports.addOrderProduct = (id, { orderId, prodId, price }) => {
   return new Promise((resolve, reject) => {
     db.run(`
     INSERT INTO order_products
-    VALUES (null, ${orderId}, ${prodId})
+    VALUES (null, ${orderId}, ${prodId}, ${price})
     `,
     function(err) {
       if(err) return reject(err);

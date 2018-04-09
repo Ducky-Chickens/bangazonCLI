@@ -18,19 +18,19 @@ prompt.message = colors.blue("Bangazon Corp");
   CONTROLLERS
 */
 const promptAddCustomer = require('./controllers/addCustomerCtrl');
-const promptActivateCustomer = require('./controllers/activateCustomerCtrl');
 const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = require('./controllers/completeOrderCtrl');
 const { promptPaymentType } = require('./controllers/addPaymentTypeCtrl');
 const { promptChooseProduct, promptChooseAttribute, promptNewValue } = require('./controllers/updateProductCtrl');
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl');
 const { promptAvailableProducts } = require('./controllers/addOrderProductCtrl');
 const pressEnterToContinue = require('./controllers/pressEnterToContinue');
+const promptStaleProduct = require('./controllers/staleProductsCtrl');
+const promptActivateCustomer = require('./controllers/activeCustomerCtrl');
 
 /*
   MODELS
 */
 const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
-const getCustomers = require('./models/GetCustomers');
 const addPaymentType = require('./models/AddPaymentType');
 const { getProductsById, updateProduct } = require('./models/UpdateProduct');
 const addCustomer = require('./models/AddCustomer');
@@ -38,26 +38,16 @@ const addCustomerProduct = require('./models/AddCustomerProduct');
 const getStaleProducts = require('./models/GetStaleProducts');
 const { getActiveOrder, getProducts, addOrderProduct, addOrder } = require('./models/AddOrderProduct');
 
+
 /*
   ACTIVE CUSTOMER
 */
-const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('../app/activeCustomer');
+const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('./activeCustomer');
 
-const addSpace = (object, properties) => {
-  assert.equal(Array.isArray(properties), true);
-
-  for (let prop of properties) {
-    if (typeof object[prop] !== 'undefined') {
-
-      // To convert value to string to allow padstart
-      object[prop] = `${object[prop]}`;
-
-      object[prop] = object[prop].padStart(object[prop].length + 2, " ");
-    }
-  }
-
-  return object;
-};
+/*
+  HELPERS
+*/
+const addSpace = require('./helpers/addSpace');
 
 /*
   START OF CLI
@@ -83,20 +73,8 @@ const mainMenuHandler = (err, { choice }) => {
 
     // Activate Customer
     case 2: {
-      getCustomers().then(customers => {
-
-        // List of customer ids
-        for (let customer of customers) {
-          customer = addSpace(customer, ['id']);
-          console.log(`${customer.id}.`, customer.name);
-        }
-        promptActivateCustomer(customers.length)
-          .then(({ customerId }) => {
-            const customer = customers.find(({ id }) => +id === +customerId);
-
-            setActiveCustomer(+customer.id, customer.name);
-            displayWelcome();
-          });
+      promptActivateCustomer().then(() => {
+        displayWelcome();
       });
       break;
     }
@@ -218,27 +196,9 @@ const mainMenuHandler = (err, { choice }) => {
 
     // View stale products
     case 7: {
-      if (isActiveCustomerSet()) {
-        getStaleProducts(getActiveCustomer().id).then(products => {
-          if (products.length > 0) {
-
-            // Required indent to conform with Joe's CLI code.
-            for (let product of products) {
-              product = addSpace(product, ['product_id']);
-            }
-
-            console.table(products);
-          } else {
-            console.log(' No stale products');
-          }
-          pressEnterToContinue().then(() => {
-            displayWelcome();
-          });
-        });
-      } else {
-        console.log(' Please choose active customer before checking their stale  products');
+      promptStaleProduct().then(() => {
         displayWelcome();
-      }
+      });
       break;
     }
 
@@ -251,12 +211,12 @@ const mainMenuHandler = (err, { choice }) => {
             if(product) {
               getActiveOrder(userId).then(order => {
                 if(order){
-                  addOrderProduct(userId, {"orderId":order.order_id, "prodId":product.product_id});
+                  addOrderProduct(userId, {"orderId":order.order_id, "prodId":product.product_id, "price": product.price});
                   console.log(`\n${blue(`Product added to order`)}`);
                   displayWelcome();
                 } else {
                   addOrder(userId).then(newOrder => {
-                    addOrderProduct(userId, { "orderId": newOrder.id, "prodId": product.product_id });
+                    addOrderProduct(userId, { "orderId": newOrder.id, "prodId": product.product_id, "price": product.price });
                     console.log(`\n${blue(`Product added to order`)}`);
                     displayWelcome();
                   })
