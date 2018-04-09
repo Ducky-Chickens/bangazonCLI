@@ -10,7 +10,6 @@ const colors = require("colors/safe");
 const path = require("path");
 const { Database } = require("sqlite3").verbose();
 const db = new Database(path.join(__dirname, "..", "bangazon.sqlite"));
-require("console.table");
 
 prompt.message = colors.blue('Bangazon Corp')
 
@@ -24,7 +23,7 @@ const {
   promptCompleteOrder,
   paymentTypeSchema
 } = require("./controllers/completeOrderCtrl");
-const {removeProductSchema} = require('./controllers/removeProductCtrl')
+const { removeProductSchema } = require('./controllers/removeProductCtrl')
 
 const { promptPaymentType } = require("./controllers/addPaymentTypeCtrl");
 const {
@@ -54,7 +53,7 @@ const {
   checkProductQuantity,
   updateProductQuantity
 } = require("./models/completeOrder");
-const {removeProduct, getProds, getOrders} = require('./models/removeProduct')
+const { removeProduct, getProds, getOrders } = require('./models/removeProduct')
 
 const getCustomers = require("./models/GetCustomers");
 const addPaymentType = require("./models/AddPaymentType");
@@ -250,7 +249,54 @@ const mainMenuHandler = (err, { choice }) => {
               product = addSpace(product, ['product_id'])
             }
 
-            console.table(products)
+            var ui = require('cliui')();
+
+
+            // padding: [top, right, bottom, left]
+            const padding = [0, 0, 0, 2];
+
+            ui.div(
+              {
+                text: "ID",
+                width: 14,
+                padding,
+              },
+              {
+                text: "Name",
+                width: 21,
+                padding,
+              },
+            );
+
+            console.log(ui.toString());
+
+            console.log(`  ************  ********************`);
+
+            // Reset cliui div output
+            var ui = require('cliui')();
+
+            for (let i = 0; i < products.length; i++) {
+              let { product_id, product_name } = products[i];
+
+              ui.div(
+                {
+                  text: `${product_id}`,
+                  width: 14,
+                  padding,
+                },
+                {
+                  text: `${product_name}`,
+                  width: 21,
+                  padding,
+                },
+              );
+
+            }
+            console.log(ui.toString());
+
+            // Extra enter before command line input to conform to issue specification
+            console.log(``);
+
           } else {
             console.log(' No stale products')
           }
@@ -378,15 +424,15 @@ const mainMenuHandler = (err, { choice }) => {
     case 11: {
       if (getActiveCustomer().id) {
         getCustomerRevenue(getActiveCustomer().id)
-        .then(revenue=> {
-          if(!revenue.length){
-            console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)}`);
-            pressEnterToContinue().then(() => displayWelcome());
-          } else {
-            createRevenueTable(revenue)
-            pressEnterToContinue().then(() => displayWelcome());
-          }
-        });
+          .then(revenue => {
+            if (!revenue.length) {
+              console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)}`);
+              pressEnterToContinue().then(() => displayWelcome());
+            } else {
+              createRevenueTable(revenue)
+              pressEnterToContinue().then(() => displayWelcome());
+            }
+          });
       } else {
         console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
         displayWelcome();
@@ -408,7 +454,7 @@ const displayWelcome = () => {
   ${headerDivider}
   ${magenta("-- Active Customer:")} ${
       isActiveCustomerSet() ? getActiveCustomer().fullName : `None`
-    }
+      }
   ${headerDivider}
   ${magenta("1.")} Create a customer account
   ${magenta("2.")} Choose active customer
