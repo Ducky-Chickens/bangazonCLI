@@ -51,7 +51,10 @@ In this group project,  we allow a user to interact with a basic product orderin
   1. #### Add product to inventory
   1. #### Complete an order
   1. #### See product popularity
+       User can view product popularity to show top 3 products and their revenue of given customer.
   1. #### View stale products
+       User can view customers products that are not currently selling.
+
   1. #### Update a product
   1. #### Remove a product
   1. #### Add to cart
