@@ -50,11 +50,11 @@ In this group project,  we allow a user to interact with a basic product orderin
   1. #### Create a payment option
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
-      Select one of the available payment methods by entering an exact match of the name.
-        i.e. ```AmEx```
-      Enter just the digits of an account number. (Without "-" or spaces)
-        ```1234567891011121314```
-      The following message should display:
+      Select one of the available payment methods by entering an exact match of the name.  
+      i.e. ```AmEx```  
+      Enter just the digits of an account number. (Without "-" or spaces)  
+      ```1234567891011121314```  
+      The following message should display:  
       ```[payment name] payment added```
 
   1. #### Add product to inventory
@@ -64,18 +64,18 @@ In this group project,  we allow a user to interact with a basic product orderin
   1. #### Update a product
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
       
-      Select one of the available products by entering the corresponding list number.
-      Enter the number for the desired attribute to update. i.e. ```1```
-      Enter the new value. 
-      The following message should display:
+      Select one of the available products by entering the corresponding list number.  
+      Enter the number for the desired attribute to update. i.e. ```1```  
+      Enter the new value.   
+      The following message should display:  
       ```[product attribute] updated```
 
   1. #### Remove a product
   1. #### Add to cart
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
-      Select a product by entering the corresponding list number.
-      The following message should display:
+      Select a product by entering the corresponding list number.  
+      The following message should display:  
       ```Product added to order```
 
   1. #### View Customer Revenue
