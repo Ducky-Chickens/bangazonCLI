@@ -39,8 +39,8 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId, produ
     prompt.get(selectReady, function (err, result) {
       switch (result.response) {
         case "Y": {
-          for (let i in payTypes) {
-            console.log(payTypes[i].method, payTypes[i].account_number);
+          for (let i of payTypes) {
+            console.log(payTypes.method, payTypes.account_number);
           }
           prompt.get(selectPayType, function (err, result) {
             getPayTypeByAccountNumber(result.number, custId)
@@ -58,12 +58,8 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId, produ
                       result.forEach(result => {
                         let final = result.inventory - result.cart_quantity;
                         updateProductQuantity(final, result.product_id)
-                          .then(results => {
-                            resolve(results);
-                          });
                       });
                     })
-                    resolve(newProgram);
                   });
               }).catch((error) => {
                 console.log(' Order payment failed. Please try again.')
