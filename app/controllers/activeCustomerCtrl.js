@@ -1,5 +1,9 @@
 'use strict';
 const prompt = require('prompt');
+const getCustomers = require('../models/GetCustomers');
+const addSpace = require('../helpers/addSpace');
+const { setActiveCustomer } = require('../activeCustomer');
+
 
 /**
  * @function
@@ -26,8 +30,7 @@ const generatePossibleIdRegex = customerCount => {
  * @returns promise with a prompt.get in it.
  * @param - amount of customers
  */
-
-module.exports = customerCount => {
+const promptActivateCustomer = customerCount => {
     return new Promise((resolve, reject) => {
         prompt.get([{
             name: 'customerId',
@@ -37,5 +40,32 @@ module.exports = customerCount => {
         }], function (err, results) {
             return err ? reject(err) : resolve(results);
         })
+    });
+};
+
+/**
+ * @function
+ * @name activateCustomer
+ * @description starts the active customer schema and deals with its logic.
+ * @returns {Promise} - resolves when customer is activated.
+ */
+module.exports = () => {
+    return new Promise((resolve, reject) => {
+        getCustomers().then(customers => {
+
+            // List of customer ids
+            for (let customer of customers) {
+                customer = addSpace(customer, ['id']);
+                console.log(`${customer.id}.`, customer.name);
+            }
+
+            promptActivateCustomer(customers.length)
+                .then(({ customerId }) => {
+                    const customer = customers.find(({ id }) => +id === +customerId);
+
+                    setActiveCustomer(+customer.id, customer.name);
+                    resolve();
+                });
+        });
     });
 };

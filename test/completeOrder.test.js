@@ -38,7 +38,7 @@ const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47 } ];
 
 
 
-describe('checkForOrder', () => {
+describe.skip('checkForOrder', () => {
   it('should return customers orders', () => {
     return checkForOrder(1)
     .then(orders => {
