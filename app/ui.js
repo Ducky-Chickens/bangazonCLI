@@ -12,7 +12,7 @@ const { Database } = require("sqlite3").verbose();
 const db = new Database(path.join(__dirname, "..", "bangazon.sqlite"));
 require("console.table");
 
-prompt.message = colors.blue("Bangazon Corp");
+prompt.message = colors.blue('Bangazon Corp')
 
 /*
   CONTROLLERS
@@ -23,6 +23,8 @@ const {
   promptCompleteOrder,
   paymentTypeSchema
 } = require("./controllers/completeOrderCtrl");
+const {removeProductSchema} = require('./controllers/removeProductCtrl')
+
 const { promptPaymentType } = require("./controllers/addPaymentTypeCtrl");
 const {
   promptChooseProduct,
@@ -48,6 +50,8 @@ const {
   checkProductQuantity,
   updateProductQuantity
 } = require("./models/completeOrder");
+const {removeProduct, getProds, getOrders} = require('./models/removeProduct')
+
 const getCustomers = require("./models/GetCustomers");
 const addPaymentType = require("./models/AddPaymentType");
 const { getProductsById, updateProduct } = require("./models/UpdateProduct");
@@ -82,7 +86,7 @@ const generateProductPopularityTable = require("./helpers/generateProductPopular
 /*
   START OF CLI
 */
-prompt.start();
+prompt.start()
 
 const mainMenuHandler = (err, { choice }) => {
   switch (Number(choice)) {
@@ -104,12 +108,46 @@ const mainMenuHandler = (err, { choice }) => {
       promptActivateCustomer().then(() => {
         displayWelcome();
       });
+      break
+    }
+    // Remove product from active customer
+    case 9: {
+      if (getActiveCustomer().id) {
+        let newArr = [];
+        getProds(getActiveCustomer().id).then(products => {
+          console.log('\n')
+          products.forEach((product) => {
+            if (product.customer_id == getActiveCustomer().id) {
+              getOrders(product.product_id).then(orders => {
+                if (orders.length === 0){
+                  console.log(`${product.product_id}. ${product.product_name}`)
+                  newArr.push(product.product_id)
+                }
+              })
+            }
+          })
+        })
+        removeProductSchema().then(deleteProd => {
+          if (newArr.indexOf(Number(deleteProd.id)) >= 0 ) {
+          removeProduct(deleteProd.id)
+          console.log('You have successfully removed a product from your list')
+          displayWelcome()
+          } else {
+            console.log('Please choose a product from the list')
+            displayWelcome()
+
+          }
+        })
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`)
+        displayWelcome()
+      }
       break;
     }
 
     // Add Payment Type
     case 3: {
-      //check if active customer
+      // check if active customer
       if (getActiveCustomer().id) {
         promptPaymentType().then(paymentData => {
           addPaymentType(getActiveCustomer(), paymentData);
@@ -122,7 +160,7 @@ const mainMenuHandler = (err, { choice }) => {
         );
         displayWelcome();
       }
-      break;
+      break
     }
 
     // Update Product
@@ -152,7 +190,7 @@ const mainMenuHandler = (err, { choice }) => {
         );
         displayWelcome();
       }
-      break;
+      break
     }
 
     case 4: {
@@ -178,7 +216,7 @@ const mainMenuHandler = (err, { choice }) => {
 
     // Complete Order
     case 5: {
-      let active = getActiveCustomer().id;
+      let active = getActiveCustomer().id
       if (active === null) {
         console.log(" Please activate a customer with the main menu");
         displayWelcome();
@@ -261,6 +299,28 @@ const mainMenuHandler = (err, { choice }) => {
     }
     // View stale products
     case 7: {
+      if (isActiveCustomerSet()) {
+        getStaleProducts(getActiveCustomer().id).then(products => {
+          if (products.length > 0) {
+
+            // Required indent to conform with Joe's CLI code.
+            for (let product of products) {
+              product = addSpace(product, ['product_id'])
+            }
+
+            console.table(products)
+          } else {
+            console.log(' No stale products')
+          }
+          pressEnterToContinue().then(() => {
+            displayWelcome()
+          })
+        })
+      } else {
+        console.log(' Please choose active customer before checking their stale  products')
+        displayWelcome()
+      }
+      break
       promptStaleProduct().then(() => {
         displayWelcome();
       });
