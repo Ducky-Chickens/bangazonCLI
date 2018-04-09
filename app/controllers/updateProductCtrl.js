@@ -11,7 +11,7 @@ module.exports.promptChooseProduct = (products) => {
     prompt.get({
       name: "productID",
       //add list to prompt description
-      description: `Please select a product to update:\n${list}`,
+      description: `Please select a product:\n${list}`,
       //check if user input is in valid range
       conform: function(value){
         if(+value > 0 && +value <= products.length) return true;
