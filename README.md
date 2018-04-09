@@ -75,7 +75,7 @@ In this group project,  we allow a user to interact with a basic product orderin
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
       Select a product by entering the corresponding list number.  
-      The following message should display (followed by the Main Menu):
+      The following message should display (followed by the Main Menu):  
       ```Product added to order```
 
   1. #### View Customer Revenue
