@@ -52,9 +52,25 @@ In this group project,  we allow a user to interact with a basic product orderin
   1. #### Complete an order
   1. #### See product popularity
        View product popularity to show top 3 products and their revenue of given customer.
+     ```
+       Product             Orders     Purchasers     Revenue
+       *******************************************************
+       Practical Cotton    1          1              $25
+       Chair
+       Practical Steel     1          1              $25
+       Towels
+       *******************************************************
+       Total:              2          2              $50
+     ```
   1. #### View stale products
        View customers products that are not currently selling.
+        ```
+         id           Name
+        **********  *********************
+          9         Handmade Granite Ball
 
+          Press any key to continue
+        ```
   1. #### Update a product
   1. #### Remove a product
   1. #### Add to cart
