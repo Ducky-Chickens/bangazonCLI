@@ -45,7 +45,7 @@ In this group project,  we allow a user to interact with a basic product orderin
   1. #### Create a customer account
   1. #### Choose active customer
 
-       Select a customer by there id to be used by the rest of the program.  You cannot select a customer that does not exist.
+       Select a customer by their id to be used by the rest of the program.  You cannot select a customer that does not exist.
   
   1. #### Create a payment option
   1. #### Add product to inventory
