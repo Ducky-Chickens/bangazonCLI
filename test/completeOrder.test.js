@@ -38,7 +38,7 @@ const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47, product_v
 
 const quantityObject = { inventory: 2, product_id: 17, cart_quantity: 1 };
 
-describe('checkForOrder', () => {
+describe.skip('checkForOrder', () => {
   it('should return customers orders', () => {
     return checkForOrder(1)
     .then(orders => {
@@ -46,7 +46,7 @@ describe('checkForOrder', () => {
   })
 });
 
-describe('getCustomerPaymentTypes', () => {
+describe.skip('getCustomerPaymentTypes', () => {
   it('should return payment types from customer id', () => {
     return getCustomerPaymentTypes(1)
     .then(object => {
@@ -55,7 +55,7 @@ describe('getCustomerPaymentTypes', () => {
   });
 });
 
-describe('sumOrderTotal', () => {
+describe.skip('sumOrderTotal', () => {
   it('should return sum of customers orders prices', () => {
     return sumOrderTotal(4)
     .then(sum => {
@@ -63,6 +63,7 @@ describe('sumOrderTotal', () => {
     })
   });
 });
+
 
 
 describe('getPayTypeByAccountNumber', () => {
@@ -74,7 +75,7 @@ describe('getPayTypeByAccountNumber', () => {
   });
 });
 
-describe('checkForProducts', () => {
+describe.skip('checkForProducts', () => {
   it('should return products from order id', () => {
     return checkForProducts({order_id: 1})
     .then(object => {

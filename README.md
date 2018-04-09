@@ -17,8 +17,8 @@ In this group project,  we allow a user to interact with a basic product orderin
 ## How To Contribute
 1. Fork this project to your repo
 1. Clone it down to your computer
-1. Create a new branc -  `git chekout -b [your new branch name]`
-1. Run `npm instal`
+1. Create a new branch -  `git chekout -b [your new branch name]`
+1. Run `npm install`
 1. You can test by running `node app/cli.js`
 1. You're ready to contribute!
 
@@ -58,6 +58,8 @@ In this group project,  we allow a user to interact with a basic product orderin
   1. #### Update a product
   1. #### Remove a product
   1. #### Add to cart
+  1. #### View Customer Revenue
+    View total accrued revenue (per product &amp; overall accrued) for active customer
   1. #### Leave Bangazon!
 
 ## Technologies used

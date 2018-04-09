@@ -3,6 +3,7 @@ const getStaleProducts = require('../app/models/GetStaleProducts');
 const addProduct = require('../app/models/AddCustomerProduct');
 const { assert: { equal, deepEqual } } = require('chai');
 
+
 describe('The stale products module', () => {
   const testUser = {
     id: 100,
