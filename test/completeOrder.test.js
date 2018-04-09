@@ -34,11 +34,11 @@ const patchedOrder = [
   {order_id: 2, customer_id: 1, payment_type: 1, order_date: "2017-7-28"}
 ];
 
-const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47 } ];
+const ordersProductsId1 = [ { line_id: 5, order_id: 1, product_id: 47, product_value: 25 } ];
 
 const quantityObject = { inventory: 2, product_id: 17, cart_quantity: 1 };
 
-describe.skip('checkForOrder', () => {
+describe('checkForOrder', () => {
   it('should return customers orders', () => {
     return checkForOrder(1)
     .then(orders => {
