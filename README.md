@@ -17,8 +17,8 @@ In this group project,  we allow a user to interact with a basic product orderin
 ## How To Contribute
 1. Fork this project to your repo
 1. Clone it down to your computer
-1. Create a new branc -  `git chekout -b [your new branch name]`
-1. Run `npm instal`
+1. Create a new branch -  `git chekout -b [your new branch name]`
+1. Run `npm install`
 1. You can test by running `node app/cli.js`
 1. You're ready to contribute!
 
@@ -48,25 +48,33 @@ In this group project,  we allow a user to interact with a basic product orderin
        Select a customer by their id to be used by the rest of the program.  You cannot select a customer that does not exist.
   
   1. #### Create a payment option
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
       Select one of the available payment methods by entering an exact match of the name.
+        i.e. ```AmEx```
       Enter just the digits of an account number. (Without "-" or spaces)
+        ```1234567891011121314```
+      The following message should display:
+      ```[payment name] payment added```
 
   1. #### Add product to inventory
   1. #### Complete an order
   1. #### See product popularity
   1. #### View stale products
   1. #### Update a product
-
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
+      
       Select one of the available products by entering the corresponding list number.
-      Enter the number for the desired attribute to update.
-      Enter the new value.
+      Enter the number for the desired attribute to update. i.e. ```1```
+      Enter the new value. 
 
   1. #### Remove a product
   1. #### Add to cart
 
       Select a product by entering the corresponding list number.
 
+  1. #### View Customer Revenue
+    View total accrued revenue (per product &amp; overall accrued) for active customer
   1. #### Leave Bangazon!
 
 ## Technologies used
