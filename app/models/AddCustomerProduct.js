@@ -10,7 +10,7 @@ const db = new sqlite.Database('./bangazon.sqlite');
  * @returns {Object.<{id: Number}>} lastID of product table (primary key of newly added row)
  */
 
-module.exports = ({ id }, { title, productTypeId, price, description, quantity}) => {
+module.exports = ({ id }, { title, productTypeId, price, description, quantity, date = null}) => {
     return new Promise((resolve, reject) => {
         db.run(`INSERT INTO products VALUES(
             null,
@@ -19,7 +19,7 @@ module.exports = ({ id }, { title, productTypeId, price, description, quantity})
             ${price},
             "${description}",
             ${id},
-            "${new Date().toISOString().split('T')[0]}",
+            "${date === null ? new Date().toISOString().split('T')[0] : date}",
             ${quantity}
         )`, function(err){
             if (err) return reject(err);
