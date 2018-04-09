@@ -1,9 +1,12 @@
-# Bangazon
+# Bangazon Command Line Interface
+
+## About
+In this group project,  we allow a user to interact with a basic product ordering database for a customer via a command line interface.
 
 ## How To Use For a Customer
 1. Clone it down to your computer
-1. Run `npm i -g`
-1. Run `bangazon`
+1. Run `node run db:reset`
+1. Run (`npm i -g` and `bangazon`) or (`node app/cli.js`)
 1. To select a current customer
      1. Run `2`
      1. Select a customer by their id from the given list.
@@ -15,6 +18,8 @@
 1. Fork this project to your repo
 1. Clone it down to your computer
 1. Create a new branc -  `git chekout -b [your new branch name]`
+1. Run `npm instal`
+1. You can test by running `node app/cli.js`
 1. You're ready to contribute!
 
 
@@ -52,12 +57,11 @@
   1. #### Add to cart
   1. #### Leave Bangazon!
 
-## The Command Line Ordering System
-
-In this group project, you will be allowing a user to interact with a basic product ordering database via a command line interface.
-
-## Ordering System Interface
-
-### Main Menu
-
-
+## Technologies used
+1. [Node](https://nodejs.org/en/)
+1. [Prompt](https://www.npmjs.com/package/prompt)
+1. [Console.Table](https://www.npmjs.com/package/console.table)
+1. [Cliui](https://www.npmjs.com/package/cliui)
+1. [Chalk](https://www.npmjs.com/package/chalk)
+1. [Colors](https://www.npmjs.com/package/colors)
+1. [Sqelectron](https://sqlectron.github.io/)
