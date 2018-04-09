@@ -21,46 +21,36 @@ const {promptNewCustomer} = require('./controllers/addCustomerCtrl')
 const addProductOrder = require('./controllers/addProductOrderCtrl')
 const {removeProductSchema} = require('./controllers/removeProductCtrl')
 const promptAddCustomer = require('./controllers/addCustomerCtrl')
-const promptActivateCustomer = require('./controllers/activateCustomerCtrl')
-const {generatePaymentOptions, promptCompleteOrder, paymentTypeSchema} = require('./controllers/completeOrderCtrl')
+const promptActivateCustomer = require('./controllers/activeCustomerCtrl')
 const {promptPaymentType} = require('./controllers/addPaymentTypeCtrl')
 const {promptChooseProduct, promptChooseAttribute, promptNewValue} = require('./controllers/updateProductCtrl')
 const promptAddCustomerProduct = require('./controllers/addCustomerProductCtrl')
-const pressEnterToContinue = require('./controllers/pressEnterToContinue')
+const { generatePaymentOptions, promptCompleteOrder, paymentTypeSchema } = require('./controllers/completeOrderCtrl');
+const pressEnterToContinue = require('./controllers/pressEnterToContinue');
+const promptStaleProduct = require('./controllers/staleProductsCtrl');
 
 /*
   MODELS
 */
 const getCustomers = require('./models/getCustomers')
 const {removeProduct, getProds, getOrders} = require('./models/removeProduct')
-const {checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts} = require('./models/completeOrder')
-const addPaymentType = require('./models/AddPaymentType')
-const {getProducts, updateProduct} = require('./models/UpdateProduct')
-const addCustomer = require('./models/AddCustomer')
 const addCustomerProduct = require('./models/AddCustomerProduct')
 const {addCustomerPaymentType} = require('./models/AddPaymentType')
 const getStaleProducts = require('./models/GetStaleProducts')
+const { checkForOrder, getCustomerPaymentTypes, sumOrderTotal, checkForProducts } = require('./models/completeOrder');
+const addPaymentType = require('./models/AddPaymentType');
+const { getProducts, updateProduct } = require('./models/UpdateProduct');
+const addCustomer = require('./models/AddCustomer');
 
 /*
   ACTIVE CUSTOMER
 */
-const {setActiveCustomer, getActiveCustomer, isActiveCustomerSet} = require('../app/activeCustomer')
+const { setActiveCustomer, getActiveCustomer, isActiveCustomerSet } = require('./activeCustomer');
 
-const addSpace = (object, properties) => {
-  assert.equal(Array.isArray(properties), true)
-
-  for (let prop of properties) {
-    if (typeof object[prop] !== 'undefined') {
-
-      // To convert value to string to allow padstart
-      object[prop] = `${object[prop]}`
-
-      object[prop] = object[prop].padStart(object[prop].length + 2, ' ')
-    }
-  }
-
-  return object
-}
+/*
+  HELPERS
+*/
+const addSpace = require('./helpers/addSpace');
 
 /*
   START OF CLI
@@ -86,22 +76,9 @@ const mainMenuHandler = (err, {choice}) => {
 
     // Activate Customer
     case 2: {
-      getCustomers().then(customers => {
-
-        // List of customer ids
-        for (let customer of customers) {
-          customer = addSpace(customer, ['id'])
-          console.log(`${customer.id}.`, customer.name)
-        }
-        promptActivateCustomer(customers.length)
-          .then(({customerId}) => {
-            const customer = customers.find(({id}) => +id === +customerId)
-
-            // TODO: Only allow ids that exist in sql database
-            setActiveCustomer(+customerId, customer.name)
-            displayWelcome()
-          })
-      })
+      promptActivateCustomer().then(() => {
+        displayWelcome();
+      });
       break
     }
     // Remove product from active customer
@@ -136,7 +113,7 @@ const mainMenuHandler = (err, {choice}) => {
         console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`)
         displayWelcome()
       }
-      break
+      break;
     }
 
     // Add Payment Type
@@ -280,6 +257,10 @@ const mainMenuHandler = (err, {choice}) => {
         displayWelcome()
       }
       break
+      promptStaleProduct().then(() => {
+        displayWelcome();
+      });
+      break;
     }
   }
 }
