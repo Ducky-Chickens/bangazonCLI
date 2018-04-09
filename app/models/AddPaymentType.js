@@ -11,7 +11,8 @@ const db = new Database(path.join(__dirname, '../../', 'bangazon.sqlite'));
  */
 module.exports = ({ id }, { payment, accountNumber }) => {
   return new Promise((resolve, reject) => {
-    db.run(`INSERT INTO payment_types
+    db.run(`
+    INSERT INTO payment_types
     VALUES (null, ${id}, "${payment}", ${accountNumber})
     `,
     function (err) {

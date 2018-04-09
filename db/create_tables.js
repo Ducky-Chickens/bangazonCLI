@@ -121,14 +121,16 @@ module.exports = () => db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS order_products (
         line_id INTEGER PRIMARY KEY,
         order_id INTEGER,
-        product_id INTEGER
+        product_id INTEGER,
+        product_value
     )`,
         () => {
-            orderProdData.order_products.forEach(({orderId, productId})=>{
+            orderProdData.order_products.forEach(({orderId, productId, productValue})=>{
                 db.run(`INSERT INTO order_products VALUES (
                         ${null},
                         ${orderId},
-                        ${productId}
+                        ${productId},
+                        ${productValue}
                 )`);
             });
         });

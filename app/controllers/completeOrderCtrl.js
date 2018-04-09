@@ -40,7 +40,7 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId, produ
       switch (result.response) {
         case "Y": {
           for (let i of payTypes) {
-            console.log('  ' + payTypes.method, payTypes.account_number);
+            console.log('\n  ' + payTypes.method, payTypes.account_number);
           }
           prompt.get(selectPayType, function (err, result) {
             getPayTypeByAccountNumber(result.number, custId)
@@ -48,7 +48,7 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId, produ
                 let productsWithQuantity = [];
                 finalizePaymentType(id.payment_id, custId)
                   .then(newProgram => {
-                    console.log('  Order payment successful');
+                    console.log('\n  Order payment successful');
                     let removeDuplicates = [...new Set(products.map(prod => prod.product_id))];
                     const removeDuplicatesPromises = [];
                     removeDuplicates.forEach(item => {
@@ -62,15 +62,15 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId, produ
                     })
                   });
               }).catch((error) => {
-                console.log('  Order payment failed. Please try again.')
-                console.log('  Error: ', error);
+                console.log('\n  Order payment failed. Please try again.')
+                console.log('\n  Error: ', error);
                 resolve(null);
               })
           });
           break;
         }
         case "N": {
-          console.log("  Order payment cancelled");
+          console.log('\n  Order payment cancelled');
           resolve(null);
         }
       }
