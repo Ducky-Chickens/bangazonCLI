@@ -19,7 +19,7 @@ module.exports.removeProduct = (id) => {
 };
 
 //Get products in order to list products to be removed
-module.exports.getProducts = (id) => {
+module.exports.getProds = (id) => {
   return new Promise ((reject, resolve) => {
     db.all(`select * from products where customer_id = ${id}`, (prods, err) => {
       if (err) reject(err);
