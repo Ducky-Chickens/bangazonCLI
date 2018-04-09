@@ -6,10 +6,10 @@ describe('AddOrderProduct model', () => {
   const newOrder = { orderId: 2, prodId: 2, price: 25 };
   const userId = 2;
   const testOrder = {
-    order_id: 2,
+    order_id: 14,
     customer_id: 1,
     payment_type: null,
-    order_date: '2017-7-28'
+    order_date: '2018-2-12'
   }
 
   describe('addOrder()', () => {
@@ -56,7 +56,7 @@ describe('AddOrderProduct model', () => {
     it('should return an object with an order_id equal to 2', () => {
       return getActiveOrder(1)
         .then((data) => {
-          deepEqual(data.order_id, 2);
+          deepEqual(data.order_id, 14);
         })
     })
   })
