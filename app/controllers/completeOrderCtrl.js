@@ -58,6 +58,9 @@ module.exports.promptCompleteOrder = (total, paymentReg, payTypes, custId, produ
                       result.forEach(result => {
                         let final = result.inventory - result.cart_quantity;
                         updateProductQuantity(final, result.product_id)
+                        .then(result => {
+                          resolve(result);
+                        })
                       });
                     })
                   });
