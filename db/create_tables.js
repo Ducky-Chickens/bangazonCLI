@@ -122,10 +122,10 @@ module.exports = () => db.serialize(() => {
         line_id INTEGER PRIMARY KEY,
         order_id INTEGER,
         product_id INTEGER,
-        product_value
+        product_value REAL
     )`,
         () => {
-            orderProdData.order_products.forEach(({orderId, productId, productValue})=>{
+            orderProdData.order_products.forEach(({ orderId, productId, productValue }) => {
                 db.run(`INSERT INTO order_products VALUES (
                         ${null},
                         ${orderId},
