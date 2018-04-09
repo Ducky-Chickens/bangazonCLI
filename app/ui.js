@@ -1,7 +1,7 @@
 'use strict';
 
 // 3rd party libs
-const { red, magenta, blue } = require("chalk");
+const { red, magenta, blue, green } = require("chalk");
 
 const assert = require('assert');
 
@@ -27,6 +27,7 @@ const pressEnterToContinue = require('./controllers/pressEnterToContinue');
 const promptStaleProduct = require('./controllers/staleProductsCtrl');
 const promptActivateCustomer = require('./controllers/activeCustomerCtrl');
 
+
 /*
   MODELS
 */
@@ -36,7 +37,10 @@ const addPaymentType = require('./models/AddPaymentType');
 const { getProductsById, updateProduct } = require('./models/UpdateProduct');
 const addCustomer = require('./models/AddCustomer');
 const addCustomerProduct = require('./models/AddCustomerProduct');
+const { addCustomerPaymentType } = require('./models/AddPaymentType');
+const getProductPopularity = require('../app/models/GetProductPopularity');
 const getStaleProducts = require('./models/GetStaleProducts');
+
 const { getActiveOrder, getProducts, addOrderProduct, addOrder } = require('./models/AddOrderProduct');
 
 
@@ -210,6 +214,21 @@ const mainMenuHandler = (err, { choice }) => {
       break;
     }
 
+    // Get Overall Product Popularity
+    case 6: {
+      if (isActiveCustomerSet()) {
+        getProductPopularity(getActiveCustomer().id).then(products => {
+          generateProductPopularityTable(products);
+          pressEnterToContinue().then(() => {
+            displayWelcome();
+          });
+        });
+      } else {
+        console.log(`Please choose active customer before getting their products' popularity`);
+        displayWelcome();
+      }
+      break;
+    }
     // View stale products
     case 7: {
       promptStaleProduct().then(() => {
