@@ -103,7 +103,6 @@ const mainMenuHandler = (err, { choice }) => {
     // Update Product
     case 8: {
       if (getActiveCustomer().id) {
-<<<<<<< HEAD
         getProducts(getActiveCustomer())
           .then(products => {
             if (products.length < 1) {
@@ -117,19 +116,6 @@ const mainMenuHandler = (err, { choice }) => {
                     console.log(`\n${blue(`${obj.column} updated`)}`);
                     displayWelcome();
                   })
-=======
-        getProductsById(getActiveCustomer()).then(products => {
-          if(products.length < 1){
-            console.log(`\n${red(`No current products listed for this customer`)}`);
-            displayWelcome();
-          } else {
-            promptChooseProduct(products).then(product => {
-              promptChooseAttribute(product).then(input => {
-                promptNewValue(input).then(obj => {
-                  updateProduct(getActiveCustomer(), obj);
-                  console.log(`\n${blue(`${obj.column} updated`)}`);
-                  displayWelcome();
->>>>>>> 139693d8dd8c1b59f9fd84a8fb9e17c7d9741dab
                 })
               })
             }
