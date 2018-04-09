@@ -11,7 +11,7 @@ module.exports.promptChooseProduct = (products) => {
     prompt.get({
       name: "productID",
       //add list to prompt description
-      description: `Please select a product:\n${list}`,
+      description: `\n${list}\nPlease select a product:`,
       //check if user input is in valid range
       conform: function(value){
         if(+value > 0 && +value <= products.length) return true;
@@ -39,7 +39,8 @@ module.exports.promptChooseAttribute = (product) => {
       1. Change title "${product.product_name}"
       2. Change description "${product.description}"
       3. Change price "${product.price}"
-      4. Change quantity "${product.quantity}"`,
+      4. Change quantity "${product.quantity}"
+      Please select an attribute to update:`,
       conform: function (value) {
         if (+value > 0 && +value <= 4) return true;
         return false;
