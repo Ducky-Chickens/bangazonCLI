@@ -23,7 +23,7 @@ describe('The stale products module', () => {
 
   const fullTestArray = [
     {
-      product_id: 51,
+      product_id: 53,
       product_name: 'A test product'
     }
   ];

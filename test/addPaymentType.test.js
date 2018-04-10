@@ -15,10 +15,10 @@ describe('AddPaymentType model', () => {
       })
     })
 
-    it.skip('should return an id of the last paymentType entered', () => {
+    it('should return an id of the last paymentType entered', () => {
       return addPaymentType(activeCustomer, newCustPaymentType)
       .then((data) => {
-        deepEqual(data.id, 21);
+        deepEqual(data.id, 22);
       })
     })
   })

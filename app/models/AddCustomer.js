@@ -1,8 +1,10 @@
 'use strict';
 const { Database } = require('sqlite3').verbose();
 const path = require('path');
+const db = new Database(path.join(__dirname, '..', '..', 'bangazon.sqlite'));
 
-const db = new Database(path.join(__dirname, '../../', 'bangazon.sqlite'));
+
+
 
 module.exports = ({ name, street, city, state, zip, phone }) => {
   return new Promise((resolve, reject) => {
