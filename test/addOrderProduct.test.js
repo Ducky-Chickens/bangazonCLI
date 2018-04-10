@@ -21,7 +21,7 @@ describe('AddOrderProduct model', () => {
         })
     })
 
-    it.skip('should return an id of the last order entered', () => {
+    it('should return an id of the last order entered', () => {
       return addOrder(userId)
         .then((data) => {
           deepEqual(data.id, 22);
@@ -37,7 +37,7 @@ describe('AddOrderProduct model', () => {
         })
     })
 
-    it.skip('should return a line_id of the last order_product entered', () => {
+    it('should return a line_id of the last order_product entered', () => {
       return addOrderProduct(userId, newOrder)
         .then((data) => {
           deepEqual(data.id, 22);
