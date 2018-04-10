@@ -130,4 +130,4 @@ After the table is printed to the terminal, the main menu will print (following 
 1. [Cliui](https://www.npmjs.com/package/cliui)
 1. [Chalk](https://www.npmjs.com/package/chalk)
 1. [Colors](https://www.npmjs.com/package/colors)
-1. [Sqelectron](https://sqlectron.github.io/)
+1. [Sqlectron](https://sqlectron.github.io/)
