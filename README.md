@@ -57,6 +57,13 @@ In this group project,  we allow a user to interact with a basic product orderin
 
   1. #### Update a product
   1. #### Remove a product
+      - Choose an active customer by selecting num. `2` from the list
+      - You will be given a list of customers.  Choose which one to be made active
+      - Once an active customer is choosen, you will be brought back to the main menu
+      - Navigate to **remove customer**, which is labeled as num. `9`
+      - Once that is selected, you will be given a list of products that can be deleted
+      - Choose a product to be removed
+      
   1. #### Add to cart
   1. #### View Customer Revenue
     View total accrued revenue (per product &amp; overall accrued) for active customer
