@@ -64,6 +64,26 @@ In this group project,  we allow a user to interact with a basic product orderin
        Select a customer by their id to be used by the rest of the program.  You cannot select a customer that does not exist.
   
   1. #### Create a payment option
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
+
+      Select one of the available payment methods by entering an exact match of the name.  
+      
+     ```
+     AmEx
+     ``` 
+      
+      Enter just the digits of an account number. (Without "-" or spaces) 
+
+      ```
+      1234567891011121314
+      ```  
+      
+      The following message should display:  
+
+      ```
+      [payment name] payment added
+      ```
+
   1. #### Add product to inventory
     This command allows user to add a new new products to a customer's inventory in the database. When running command `#4`, user will be prompted to enter the following:
         ```bash
@@ -81,14 +101,66 @@ In this group project,  we allow a user to interact with a basic product orderin
     The prompt will then return to the main menu.
 
   1. #### Complete an order
-  1. #### See product popularity
-       View product popularity to show top 3 products and their revenue of given customer.
-  1. #### View stale products
-       View customers products that are not currently selling.
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
+      Given a customer has an open order, with products on the order, entering this option will display the following message:
+
+      ```
+      Bangazon Corp:  Your order total is [customer's order total]. Please select Y or N to confirm or cancel payment (Y/N):
+      ```
+
+      Here you must select "Y" in uppercase to continue. "N" will return to the main menu.
+
+      If "Y" is selected, a list of the active customer's payments types will appear with the following message:
+
+      ```
+      AmEx 55502077
+      PayPal 77676200
+      Bangazon Corp:  Enter desired payment type account number: 
+      ```
+
+      Here, a listed account _number_ must be correctly typed or an error message will be given.
+
+      Given a correct account number is entered, the order will be complete, a payment type added to the order making no products available to be added to the order, and quantities for the purchased items inventory will be reduced based on quanitity purchased and the following message will display:
+
+      ```
+      Order payment successful
+      ```
+
+      Upon completion, the main menu will appear again.
+
+  1. #### See product popularity
+  1. #### View stale products
   1. #### Update a product
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
+      
+      Select one of the available products by entering the corresponding list number.  
+      Enter the number for the desired attribute to update. i.e. ```1```  
+      Enter the new value.   
+      The following message should display (followed by the Main Menu):  
+
+      ```
+      [product attribute] updated
+      ```
+
   1. #### Remove a product
+      - Choose an active customer by selecting num. `2` from the list
+      - You will be given a list of customers.  Choose which one to be made active
+      - Once an active customer is choosen, you will be brought back to the main menu
+      - Navigate to **remove customer**, which is labeled as num. `9`
+      - Once that is selected, you will be given a list of products that can be deleted
+      - Choose a product to be removed
+      
   1. #### Add to cart
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
+
+      Select a product by entering the corresponding list number.  
+      The following message should display (followed by the Main Menu):  
+
+      ```
+      Product added to order
+      ```
+
   1. #### View Customer Revenue
     *After an `active customer` has been selected (command `#2` in Bangazon Main Menu), you can view the accrued revenue for specified customer, printing:
       - individual products per order (including quanity purchased in order + accrued total of the purchased product quantity)
