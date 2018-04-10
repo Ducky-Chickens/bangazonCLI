@@ -52,10 +52,17 @@ In this group project,  we allow a user to interact with a basic product orderin
 
       Select one of the available payment methods by entering an exact match of the name.  
       i.e. ```AmEx```  
-      Enter just the digits of an account number. (Without "-" or spaces)  
-      ```1234567891011121314```  
+      Enter just the digits of an account number. (Without "-" or spaces) 
+
+      ```
+      1234567891011121314
+      ```  
+      
       The following message should display:  
-      ```[payment name] payment added```
+
+      ```
+      [payment name] payment added
+      ```
 
   1. #### Add product to inventory
   1. #### Complete an order
@@ -79,7 +86,7 @@ In this group project,  we allow a user to interact with a basic product orderin
 
       Select a product by entering the corresponding list number.  
       The following message should display (followed by the Main Menu):  
-      
+
       ```
       Product added to order
       ```
