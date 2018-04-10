@@ -132,7 +132,26 @@ Enter Quantity Available:           ///6 digits
       Upon completion, the main menu will appear again.
 
   1. #### See product popularity
+       View product popularity to show top 3 products and their revenue of given customer.
+     ```
+       Product             Orders     Purchasers     Revenue
+       *******************************************************
+       Practical Cotton    1          1              $25
+       Chair
+       Practical Steel     1          1              $25
+       Towels
+       *******************************************************
+       Total:              2          2              $50
+     ```
   1. #### View stale products
+       View customers products that are not currently selling.
+        ```
+         id           Name
+        **********  *********************
+          9         Handmade Granite Ball
+
+          Press any key to continue
+        ```
   1. #### Update a product
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
       
