@@ -43,21 +43,22 @@ In this group project,  we allow a user to interact with a basic product orderin
 > [input id command]
 ```
   1. #### Create a customer account
-    This command allows user to add a new customer to the database. When running command `#1`, user will be prompted to enter the following:
-    ```bash
-    Enter Customer Name (First Last):   ///will be split into seperate columns in DB
-    Enter Address:                      /// only Street# + Road Name
-    Enter City: 
-    Enter State:                        ///only uppercase abbreviation (e.g., GA)
-    Enter ZIP:                          ///6 digits
-    Enter Phone:                        ///10 digit as: 111-222-3333
-    ```
+This command allows user to add a new customer to the database. When running command `#1`, user will be prompted to enter the following:
+    
+```
+Enter Customer Name (First Last):   ///will be split into seperate columns in DB
+Enter Address:                      /// only Street# + Road Name
+Enter City: 
+Enter State:                        ///only uppercase abbreviation (e.g., GA)
+Enter ZIP:                          ///6 digits
+Enter Phone:                        ///10 digit as: 111-222-3333
+```
 
-    Following prompt input, terminal will send confirmation:
-    ```
-    <customer name> has been added to the database
-    ```
-    The prompt will then return to the main menu.
+Following prompt input, terminal will send confirmation:
+```
+<customer name> has been added to the database
+```
+The prompt will then return to the main menu.
 
   1. #### Choose active customer
 
@@ -65,20 +66,21 @@ In this group project,  we allow a user to interact with a basic product orderin
   
   1. #### Create a payment option
   1. #### Add product to inventory
-    This command allows user to add a new new products to a customer's inventory in the database. When running command `#4`, user will be prompted to enter the following:
-        ```bash
-    Enter Product Name:
-    Enter Product Type:                 /// #1-11
-    Enter Price: 
-    Enter Brief description:            
-    Enter Quantity Available:           ///6 digits
-    ```
+This command allows user to add a new new products to a customer's inventory in the database. When running command `#4`, user will be prompted to enter the following:
     
-    Following prompt input, terminal will send confirmation:
-    ```
-    <product name> has been added to line <new product id>
-    ```
-    The prompt will then return to the main menu.
+```
+Enter Product Name:
+Enter Product Type:                 /// #1-11
+Enter Price: 
+Enter Brief description:            
+Enter Quantity Available:           ///6 digits
+```
+    
+ Following prompt input, terminal will send confirmation:
+```
+<product name> has been added to line <new product id>
+```
+ The prompt will then return to the main menu.
 
   1. #### Complete an order
   1. #### See product popularity
@@ -90,33 +92,33 @@ In this group project,  we allow a user to interact with a basic product orderin
   1. #### Remove a product
   1. #### Add to cart
   1. #### View Customer Revenue
-    *After an `active customer` has been selected (command `#2` in Bangazon Main Menu), you can view the accrued revenue for specified customer, printing:
+After an `active customer` has been selected (command `#2` in Bangazon Main Menu), you can view the accrued revenue for specified customer, printing:
       - individual products per order (including quanity purchased in order + accrued total of the purchased product quantity)
       -  total revenue from all of customer's purchased products on all orders from Bangazon
 
-    When initiating command `#11` in main menu, after activating a customer, a table of accrued revenue will be printed to the terminal, (e.g., revenue table for customer `#8` -- Ben Gentle):
+When initiating command `#11` in main menu, after activating a customer, a table of accrued revenue will be printed to the terminal, (e.g., revenue table for customer `#8` -- Ben Gentle):
 
-    ```
-    Order#4
-    ----------------------------------------------------
-    Fantastic Wooden Shoes          1          $379
+```
+Order#4
+----------------------------------------------------
+Fantastic Wooden Shoes          1          $379
 
-    Order#10
-    ----------------------------------------------------
-    Refined Fresh Tuna              1          $39
+Order#10
+----------------------------------------------------
+Refined Fresh Tuna              1          $39
 
-    Order#13
-    ----------------------------------------------------
-    Ergonomic Frozen Chicken        1          $126
+Order#13
+----------------------------------------------------
+Ergonomic Frozen Chicken        1          $126
 
-    Order#14
-    ----------------------------------------------------
-    Ergonomic Frozen Chicken        1          $126
+Order#14
+----------------------------------------------------
+Ergonomic Frozen Chicken        1          $126
 
-    Total revenue: $670
-    ```
+Total revenue: $670
+```
 
-    After the table is printed to the terminal, the main menu will print (following the revenue table) and prompt the user to continue with another command
+After the table is printed to the terminal, the main menu will print (following the revenue table) and prompt the user to continue with another command
     
 
   1. #### Leave Bangazon!
