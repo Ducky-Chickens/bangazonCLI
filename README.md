@@ -42,7 +42,7 @@ In this group project,  we allow a user to interact with a basic product orderin
 
 > [input id command]
 ```
-  1. #### Create a customer account
+  1) #### Create a customer account
 This command allows user to add a new customer to the database. When running command `#1`, user will be prompted to enter the following:
     
 ```
@@ -60,11 +60,11 @@ Following prompt input, terminal will send confirmation:
 ```
 The prompt will then return to the main menu.
 
-  1. #### Choose active customer
+  2) #### Choose active customer
 
        Select a customer by their id to be used by the rest of the program.  You cannot select a customer that does not exist.
   
-  1. #### Create a payment option
+  3) #### Create a payment option
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
       Select one of the available payment methods by entering an exact match of the name.  
@@ -85,7 +85,7 @@ The prompt will then return to the main menu.
       [payment name] payment added
       ```
 
-  1. #### Add product to inventory
+  4) #### Add product to inventory
 This command allows user to add a new new products to a customer's inventory in the database. When running command `#4`, user will be prompted to enter the following:
     
 ```
@@ -102,7 +102,7 @@ Enter Quantity Available:           ///6 digits
 ```
  The prompt will then return to the main menu.
 
-  1. #### Complete an order
+  5) #### Complete an order
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
       Given a customer has an open order, with products on the order, entering this option will display the following message:
@@ -131,7 +131,7 @@ Enter Quantity Available:           ///6 digits
 
       Upon completion, the main menu will appear again.
 
-  1. #### See product popularity
+  6) #### See product popularity
        View product popularity to show top 3 products and their revenue of given customer.
      ```
        Product             Orders     Purchasers     Revenue
@@ -143,7 +143,7 @@ Enter Quantity Available:           ///6 digits
        *******************************************************
        Total:              2          2              $50
      ```
-  1. #### View stale products
+  7) #### View stale products
        View customers products that are not currently selling.
         ```
          id           Name
@@ -152,7 +152,7 @@ Enter Quantity Available:           ///6 digits
 
           Press any key to continue
         ```
-  1. #### Update a product
+  8) #### Update a product
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
       
       Select one of the available products by entering the corresponding list number.  
@@ -164,7 +164,7 @@ Enter Quantity Available:           ///6 digits
       [product attribute] updated
       ```
 
-  1. #### Remove a product
+  9) #### Remove a product
       - Choose an active customer by selecting num. `2` from the list
       - You will be given a list of customers.  Choose which one to be made active
       - Once an active customer is choosen, you will be brought back to the main menu
@@ -172,7 +172,7 @@ Enter Quantity Available:           ///6 digits
       - Once that is selected, you will be given a list of products that can be deleted
       - Choose a product to be removed
       
-  1. #### Add to cart
+  10) #### Add to cart
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
       Select a product by entering the corresponding list number.  
@@ -182,7 +182,7 @@ Enter Quantity Available:           ///6 digits
       Product added to order
       ```
 
-  1. #### View Customer Revenue
+  11) #### View Customer Revenue
 After an `active customer` has been selected (command `#2` in Bangazon Main Menu), you can view the accrued revenue for specified customer, printing:
       - individual products per order (including quanity purchased in order + accrued total of the purchased product quantity)
       -  total revenue from all of customer's purchased products on all orders from Bangazon
@@ -212,7 +212,7 @@ Total revenue: $670
 After the table is printed to the terminal, the main menu will print (following the revenue table) and prompt the user to continue with another command
     
 
-  1. #### Leave Bangazon!
+  12) #### Leave Bangazon!
 
 ## Technologies used
 1. [Node](https://nodejs.org/en/)
