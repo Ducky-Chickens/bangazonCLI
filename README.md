@@ -51,7 +51,11 @@ In this group project,  we allow a user to interact with a basic product orderin
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
 
       Select one of the available payment methods by entering an exact match of the name.  
-      i.e. ```AmEx```  
+      
+     ```
+     AmEx
+     ``` 
+      
       Enter just the digits of an account number. (Without "-" or spaces) 
 
       ```
