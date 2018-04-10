@@ -48,14 +48,42 @@ In this group project,  we allow a user to interact with a basic product orderin
        Select a customer by their id to be used by the rest of the program.  You cannot select a customer that does not exist.
   
   1. #### Create a payment option
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
+
+      Select one of the available payment methods by entering an exact match of the name.  
+      
+     ```
+     AmEx
+     ``` 
+      
+      Enter just the digits of an account number. (Without "-" or spaces) 
+
+      ```
+      1234567891011121314
+      ```  
+      
+      The following message should display:  
+
+      ```
+      [payment name] payment added
+      ```
+
   1. #### Add product to inventory
   1. #### Complete an order
   1. #### See product popularity
-       View product popularity to show top 3 products and their revenue of given customer.
   1. #### View stale products
-       View customers products that are not currently selling.
-
   1. #### Update a product
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
+      
+      Select one of the available products by entering the corresponding list number.  
+      Enter the number for the desired attribute to update. i.e. ```1```  
+      Enter the new value.   
+      The following message should display (followed by the Main Menu):  
+
+      ```
+      [product attribute] updated
+      ```
+
   1. #### Remove a product
       - Choose an active customer by selecting num. `2` from the list
       - You will be given a list of customers.  Choose which one to be made active
@@ -65,6 +93,15 @@ In this group project,  we allow a user to interact with a basic product orderin
       - Choose a product to be removed
       
   1. #### Add to cart
+      *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
+
+      Select a product by entering the corresponding list number.  
+      The following message should display (followed by the Main Menu):  
+
+      ```
+      Product added to order
+      ```
+
   1. #### View Customer Revenue
     View total accrued revenue (per product &amp; overall accrued) for active customer
   1. #### Leave Bangazon!
