@@ -44,12 +44,8 @@ In this group project,  we allow a user to interact with a basic product orderin
 ```
   1. #### Create a customer account
 This command allows user to add a new customer to the database. When running command `#1`, user will be prompted to enter the following:
-<<<<<<< HEAD
-```bash
-=======
     
 ```
->>>>>>> 1559c363b237b84f6bd3ed7b9ca457599aae6d22
 Enter Customer Name (First Last):   ///will be split into seperate columns in DB
 Enter Address:                      /// only Street# + Road Name
 Enter City: 
@@ -105,7 +101,6 @@ Enter Quantity Available:           ///6 digits
 <product name> has been added to line <new product id>
 ```
  The prompt will then return to the main menu.
->>>>>>> 1559c363b237b84f6bd3ed7b9ca457599aae6d22
 
   1. #### Complete an order
       *An `active customer` must be selected to proceed with this process (refer to Option 2 for more information on selecting an active customer)
@@ -197,7 +192,6 @@ Total revenue: $670
 
 After the table is printed to the terminal, the main menu will print (following the revenue table) and prompt the user to continue with another command
     
->>>>>>> 1559c363b237b84f6bd3ed7b9ca457599aae6d22
 
   1. #### Leave Bangazon!
 
