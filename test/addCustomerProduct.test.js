@@ -33,7 +33,7 @@ const getOneProduct = (id) => {
 
 
 
-describe.skip("add customer products", () => {
+describe("add customer products", () => {
     it('should return an object', () => {
         return addCustomerProduct(activeCustomer, newProduct)
             .then(custProd => {

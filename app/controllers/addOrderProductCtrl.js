@@ -13,7 +13,7 @@ module.exports.promptAvailableProducts = (products) => {
   return new Promise((resolve, reject) => {
     prompt.get({
       name: "productID",
-      description: `Please select a product:\n${list}`,
+      description: `\n${list}\nPlease select a product:`,
       //check if user input is in valid range
       conform: function (value) {
         if (+value > 0 && +value <= availableProducts.length+1) return true;

@@ -10,20 +10,20 @@ const colors = require("colors/safe");
 const path = require("path");
 const { Database } = require("sqlite3").verbose();
 const db = new Database(path.join(__dirname, "..", "bangazon.sqlite"));
-require("console.table");
 
 prompt.message = colors.blue('Bangazon Corp')
 
 /*
   CONTROLLERS
 */
+
 const promptAddCustomer = require("./controllers/addCustomerCtrl");
 const {
   generatePaymentOptions,
   promptCompleteOrder,
   paymentTypeSchema
 } = require("./controllers/completeOrderCtrl");
-const {removeProductSchema} = require('./controllers/removeProductCtrl')
+const { removeProductSchema } = require('./controllers/removeProductCtrl')
 
 const { promptPaymentType } = require("./controllers/addPaymentTypeCtrl");
 const {
@@ -38,10 +38,13 @@ const {
 const pressEnterToContinue = require("./controllers/pressEnterToContinue");
 const promptStaleProduct = require("./controllers/staleProductsCtrl");
 const promptActivateCustomer = require("./controllers/activeCustomerCtrl");
+const createRevenueTable = require('./controllers/getCustomerRevenueCtrl');
+
 
 /*
   MODELS
 */
+
 const {
   checkForOrder,
   getCustomerPaymentTypes,
@@ -50,7 +53,7 @@ const {
   checkProductQuantity,
   updateProductQuantity
 } = require("./models/completeOrder");
-const {removeProduct, getProds, getOrders} = require('./models/removeProduct')
+const { removeProduct, getProds, getOrders } = require('./models/removeProduct')
 
 const getCustomers = require("./models/GetCustomers");
 const addPaymentType = require("./models/AddPaymentType");
@@ -67,6 +70,8 @@ const {
   addOrderProduct,
   addOrder
 } = require("./models/AddOrderProduct");
+const getCustomerRevenue = require('./models/GetCustomerRevenue');
+
 
 /*
   ACTIVE CUSTOMER
@@ -110,40 +115,6 @@ const mainMenuHandler = (err, { choice }) => {
       });
       break
     }
-    // Remove product from active customer
-    case 9: {
-      if (getActiveCustomer().id) {
-        let newArr = [];
-        getProds(getActiveCustomer().id).then(products => {
-          console.log('\n')
-          products.forEach((product) => {
-            if (product.customer_id == getActiveCustomer().id) {
-              getOrders(product.product_id).then(orders => {
-                if (orders.length === 0){
-                  console.log(`${product.product_id}. ${product.product_name}`)
-                  newArr.push(product.product_id)
-                }
-              })
-            }
-          })
-        })
-        removeProductSchema().then(deleteProd => {
-          if (newArr.indexOf(Number(deleteProd.id)) >= 0 ) {
-          removeProduct(deleteProd.id)
-          console.log('You have successfully removed a product from your list')
-          displayWelcome()
-          } else {
-            console.log('Please choose a product from the list')
-            displayWelcome()
-
-          }
-        })
-      } else {
-        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`)
-        displayWelcome()
-      }
-      break;
-    }
 
     // Add Payment Type
     case 3: {
@@ -157,36 +128,6 @@ const mainMenuHandler = (err, { choice }) => {
       } else {
         console.log(
           `\n${red(`Please choose active customer before adding a payment`)}`
-        );
-        displayWelcome();
-      }
-      break
-    }
-
-    // Update Product
-    case 8: {
-      if (getActiveCustomer().id) {
-        getProductsById(getActiveCustomer()).then(products => {
-          if (products.length < 1) {
-            console.log(
-              `\n${red(`No current products listed for this customer`)}`
-            );
-            displayWelcome();
-          } else {
-            promptChooseProduct(products).then(product => {
-              promptChooseAttribute(product).then(input => {
-                promptNewValue(input).then(obj => {
-                  updateProduct(getActiveCustomer(), obj);
-                  console.log(`\n${blue(`${obj.column} updated`)}`);
-                  displayWelcome();
-                });
-              });
-            });
-          }
-        });
-      } else {
-        console.log(
-          `\n${red(`Please choose active customer before updating a product`)}`
         );
         displayWelcome();
       }
@@ -308,7 +249,54 @@ const mainMenuHandler = (err, { choice }) => {
               product = addSpace(product, ['product_id'])
             }
 
-            console.table(products)
+            var ui = require('cliui')();
+
+
+            // padding: [top, right, bottom, left]
+            const padding = [0, 0, 0, 2];
+
+            ui.div(
+              {
+                text: "ID",
+                width: 14,
+                padding,
+              },
+              {
+                text: "Name",
+                width: 21,
+                padding,
+              },
+            );
+
+            console.log(ui.toString());
+
+            console.log(`  ************  ********************`);
+
+            // Reset cliui div output
+            var ui = require('cliui')();
+
+            for (let i = 0; i < products.length; i++) {
+              let { product_id, product_name } = products[i];
+
+              ui.div(
+                {
+                  text: `${product_id}`,
+                  width: 14,
+                  padding,
+                },
+                {
+                  text: `${product_name}`,
+                  width: 21,
+                  padding,
+                },
+              );
+
+            }
+            console.log(ui.toString());
+
+            // Extra enter before command line input to conform to issue specification
+            console.log(``);
+
           } else {
             console.log(' No stale products')
           }
@@ -324,6 +312,71 @@ const mainMenuHandler = (err, { choice }) => {
       promptStaleProduct().then(() => {
         displayWelcome();
       });
+      break;
+    }
+
+    // Update Product
+    case 8: {
+      if (getActiveCustomer().id) {
+        getProductsById(getActiveCustomer()).then(products => {
+          if (products.length < 1) {
+            console.log(
+              `\n${red(`No current products listed for this customer`)}`
+            );
+            displayWelcome();
+          } else {
+            promptChooseProduct(products).then(product => {
+              promptChooseAttribute(product).then(input => {
+                promptNewValue(input).then(obj => {
+                  updateProduct(getActiveCustomer(), obj);
+                  console.log(`\n${blue(`${obj.column} updated`)}`);
+                  displayWelcome();
+                });
+              });
+            });
+          }
+        });
+      } else {
+        console.log(
+          `\n${red(`Please choose active customer before updating a product`)}`
+        );
+        displayWelcome();
+      }
+      break
+    }
+
+    // Remove product from active customer
+    case 9: {
+      if (getActiveCustomer().id) {
+        let newArr = [];
+        getProds(getActiveCustomer().id).then(products => {
+          console.log('\n')
+          products.forEach((product) => {
+            if (product.customer_id == getActiveCustomer().id) {
+              getOrders(product.product_id).then(orders => {
+                if (orders.length === 0) {
+                  console.log(`${product.product_id}. ${product.product_name}`)
+                  newArr.push(product.product_id)
+                }
+              })
+            }
+          })
+        })
+        removeProductSchema().then(deleteProd => {
+          if (newArr.indexOf(Number(deleteProd.id)) >= 0) {
+            removeProduct(deleteProd.id)
+            console.log('You have successfully removed a product from your list')
+            displayWelcome()
+          } else {
+            console.log('Please choose a product from the list')
+            displayWelcome()
+
+          }
+        })
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`)
+        displayWelcome()
+      }
       break;
     }
 
@@ -364,7 +417,29 @@ const mainMenuHandler = (err, { choice }) => {
         console.log(" Please choose active customer before adding to an order");
         displayWelcome();
       }
+      break;
     }
+
+    // View Active Customer Revenue
+    case 11: {
+      if (getActiveCustomer().id) {
+        getCustomerRevenue(getActiveCustomer().id)
+          .then(revenue => {
+            if (!revenue.length) {
+              console.log(`\n${green('No current revenue for customer #' + getActiveCustomer().id)}`);
+              pressEnterToContinue().then(() => displayWelcome());
+            } else {
+              createRevenueTable(revenue)
+              pressEnterToContinue().then(() => displayWelcome());
+            }
+          });
+      } else {
+        console.log(`\n${red('PLEASE SELECT A CUSTOMER (#2) THEN RETURN TO THIS COMMAND')}`);
+        displayWelcome();
+      }
+      break;
+    }
+
   }
 };
 
@@ -379,7 +454,7 @@ const displayWelcome = () => {
   ${headerDivider}
   ${magenta("-- Active Customer:")} ${
       isActiveCustomerSet() ? getActiveCustomer().fullName : `None`
-    }
+      }
   ${headerDivider}
   ${magenta("1.")} Create a customer account
   ${magenta("2.")} Choose active customer
@@ -391,7 +466,8 @@ const displayWelcome = () => {
   ${magenta("8.")} Update a product
   ${magenta("9.")} Remove a product
   ${magenta("10.")} Add to cart
-  ${magenta("11.")} Leave Bangazon!`);
+  ${magenta('11.')} Check product revenue per customer
+  ${magenta("12.")} Leave Bangazon!`);
     prompt.get(
       [
         {

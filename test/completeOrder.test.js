@@ -65,6 +65,7 @@ describe('sumOrderTotal', () => {
 });
 
 
+
 describe('getPayTypeByAccountNumber', () => {
   it('should return payment type id from payment method and customer id', () => {
     return getPayTypeByAccountNumber(55502077, 1)
